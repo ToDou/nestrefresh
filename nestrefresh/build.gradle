@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -6,32 +6,31 @@ android {
     compileSdkVersion build_versions.target_sdk
 
     defaultConfig {
-        applicationId "com.todou.nestrefresh.example"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.constraint_layout
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.support.app_compat
     implementation deps.support.design
-    implementation deps.support.recyclerview
     implementation deps.kotlin.stdlib
-    implementation project(':nestrefresh')
 
     testImplementation deps.junit
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core
-
 }
