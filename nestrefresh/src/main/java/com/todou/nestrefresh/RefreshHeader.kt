@@ -12,16 +12,16 @@ import android.widget.TextView
 class RefreshHeader @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), HeaderBehavior.RefreshHeaderCallback {
 
-    private var flipAnimation: RotateAnimation? = null
-    private var reverseFlipAnimation: RotateAnimation? = null
+    private lateinit var flipAnimation: RotateAnimation
+    private lateinit var reverseFlipAnimation: RotateAnimation
 
-    private var imageRefreshIndicator: ImageView? = null
-    private var viewProgress: View? = null
-    private var textRefresh: TextView? = null
+    private lateinit var imageRefreshIndicator: ImageView
+    private lateinit var viewProgress: View
+    private lateinit var textRefresh: TextView
 
-    private var textBelowThreshold: CharSequence? = null
-    private var textAboveThreshold: CharSequence? = null
-    private var textRefreshing: CharSequence? = null
+    private lateinit var textBelowThreshold: CharSequence
+    private lateinit var textAboveThreshold: CharSequence
+    private lateinit var textRefreshing: CharSequence
 
     private var belowThreshold = true
     private var state: Int = 0
@@ -50,35 +50,35 @@ class RefreshHeader @JvmOverloads constructor(context: Context, attrs: Attribute
             RotateAnimation.RELATIVE_TO_SELF, 0.5f,
             RotateAnimation.RELATIVE_TO_SELF, 0.5f
         )
-        flipAnimation!!.interpolator = LinearInterpolator()
-        flipAnimation!!.duration = 250
-        flipAnimation!!.fillAfter = true
+        flipAnimation.interpolator = LinearInterpolator()
+        flipAnimation.duration = 250
+        flipAnimation.fillAfter = true
         reverseFlipAnimation = RotateAnimation(
             -180f, -360f,
             RotateAnimation.RELATIVE_TO_SELF, 0.5f,
             RotateAnimation.RELATIVE_TO_SELF, 0.5f
         )
-        reverseFlipAnimation!!.interpolator = LinearInterpolator()
-        reverseFlipAnimation!!.duration = 250
-        reverseFlipAnimation!!.fillAfter = true
+        reverseFlipAnimation.interpolator = LinearInterpolator()
+        reverseFlipAnimation.duration = 250
+        reverseFlipAnimation.fillAfter = true
     }
 
     override fun onScroll(offset: Int, fraction: Float, nextState: Int) {
         if (state != nextState) {
             if (state == HeaderBehavior.STATE_COLLAPSED) {
-                imageRefreshIndicator!!.clearAnimation()
-                imageRefreshIndicator!!.rotation = 0f
+                imageRefreshIndicator.clearAnimation()
+                imageRefreshIndicator.rotation = 0f
             }
             state = nextState
             if (nextState == HeaderBehavior.STATE_DRAGGING) {
-                if (viewProgress!!.visibility == View.VISIBLE) {
-                    viewProgress!!.visibility = View.GONE
+                if (viewProgress.visibility == View.VISIBLE) {
+                    viewProgress.visibility = View.GONE
                 }
 
-                if (imageRefreshIndicator!!.visibility != View.VISIBLE) {
-                    imageRefreshIndicator!!.visibility = View.VISIBLE
+                if (imageRefreshIndicator.visibility != View.VISIBLE) {
+                    imageRefreshIndicator.visibility = View.VISIBLE
                 }
-                textRefresh!!.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
+                textRefresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
             }
         }
 
@@ -92,21 +92,21 @@ class RefreshHeader @JvmOverloads constructor(context: Context, attrs: Attribute
 
     private fun updateTextAndImage() {
         if (belowThreshold) {
-            imageRefreshIndicator!!.clearAnimation()
-            imageRefreshIndicator!!.startAnimation(reverseFlipAnimation)
+            imageRefreshIndicator.clearAnimation()
+            imageRefreshIndicator.startAnimation(reverseFlipAnimation)
         } else {
-            imageRefreshIndicator!!.clearAnimation()
-            imageRefreshIndicator!!.startAnimation(flipAnimation)
+            imageRefreshIndicator.clearAnimation()
+            imageRefreshIndicator.startAnimation(flipAnimation)
         }
-        textRefresh!!.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
+        textRefresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
     }
 
     override fun onStateChanged(newState: Int) {
         if (newState == HeaderBehavior.STATE_HOVERING) {
-            textRefresh!!.text = textRefreshing
-            viewProgress!!.visibility = View.VISIBLE
-            imageRefreshIndicator!!.clearAnimation()
-            imageRefreshIndicator!!.visibility = View.GONE
+            textRefresh.text = textRefreshing
+            viewProgress.visibility = View.VISIBLE
+            imageRefreshIndicator.clearAnimation()
+            imageRefreshIndicator.visibility = View.GONE
         }
     }
 }

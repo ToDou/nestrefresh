@@ -106,7 +106,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
         return if (Build.VERSION.SDK_INT >= 19 && lp is LinearLayout.LayoutParams) {
             LayoutParams(lp)
         } else {
-            (lp as? ViewGroup.MarginLayoutParams)?.let { LayoutParams(it) } ?: LayoutParams(lp)
+            (lp as? MarginLayoutParams)?.let { LayoutParams(it) } ?: LayoutParams(lp)
         }
     }
 
