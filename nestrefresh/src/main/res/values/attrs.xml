@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NestRefreshLayout_Layout">
+        <attr name="nest_refresh_layout_scrollFlags">
+            <flag name="flag_hover" value="0x1"/>
+            <flag name="flag_refresh_header" value="0x2"/>
+        </attr>
+    </declare-styleable>
+</resources>
