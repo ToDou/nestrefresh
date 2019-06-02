@@ -16,7 +16,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
-    private var behavior: NestRefreshHoverHeaderBehavior? = null
+    private lateinit var behavior: NestRefreshHoverHeaderBehavior
     private var onRefreshListener: OnRefreshListener? = null
     private var headerView: View? = null
 
@@ -117,9 +117,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
     override fun onStateChanged(newState: Int) {
         onStateChangedToRefreshHeader(newState)
         if (newState == HeaderBehavior.STATE_HOVERING) {
-            if (onRefreshListener != null) {
-                onRefreshListener!!.onRefresh()
-            }
+            onRefreshListener?.onRefresh()
         }
     }
 
@@ -136,14 +134,12 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     fun setRefresh(refreshing: Boolean) {
-        if (behavior != null) {
-            behavior!!.setState(
-                if (refreshing)
-                    HeaderBehavior.STATE_HOVERING
-                else
-                    HeaderBehavior.STATE_COLLAPSED
-            )
-        }
+        behavior.setState(
+            if (refreshing)
+                HeaderBehavior.STATE_HOVERING
+            else
+                HeaderBehavior.STATE_COLLAPSED
+        )
     }
 
     fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
@@ -151,7 +147,8 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        return NestRefreshHoverHeaderBehavior()
+        behavior = NestRefreshHoverHeaderBehavior()
+        return behavior
     }
 
     class LayoutParams : LinearLayout.LayoutParams {
@@ -164,11 +161,11 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
             a.recycle()
         }
 
-        constructor(width: Int, height: Int) : super(width, height) {}
+        constructor(width: Int, height: Int) : super(width, height)
 
-        constructor(source: ViewGroup.MarginLayoutParams) : super(source) {}
+        constructor(source: MarginLayoutParams) : super(source)
 
-        constructor(source: ViewGroup.LayoutParams) : super(source) {}
+        constructor(source: ViewGroup.LayoutParams) : super(source)
 
         companion object {
             val SCROLL_FLAG_HOVER = 0x1

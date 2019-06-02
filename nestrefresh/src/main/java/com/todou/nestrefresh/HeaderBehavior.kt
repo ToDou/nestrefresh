@@ -17,7 +17,7 @@ import android.widget.OverScroller
 
 abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
     private var flingRunnable: Runnable? = null
-    var scroller: OverScroller? = null
+    private lateinit var scroller: OverScroller
     var totalSpringOffset = 0f
     private var isBeingDragged: Boolean = false
     private var activePointerId = -1
@@ -28,7 +28,7 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
     private var child: View? = null
     private var state = STATE_COLLAPSED
 
-    private var animator: ValueAnimator? = null
+    private lateinit var animator: ValueAnimator
     private var endListener: EndListener? = null
     private var refreshHeaderCallback: RefreshHeaderCallback? = null
 
@@ -211,8 +211,8 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
     }
 
     private fun cancelAnimatorIfNeeded() {
-        if (animator != null && animator!!.isRunning) {
-            animator!!.cancel()
+        if (this::animator.isInitialized) {
+            animator.takeIf { it.isRunning }?.cancel()
         }
     }
 
@@ -274,7 +274,7 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
         ) {
             newOffset = MathUtils.clamp(newOffset, minOffset, maxOffset)
             if (curOffset != newOffset) {
-                setTopAndBottomOffset(newOffset) 
+                setTopAndBottomOffset(newOffset)
                 consumed = curOffset - newOffset
             }
         }
@@ -284,7 +284,6 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
         }
         var unConsumed = dyPre - consumed
 
-        //spring
         if (unConsumed != 0 && type == ViewCompat.TYPE_TOUCH) {
             if (unConsumed > 0 && totalSpringOffset > 0) {
                 if (unConsumed > totalSpringOffset) {
@@ -364,12 +363,12 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
             this.flingRunnable = null
         }
 
-        if (this.scroller == null) {
+        if (!this::scroller.isInitialized) {
             this.scroller = OverScroller(layout.context)
         }
 
-        this.scroller!!.fling(0, getTopAndBottomOffset(), 0, Math.round(velocityY), 0, 0, minOffset, maxOffset)
-        if (this.scroller!!.computeScrollOffset()) {
+        this.scroller.fling(0, getTopAndBottomOffset(), 0, Math.round(velocityY), 0, 0, minOffset, maxOffset)
+        if (this.scroller.computeScrollOffset()) {
             this.flingRunnable = this@HeaderBehavior.FlingRunnable(coordinatorLayout, layout)
             ViewCompat.postOnAnimation(layout, this.flingRunnable)
             return true
@@ -408,12 +407,12 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
     ) : Runnable {
 
         override fun run() {
-            if (this.layout != null && this@HeaderBehavior.scroller != null) {
-                if (this@HeaderBehavior.scroller!!.computeScrollOffset()) {
+            if (this.layout != null) {
+                if (this@HeaderBehavior.scroller.computeScrollOffset()) {
                     this@HeaderBehavior.setHeaderTopBottomOffset(
                         this.parent,
                         this.layout,
-                        this@HeaderBehavior.scroller!!.currY,
+                        this@HeaderBehavior.scroller.currY,
                         ViewCompat.TYPE_NON_TOUCH
                     )
                     ViewCompat.postOnAnimation(this.layout, this)
@@ -458,21 +457,21 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
             setStateInternal(STATE_SETTLING)
         }
 
-        if (animator == null) {
+        if (!this::animator.isInitialized) {
             animator = ValueAnimator()
-            animator!!.duration = SPRING_ANIMATION_TIME.toLong()
-            animator!!.interpolator = DecelerateInterpolator()
-            animator!!.addUpdateListener { animation ->  setTopAndBottomOffset(animation.animatedValue as Int) }
+            animator.duration = SPRING_ANIMATION_TIME.toLong()
+            animator.interpolator = DecelerateInterpolator()
+            animator.addUpdateListener { animation -> setTopAndBottomOffset(animation.animatedValue as Int) }
             endListener = EndListener(endState)
-            animator!!.addListener(endListener)
+            animator.addListener(endListener)
         } else {
-            if (animator!!.isRunning) {
-                animator!!.cancel()
+            if (animator.isRunning) {
+                animator.cancel()
             }
             endListener!!.setEndState(endState)
         }
-        animator!!.setIntValues(from, to)
-        animator!!.start()
+        animator.setIntValues(from, to)
+        animator.start()
     }
 
     private fun setStateInternal(state: Int) {

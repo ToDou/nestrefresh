@@ -26,7 +26,7 @@ import android.view.View
  */
 open class ViewOffsetBehavior<V : View> : CoordinatorLayout.Behavior<V> {
 
-    private var viewOffsetHelper: ViewOffsetHelper? = null
+    private lateinit var viewOffsetHelper: ViewOffsetHelper
 
     private var tempTopBottomOffset = 0
     private var tempLeftRightOffset = 0
@@ -36,17 +36,17 @@ open class ViewOffsetBehavior<V : View> : CoordinatorLayout.Behavior<V> {
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
         this.layoutChild(parent, child, layoutDirection)
 
-        if (viewOffsetHelper == null) {
+        if (!this::viewOffsetHelper.isInitialized) {
             viewOffsetHelper = ViewOffsetHelper(child)
         }
-        viewOffsetHelper!!.onViewLayout()
+        viewOffsetHelper.onViewLayout()
 
         if (tempTopBottomOffset != 0) {
-            viewOffsetHelper!!.setTopAndBottomOffset(tempTopBottomOffset)
+            viewOffsetHelper.setTopAndBottomOffset(tempTopBottomOffset)
             tempTopBottomOffset = 0
         }
         if (tempLeftRightOffset != 0) {
-            viewOffsetHelper!!.setLeftAndRightOffset(tempLeftRightOffset)
+            viewOffsetHelper.setLeftAndRightOffset(tempLeftRightOffset)
             tempLeftRightOffset = 0
         }
 
@@ -58,8 +58,8 @@ open class ViewOffsetBehavior<V : View> : CoordinatorLayout.Behavior<V> {
     }
 
     open fun setTopAndBottomOffset(offset: Int): Boolean {
-        if (viewOffsetHelper != null) {
-            return viewOffsetHelper!!.setTopAndBottomOffset(offset)
+        if (this::viewOffsetHelper.isInitialized) {
+            return viewOffsetHelper.setTopAndBottomOffset(offset)
         } else {
             tempTopBottomOffset = offset
         }
@@ -67,8 +67,8 @@ open class ViewOffsetBehavior<V : View> : CoordinatorLayout.Behavior<V> {
     }
 
     fun setLeftAndRightOffset(offset: Int): Boolean {
-        if (viewOffsetHelper != null) {
-            return viewOffsetHelper!!.setLeftAndRightOffset(offset)
+        if (this::viewOffsetHelper.isInitialized) {
+            return viewOffsetHelper.setLeftAndRightOffset(offset)
         } else {
             tempLeftRightOffset = offset
         }
@@ -77,11 +77,11 @@ open class ViewOffsetBehavior<V : View> : CoordinatorLayout.Behavior<V> {
 
 
     fun getTopAndBottomOffset() : Int{
-        return viewOffsetHelper?.getTopAndBottomOffset()?:0
+        return viewOffsetHelper.getTopAndBottomOffset()
     }
 
     fun getLeftAndRightOffset() : Int{
-        return viewOffsetHelper?.getLeftAndRightOffset()?:0
+        return viewOffsetHelper.getLeftAndRightOffset()
     }
 
 }
