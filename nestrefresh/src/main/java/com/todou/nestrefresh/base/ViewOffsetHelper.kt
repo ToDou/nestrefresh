@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.todou.nestrefresh
+package com.todou.nestrefresh.base
 
 import android.os.Build
 import android.support.v4.view.ViewCompat

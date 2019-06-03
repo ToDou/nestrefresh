@@ -6,8 +6,9 @@ import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.todou.nestrefresh.base.BaseBehavior
 
-class NestRefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) : BaseBehavior<View>(context, attrs) {
+class RefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) : BaseBehavior<View>(context, attrs) {
 
     private val rectOut = Rect()
 
@@ -45,7 +46,7 @@ class NestRefreshHoverScrollBehavior @JvmOverloads constructor(context: Context?
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
         val behavior = getBehavior(dependency)
-        return behavior != null && behavior is NestRefreshHoverHeaderBehavior
+        return behavior != null && behavior is RefreshHoverHeaderBehavior
     }
 
     override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
@@ -64,15 +65,15 @@ class NestRefreshHoverScrollBehavior @JvmOverloads constructor(context: Context?
     private fun getHeaderOffset(header: View): Int {
         if (header.layoutParams is CoordinatorLayout.LayoutParams) {
             val params = header.layoutParams as CoordinatorLayout.LayoutParams
-            if (params.behavior is NestRefreshHoverHeaderBehavior) {
-                return (params.behavior as NestRefreshHoverHeaderBehavior).getTopAndBottomOffset()
+            if (params.behavior is RefreshHoverHeaderBehavior) {
+                return (params.behavior as RefreshHoverHeaderBehavior).getTopAndBottomOffset()
             }
         }
         return 0
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
-        val offset = (getBehavior(dependency) as NestRefreshHoverHeaderBehavior).getTopAndBottomOffset()
+        val offset = (getBehavior(dependency) as RefreshHoverHeaderBehavior).getTopAndBottomOffset()
         return setTopAndBottomOffset(offset)
     }
 
@@ -80,7 +81,7 @@ class NestRefreshHoverScrollBehavior @JvmOverloads constructor(context: Context?
         for (view in dependencies) {
             val layoutParams = view.layoutParams
             if (layoutParams is CoordinatorLayout.LayoutParams) {
-                if (layoutParams.behavior is NestRefreshHoverHeaderBehavior) {
+                if (layoutParams.behavior is RefreshHoverHeaderBehavior) {
                     return view
                 }
             }
@@ -90,6 +91,6 @@ class NestRefreshHoverScrollBehavior @JvmOverloads constructor(context: Context?
 
     private fun getHoverHeight(view: View): Int {
         val behavior = getBehavior(view)
-        return (behavior as? NestRefreshHoverHeaderBehavior)?.getHoverHeight(view as NestRefreshLayout) ?: 0
+        return (behavior as? RefreshHoverHeaderBehavior)?.getHoverHeight(view as NestRefreshLayout) ?: 0
     }
 }

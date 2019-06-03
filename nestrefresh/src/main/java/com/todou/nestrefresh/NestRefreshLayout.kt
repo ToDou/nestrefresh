@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList
 
@@ -16,7 +17,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
-    private lateinit var behaviorHover: NestRefreshHoverHeaderBehavior
+    private lateinit var behaviorHover: RefreshHoverHeaderBehavior
     private var onRefreshListener: OnRefreshListener? = null
     private var headerView: View? = null
 
@@ -61,7 +62,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
         val lp = layoutParams
         if (lp is CoordinatorLayout.LayoutParams) {
             val behavior = lp.behavior
-            if (behavior is NestRefreshHoverHeaderBehavior) {
+            if (behavior is RefreshHoverHeaderBehavior) {
                 this.behaviorHover = behavior
                 behavior.setSpringHeaderCallback(this)
             }
@@ -147,7 +148,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        behaviorHover = NestRefreshHoverHeaderBehavior()
+        behaviorHover = RefreshHoverHeaderBehavior()
         return behaviorHover
     }
 

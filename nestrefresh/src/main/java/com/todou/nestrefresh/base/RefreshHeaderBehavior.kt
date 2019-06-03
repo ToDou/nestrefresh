@@ -1,4 +1,4 @@
-package com.todou.nestrefresh
+package com.todou.nestrefresh.base
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
+import com.todou.nestrefresh.RefreshCallback
 
 abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
     private var flingRunnable: Runnable? = null

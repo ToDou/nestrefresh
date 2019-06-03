@@ -7,10 +7,11 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.View.MeasureSpec.UNSPECIFIED
+import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.lang.ref.WeakReference
 
-class NestRefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
+class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     RefreshHeaderBehavior<NestRefreshLayout>(context, attrs) {
     private val rectOut = Rect()
 
@@ -86,7 +87,7 @@ class NestRefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context?
     ) {
         val targetBehavior = getBehavior(target)
         if (targetBehavior != null
-            && getBehavior(target) is NestRefreshHoverScrollBehavior
+            && getBehavior(target) is RefreshHoverScrollBehavior
             && dy != 0
         ) {
             if (dy > 0) {
@@ -100,7 +101,7 @@ class NestRefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context?
                 consumed[1] = this.scroll(coordinatorLayout, child, dy, min, max, type)
                 this.stopNestedScrollIfNeeded(dy, child, target, type)
             }
-        } else if (targetBehavior == null || getBehavior(target) !is NestRefreshHoverScrollBehavior && dy != 0) {
+        } else if (targetBehavior == null || getBehavior(target) !is RefreshHoverScrollBehavior && dy != 0) {
             if (dy < 0) {//down
             }
             if (dy > 0 && totalSpringOffset > 0) {//up
