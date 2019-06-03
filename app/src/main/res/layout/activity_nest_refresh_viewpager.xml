@@ -17,7 +17,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.todou.nestrefresh.RefreshHeader
+        <com.todou.nestrefresh.RefreshHeaderView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:nest_refresh_layout_scrollFlags="flag_refresh_header"/>
