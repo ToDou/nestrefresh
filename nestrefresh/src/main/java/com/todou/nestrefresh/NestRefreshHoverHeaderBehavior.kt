@@ -11,7 +11,7 @@ import android.view.View.MeasureSpec.UNSPECIFIED
 import java.lang.ref.WeakReference
 
 class NestRefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
-    HeaderBehavior<NestRefreshLayout>(context, attrs) {
+    RefreshHeaderBehavior<NestRefreshLayout>(context, attrs) {
     private val rectOut = Rect()
 
     private var lastNestedScrollingChildRef: WeakReference<View>? = null

@@ -15,7 +15,7 @@ import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
 
-abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
+abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
     private var flingRunnable: Runnable? = null
     private lateinit var scroller: OverScroller
     var totalSpringOffset = 0f
@@ -30,7 +30,7 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
 
     private lateinit var animator: ValueAnimator
     private var endListener: EndListener? = null
-    private var refreshHeaderCallback: RefreshHeaderCallback? = null
+    private var refreshHeaderCallback: RefreshCallback? = null
 
     private var originalOffset = 0
     private var hoveringRange = UNSET
@@ -369,7 +369,7 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
 
         this.scroller.fling(0, getTopAndBottomOffset(), 0, Math.round(velocityY), 0, 0, minOffset, maxOffset)
         if (this.scroller.computeScrollOffset()) {
-            this.flingRunnable = this@HeaderBehavior.FlingRunnable(coordinatorLayout, layout)
+            this.flingRunnable = this@RefreshHeaderBehavior.FlingRunnable(coordinatorLayout, layout)
             ViewCompat.postOnAnimation(layout, this.flingRunnable)
             return true
         } else {
@@ -408,16 +408,16 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
 
         override fun run() {
             if (this.layout != null) {
-                if (this@HeaderBehavior.scroller.computeScrollOffset()) {
-                    this@HeaderBehavior.setHeaderTopBottomOffset(
+                if (this@RefreshHeaderBehavior.scroller.computeScrollOffset()) {
+                    this@RefreshHeaderBehavior.setHeaderTopBottomOffset(
                         this.parent,
                         this.layout,
-                        this@HeaderBehavior.scroller.currY,
+                        this@RefreshHeaderBehavior.scroller.currY,
                         ViewCompat.TYPE_NON_TOUCH
                     )
                     ViewCompat.postOnAnimation(this.layout, this)
                 } else {
-                    this@HeaderBehavior.onFlingFinished(this.parent, this.layout)
+                    this@RefreshHeaderBehavior.onFlingFinished(this.parent, this.layout)
                 }
             }
 
@@ -492,14 +492,8 @@ abstract class HeaderBehavior<V : View> : BaseBehavior<V> {
         }
     }
 
-    fun setSpringHeaderCallback(callback: RefreshHeaderCallback) {
+    fun setSpringHeaderCallback(callback: RefreshCallback) {
         refreshHeaderCallback = callback
-    }
-
-    interface RefreshHeaderCallback {
-        fun onScroll(offset: Int, fraction: Float, nextState: Int)
-
-        fun onStateChanged(newState: Int)
     }
 
     private inner class EndListener(private var mEndState: Int) : AnimatorListenerAdapter() {

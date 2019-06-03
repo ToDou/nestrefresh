@@ -12,11 +12,11 @@ import android.widget.LinearLayout
 import java.util.ArrayList
 
 class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    LinearLayout(context, attrs, defStyleAttr), HeaderBehavior.RefreshHeaderCallback, CoordinatorLayout.AttachedBehavior {
+    LinearLayout(context, attrs, defStyleAttr), RefreshCallback, CoordinatorLayout.AttachedBehavior {
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
-    private lateinit var behavior: NestRefreshHoverHeaderBehavior
+    private lateinit var behaviorHover: NestRefreshHoverHeaderBehavior
     private var onRefreshListener: OnRefreshListener? = null
     private var headerView: View? = null
 
@@ -62,7 +62,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
         if (lp is CoordinatorLayout.LayoutParams) {
             val behavior = lp.behavior
             if (behavior is NestRefreshHoverHeaderBehavior) {
-                this.behavior = behavior
+                this.behaviorHover = behavior
                 behavior.setSpringHeaderCallback(this)
             }
         }
@@ -116,29 +116,29 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
 
     override fun onStateChanged(newState: Int) {
         onStateChangedToRefreshHeader(newState)
-        if (newState == HeaderBehavior.STATE_HOVERING) {
+        if (newState == RefreshHeaderBehavior.STATE_HOVERING) {
             onRefreshListener?.onRefresh()
         }
     }
 
     private fun onScrollToRefreshHeader(offset: Int, fraction: Float, nextState: Int) {
-        if (headerView is HeaderBehavior.RefreshHeaderCallback) {
-            (headerView as HeaderBehavior.RefreshHeaderCallback).onScroll(offset, fraction, nextState)
+        if (headerView is RefreshCallback) {
+            (headerView as RefreshCallback).onScroll(offset, fraction, nextState)
         }
     }
 
     private fun onStateChangedToRefreshHeader(newState: Int) {
-        if (headerView is HeaderBehavior.RefreshHeaderCallback) {
-            (headerView as HeaderBehavior.RefreshHeaderCallback).onStateChanged(newState)
+        if (headerView is RefreshCallback) {
+            (headerView as RefreshCallback).onStateChanged(newState)
         }
     }
 
     fun setRefresh(refreshing: Boolean) {
-        behavior.setState(
+        behaviorHover.setState(
             if (refreshing)
-                HeaderBehavior.STATE_HOVERING
+                RefreshHeaderBehavior.STATE_HOVERING
             else
-                HeaderBehavior.STATE_COLLAPSED
+                RefreshHeaderBehavior.STATE_COLLAPSED
         )
     }
 
@@ -147,8 +147,8 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        behavior = NestRefreshHoverHeaderBehavior()
-        return behavior
+        behaviorHover = NestRefreshHoverHeaderBehavior()
+        return behaviorHover
     }
 
     class LayoutParams : LinearLayout.LayoutParams {

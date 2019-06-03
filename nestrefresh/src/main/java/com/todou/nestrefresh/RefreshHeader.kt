@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 
 class RefreshHeader @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    LinearLayout(context, attrs, defStyleAttr), HeaderBehavior.RefreshHeaderCallback {
+    LinearLayout(context, attrs, defStyleAttr), RefreshHeaderBehavior.RefreshHeaderCallback {
 
     private lateinit var flipAnimation: RotateAnimation
     private lateinit var reverseFlipAnimation: RotateAnimation
@@ -65,12 +65,12 @@ class RefreshHeader @JvmOverloads constructor(context: Context, attrs: Attribute
 
     override fun onScroll(offset: Int, fraction: Float, nextState: Int) {
         if (state != nextState) {
-            if (state == HeaderBehavior.STATE_COLLAPSED) {
+            if (state == RefreshHeaderBehavior.STATE_COLLAPSED) {
                 imageRefreshIndicator.clearAnimation()
                 imageRefreshIndicator.rotation = 0f
             }
             state = nextState
-            if (nextState == HeaderBehavior.STATE_DRAGGING) {
+            if (nextState == RefreshHeaderBehavior.STATE_DRAGGING) {
                 if (viewProgress.visibility == View.VISIBLE) {
                     viewProgress.visibility = View.GONE
                 }
@@ -83,7 +83,7 @@ class RefreshHeader @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
         val belowThreshold = fraction < 1
-        if (belowThreshold != this.belowThreshold && nextState != HeaderBehavior.STATE_SETTLING) {
+        if (belowThreshold != this.belowThreshold && nextState != RefreshHeaderBehavior.STATE_SETTLING) {
             this.belowThreshold = belowThreshold
             updateTextAndImage()
         }
@@ -102,7 +102,7 @@ class RefreshHeader @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     override fun onStateChanged(newState: Int) {
-        if (newState == HeaderBehavior.STATE_HOVERING) {
+        if (newState == RefreshHeaderBehavior.STATE_HOVERING) {
             textRefresh.text = textRefreshing
             viewProgress.visibility = View.VISIBLE
             imageRefreshIndicator.clearAnimation()
