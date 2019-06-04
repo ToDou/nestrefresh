@@ -106,7 +106,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         }
     }
 
-    internal open fun childInHeaderCanScroll(view: V, x: Float, y: Float): Boolean {
+    protected open fun childInHeaderCanScroll(view: V, x: Float, y: Float): Boolean {
         return false
     }
 
@@ -253,7 +253,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
                 * getMaxPullRefreshDown().toDouble() * 2.0).toInt()
     }
 
-    open fun getMaxPullRefreshDown(): Int {
+    protected open fun getMaxPullRefreshDown(): Int {
         return 0
     }
 
@@ -386,15 +386,15 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         animateBackIfNeeded()
     }
 
-    internal open fun canDragView(view: V): Boolean {
+    protected open fun canDragView(view: V): Boolean {
         return false
     }
 
-    internal open fun getMaxDragOffset(view: V): Int {
+    protected open fun getMaxDragOffset(view: V): Int {
         return -view.height
     }
 
-    internal open fun getScrollRangeForDragFling(view: V): Int {
+    protected open fun getScrollRangeForDragFling(view: V): Int {
         return view.height
     }
 
