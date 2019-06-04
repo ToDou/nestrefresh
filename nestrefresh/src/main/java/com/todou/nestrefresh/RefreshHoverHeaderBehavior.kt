@@ -7,6 +7,7 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.View.MeasureSpec.UNSPECIFIED
+import android.view.ViewGroup
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.lang.ref.WeakReference
@@ -17,7 +18,7 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
 
     private var lastNestedScrollingChildRef: WeakReference<View>? = null
     private var maxCollapseUp = 0
-    override val maxPullRefreshDown = 2000
+    private var maxPullRefreshDown = 0
 
     override fun onMeasureChild(
         parent: CoordinatorLayout,
@@ -28,7 +29,7 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
         heightUsed: Int
     ): Boolean {
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
-        if (lp.height == -2) {
+        if (lp.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
             parent.onMeasureChild(
                 child,
                 parentWidthMeasureSpec,
@@ -60,6 +61,10 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
         maxCollapseUp = child.hoverHeight + refreshHeaderHeight - child.height
 
         setHoveringRange(refreshHeaderHeight)
+    }
+
+    override fun getMaxPullRefreshDown(): Int {
+        return maxPullRefreshDown
     }
 
     override fun onStartNestedScroll(
@@ -154,12 +159,11 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
 
 
     override fun canDragView(view: NestRefreshLayout): Boolean {
-        if (this.lastNestedScrollingChildRef == null) {
-            return true
-        } else {
-            val scrollingView = this.lastNestedScrollingChildRef!!.get()
+        lastNestedScrollingChildRef?.let {
+            val scrollingView = it.get()
             return scrollingView != null && scrollingView.isShown && !scrollingView.canScrollVertically(-1)
         }
+        return true
     }
 
     override fun childInHeaderCanScroll(view: NestRefreshLayout, x: Float, y: Float): Boolean {

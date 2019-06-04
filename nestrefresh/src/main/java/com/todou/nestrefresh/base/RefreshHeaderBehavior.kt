@@ -40,9 +40,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
     val topBottomOffsetForScrollingSibling: Int
         get() = getTopAndBottomOffset()
 
-    open val maxPullRefreshDown: Int
-        get() = 0
-
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
@@ -81,7 +78,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
                     isTouching = false
                     this.activePointerId = -1
                     if (this.velocityTracker != null) {
-                        this.velocityTracker!!.recycle()
+                        this.velocityTracker?.recycle()
                         this.velocityTracker = null
                     }
                 }
@@ -102,7 +99,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
             }
 
             if (this.velocityTracker != null) {
-                this.velocityTracker!!.addMovement(ev)
+                this.velocityTracker?.addMovement(ev)
             }
 
             return this.isBeingDragged
@@ -134,17 +131,17 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
             }
             MotionEvent.ACTION_UP -> {
                 this.isTouching = false
-                if (this.velocityTracker != null) {
-                    this.velocityTracker!!.addMovement(ev)
-                    this.velocityTracker!!.computeCurrentVelocity(1000)
-                    val yvel = this.velocityTracker!!.getYVelocity(this.activePointerId)
+                velocityTracker?.let {
+                    it.addMovement(ev)
+                    it.computeCurrentVelocity(1000)
+                    val yvel = it.getYVelocity(this.activePointerId)
                     this.fling(parent, child, -this.getScrollRangeForDragFling(child), 0, yvel)
                 }
                 this.isBeingDragged = false
                 this.isTouching = false
                 this.activePointerId = -1
                 if (this.velocityTracker != null) {
-                    this.velocityTracker!!.recycle()
+                    this.velocityTracker?.recycle()
                     this.velocityTracker = null
                 }
                 doOnCancel()
@@ -154,7 +151,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
                 this.isTouching = false
                 this.activePointerId = -1
                 if (this.velocityTracker != null) {
-                    this.velocityTracker!!.recycle()
+                    this.velocityTracker?.recycle()
                     this.velocityTracker = null
                 }
                 doOnCancel()
@@ -184,7 +181,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         }
 
         if (this.velocityTracker != null) {
-            this.velocityTracker!!.addMovement(ev)
+            this.velocityTracker?.addMovement(ev)
         }
 
         return true
@@ -198,7 +195,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
 
     private fun stopHeaderFlingIfNeeded() {
         if (isTouching && this.flingRunnable != null) {
-            if (child != null) child!!.removeCallbacks(this.flingRunnable)
+            child?.removeCallbacks(this.flingRunnable)
             this.flingRunnable = null
         }
     }
@@ -251,7 +248,13 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
     }
 
     private fun calculateScrollUnconsumed(): Int {
-        return if (getTopAndBottomOffset() <= 0) 0 else (-Math.log((1 - getTopAndBottomOffset().toFloat() / maxPullRefreshDown).toDouble()) * maxPullRefreshDown.toDouble() * 2.0).toInt()
+        return if (getTopAndBottomOffset() <= 0) 0
+        else (-Math.log((1 - getTopAndBottomOffset().toFloat() / getMaxPullRefreshDown()).toDouble())
+                * getMaxPullRefreshDown().toDouble() * 2.0).toInt()
+    }
+
+    open fun getMaxPullRefreshDown(): Int {
+        return 0
     }
 
     fun setHeaderTopBottomOffset(parent: CoordinatorLayout, header: V, newOffset: Int, type: Int): Int {
@@ -324,14 +327,14 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
     }
 
     override fun setTopAndBottomOffset(offset: Int): Boolean {
-        if (refreshHeaderCallback != null) {
-            refreshHeaderCallback!!.onScroll(offset, (offset - originalOffset).toFloat() / hoveringRange, state)
+        refreshHeaderCallback?.let {
+            it.onScroll(offset, (offset - originalOffset).toFloat() / hoveringRange, state)
         }
         return super.setTopAndBottomOffset(offset)
     }
 
     private fun calculateScrollOffset(): Int {
-        return (maxPullRefreshDown * (1f - Math.exp((-(totalSpringOffset / maxPullRefreshDown.toFloat() / 2f)).toDouble()))).toInt()
+        return (getMaxPullRefreshDown() * (1f - Math.exp((-(totalSpringOffset / getMaxPullRefreshDown().toFloat() / 2f)).toDouble()))).toInt()
     }
 
     fun scroll(
@@ -469,7 +472,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
             if (animator.isRunning) {
                 animator.cancel()
             }
-            endListener!!.setEndState(endState)
+            endListener?.setEndState(endState)
         }
         animator.setIntValues(from, to)
         animator.start()
@@ -481,7 +484,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         }
         this.state = state
         if (refreshHeaderCallback != null) {
-            refreshHeaderCallback!!.onStateChanged(state)
+            refreshHeaderCallback?.onStateChanged(state)
         }
     }
 
