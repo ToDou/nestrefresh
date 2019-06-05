@@ -14,11 +14,28 @@ import java.lang.ref.WeakReference
 
 class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     RefreshHeaderBehavior<NestRefreshLayout>(context, attrs) {
+
+    init {
+        attrs?.let {
+            context?.let {
+                val a = it.obtainStyledAttributes(attrs, R.styleable.NestRefreshLayout_Layout)
+                maxPullRefreshDown = a.getDimensionPixelSize(
+                    R.styleable.NestRefreshLayout_Layout_refresh_max_pull_offset, 0
+                )
+                refreshHoverRange = a.getDimensionPixelSize(
+                    R.styleable.NestRefreshLayout_Layout_refresh_hover_range, 0
+                )
+                a.recycle()
+            }
+        }
+    }
+
     private val rectOut = Rect()
 
     private var lastNestedScrollingChildRef: WeakReference<View>? = null
     private var maxCollapseUp = 0
     private var maxPullRefreshDown = 0
+    private var refreshHoverRange = 0
 
     override fun onMeasureChild(
         parent: CoordinatorLayout,
@@ -60,7 +77,16 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
         child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
         maxCollapseUp = child.hoverHeight + refreshHeaderHeight - child.height
 
-        setHoveringRange(refreshHeaderHeight)
+        setHoveringRange(
+            if (refreshHoverRange == 0) {
+                refreshHeaderHeight
+            } else {
+                refreshHoverRange
+            }
+        )
+        if (maxPullRefreshDown == 0) {
+            maxPullRefreshDown = parent.measuredHeight
+        }
     }
 
     override fun getMaxPullRefreshDown(): Int {

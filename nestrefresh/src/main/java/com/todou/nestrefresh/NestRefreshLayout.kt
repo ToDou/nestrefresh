@@ -35,7 +35,6 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
 
     val refreshHeaderHeight: Int
         get() {
-            var height = 0
             if (headerView == null) {
                 for (i in 0 until childCount) {
                     val view = getChildAt(i)
@@ -46,10 +45,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
                     }
                 }
             }
-            if (headerView != null) {
-                height = headerView!!.measuredHeight
-            }
-            return height
+            return headerView?.measuredHeight?:0
         }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -88,27 +84,6 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
             }
         }
         return result
-    }
-
-    override fun checkLayoutParams(p: ViewGroup.LayoutParams): Boolean {
-        return p is LayoutParams
-    }
-
-    override fun generateDefaultLayoutParams(): LinearLayout.LayoutParams {
-        return LayoutParams(-1, -2)
-    }
-
-    override fun generateLayoutParams(attrs: AttributeSet): LinearLayout.LayoutParams {
-        return LayoutParams(this.context, attrs)
-    }
-
-
-    override fun generateLayoutParams(lp: ViewGroup.LayoutParams): LinearLayout.LayoutParams {
-        return if (Build.VERSION.SDK_INT >= 19 && lp is LinearLayout.LayoutParams) {
-            LayoutParams(lp)
-        } else {
-            (lp as? MarginLayoutParams)?.let { LayoutParams(it) } ?: LayoutParams(lp)
-        }
     }
 
     override fun onScroll(offset: Int, fraction: Float, nextState: Int) {
@@ -150,6 +125,27 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
         behaviorHover = RefreshHoverHeaderBehavior()
         return behaviorHover
+    }
+
+    override fun checkLayoutParams(p: ViewGroup.LayoutParams): Boolean {
+        return p is LayoutParams
+    }
+
+    override fun generateDefaultLayoutParams(): LinearLayout.LayoutParams {
+        return LayoutParams(-1, -2)
+    }
+
+    override fun generateLayoutParams(attrs: AttributeSet): LinearLayout.LayoutParams {
+        return LayoutParams(this.context, attrs)
+    }
+
+
+    override fun generateLayoutParams(lp: ViewGroup.LayoutParams): LinearLayout.LayoutParams {
+        return if (Build.VERSION.SDK_INT >= 19 && lp is LinearLayout.LayoutParams) {
+            LayoutParams(lp)
+        } else {
+            (lp as? MarginLayoutParams)?.let { LayoutParams(it) } ?: LayoutParams(lp)
+        }
     }
 
     class LayoutParams : LinearLayout.LayoutParams {

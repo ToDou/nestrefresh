@@ -6,5 +6,8 @@
             <flag name="flag_hover" value="0x1"/>
             <flag name="flag_refresh_header" value="0x2"/>
         </attr>
+        <attr name="refresh_max_pull_offset" format="dimension"></attr>
+        <attr name="refresh_hover_range" format="dimension"></attr>
+
     </declare-styleable>
 </resources>
