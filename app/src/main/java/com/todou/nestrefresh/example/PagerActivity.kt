@@ -5,8 +5,9 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import com.squareup.picasso.Picasso
 import com.todou.nestrefresh.NestRefreshLayout
 
 import java.util.Collections
@@ -17,6 +18,7 @@ class PagerActivity : AppCompatActivity() {
     private lateinit var adapter: RecyclerAdapterTest
     private lateinit var fragmentAdapter: FragmentAdapter
     private lateinit var viewPager: ViewPager
+    private lateinit var imageAvatar: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,15 +26,16 @@ class PagerActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recycler_view_inner)
         viewPager = findViewById(R.id.view_pager)
+        imageAvatar = findViewById(R.id.image_avatar)
 
+        Picasso
+            .get()
+            .load("https://avatars1.githubusercontent.com/u/7405589?s=460&v=4")
+            .into(imageAvatar)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerAdapterTest()
         recyclerView.adapter = adapter
         adapter.updateDatas(Collections.nCopies(10, Any()))
-        findViewById<View>(R.id.text_tab_one).setOnClickListener {
-            val view = findViewById<View>(R.id.view_test_relayout)
-            view.visibility = if (view.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        }
 
         val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
 

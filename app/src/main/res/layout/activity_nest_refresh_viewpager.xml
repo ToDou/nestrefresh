@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="0dp"
-    android:background="#f4f4f5">
+>
 
     <com.todou.nestrefresh.NestRefreshLayout
         android:id="@+id/pull_refresh_hover"
@@ -25,59 +25,88 @@
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_margin="12dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="@android:color/white"
             android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view_inner"
-                    android:layout_width="match_parent"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:id="@+id/image_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="12dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/app_name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="0dp" />
+                    app:layout_constraintLeft_toRightOf="@+id/image_avatar"
+                    android:layout_marginLeft="8dp"
+                    android:text="ToDou"
+                    app:layout_constraintTop_toTopOf="@id/image_avatar"
+                    app:layout_constraintBottom_toBottomOf="@id/image_avatar"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_inner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_margin="0dp"/>
         </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 android:layout_height="140dp">
 
                 <View
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_blue_bright" />
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@android:color/holo_blue_bright"/>
 
                 <View
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_orange_dark" />
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@android:color/holo_orange_dark"/>
 
                 <View
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_green_light" />
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@android:color/holo_green_light"/>
 
                 <View
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_purple" />
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@android:color/holo_purple"/>
 
             </LinearLayout>
         </HorizontalScrollView>
-
-        <View
-            android:id="@+id/view_test_relayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="@android:color/black"
-            android:visibility="gone"
-            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,31 +121,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Tab1" />
+                android:text="Tab1"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Tab2" />
+                android:text="Tab2"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Tab3" />
+                android:text="Tab3"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Tab4" />
+                android:text="Tab4"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Tab5" />
+                android:text="Tab5"/>
         </LinearLayout>
 
     </com.todou.nestrefresh.NestRefreshLayout>
@@ -125,9 +154,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="12dp"
-        android:layout_weight="1"
         android:background="@android:color/white"
-        app:layout_behavior="@string/nest_refresh_hover_scroll_behavior" />
+        app:layout_behavior="@string/nest_refresh_hover_scroll_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

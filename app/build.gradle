@@ -28,6 +28,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.recyclerview
     implementation deps.kotlin.stdlib
+    implementation deps.picasso
     implementation project(':nestrefresh')
 
     testImplementation deps.junit
