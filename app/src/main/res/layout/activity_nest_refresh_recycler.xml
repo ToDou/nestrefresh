@@ -5,73 +5,117 @@
     android:layout_height="match_parent"
     android:background="#f4f4f5">
 
+
+
     <com.todou.nestrefresh.NestRefreshLayout
         android:id="@+id/pull_refresh_hover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:text="Hello World!"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <FrameLayout
+        <com.todou.nestrefresh.RefreshHeaderView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:nest_refresh_layout_scrollFlags="flag_refresh_header">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:text="正在刷新"
-                android:gravity="center_horizontal|bottom" />
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            app:nest_refresh_layout_scrollFlags="flag_refresh_header"/>
 
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_margin="12dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:elevation="@dimen/common_elevation"
+            android:background="@drawable/shape_radius"
             android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="By ToDou"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="?android:attr/textColorSecondary"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is one nest refresh kit"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    app:layout_constraintTop_toBottomOf="@+id/text_title"
+                    app:layout_constraintLeft_toLeftOf="@+id/text_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="12sp"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <View
+                android:layout_width="240dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:background="@drawable/shape_divider_header_title"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_inner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp" />
-
+                android:padding="8dp"
+                android:layout_margin="0dp"/>
         </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:layout_marginRight="@dimen/margin_normal"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp">
 
-                <View
+                <TextView
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_blue_bright" />
+                    android:text="#1"
+                    style="@style/HorizontalItemStyle"/>
 
-                <View
+                <TextView
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_orange_dark" />
+                    android:text="#2"
+                    style="@style/HorizontalItemStyle"/>
 
-                <View
+                <TextView
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_green_light" />
+                    android:text="#3"
+                    style="@style/HorizontalItemStyle"/>
 
-                <View
+                <TextView
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/holo_purple" />
+                    android:text="#4"
+                    style="@style/HorizontalItemStyle"/>
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:text="#5"
+                    style="@style/HorizontalItemStyle"
+                    android:layout_marginRight="0dp"/>
 
             </LinearLayout>
         </HorizontalScrollView>
@@ -79,40 +123,42 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:nest_refresh_layout_scrollFlags="flag_hover">
 
             <TextView
+                android:id="@+id/text_tab_one"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Tab1" />
+                android:layout_height="30dp"
+                android:text="Tab1"
+                style="@style/TabStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Tab2" />
+                android:layout_height="30dp"
+                android:text="Tab2"
+                style="@style/TabStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Tab3" />
+                android:layout_height="30dp"
+                android:text="Tab3"
+                style="@style/TabStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Tab4" />
+                android:layout_height="30dp"
+                android:text="Tab4"
+                style="@style/TabStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Tab5" />
+                android:layout_height="30dp"
+                android:text="Tab5"
+                style="@style/TabStyle"/>
         </LinearLayout>
 
     </com.todou.nestrefresh.NestRefreshLayout>
@@ -120,11 +166,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="12dp"
-        android:layout_weight="1"
-        android:background="@android:color/white"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/nest_refresh_hover_scroll_behavior" />
-
 
 </android.support.design.widget.CoordinatorLayout>

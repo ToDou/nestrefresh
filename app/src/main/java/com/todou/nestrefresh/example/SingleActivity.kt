@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.todou.nestrefresh.NestRefreshLayout
+import com.todou.nestrefresh.example.widget.ItemDecoration
 
 import java.util.Collections
 
@@ -25,12 +26,16 @@ class SingleActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerAdapterInHeader()
         recyclerView.adapter = adapter
-        adapter.updateDatas(Collections.nCopies(10, Any()))
+        adapter.updateDatas(Collections.nCopies(5, Any()))
 
         recyclerViewScroll = findViewById(R.id.recycler_view)
         recyclerViewScroll.layoutManager = LinearLayoutManager(this)
         recyclerAdapterScroll = RecyclerAdapterScroll()
         recyclerViewScroll.adapter = recyclerAdapterScroll
+        recyclerViewScroll.addItemDecoration(
+            ItemDecoration(this, RecyclerView.VERTICAL
+                , resources.getDimensionPixelSize(R.dimen.margin_normal))
+        )
         recyclerAdapterScroll.updateDatas(Collections.nCopies(40, Any()))
 
 
@@ -40,7 +45,6 @@ class SingleActivity : AppCompatActivity() {
             override fun onRefresh() {
                 pullRefreshHoverLayout.postDelayed({
                     pullRefreshHoverLayout.setRefresh(false)
-                    adapter.updateDatas(Collections.nCopies(20, Any()))
                 }, 2000)
             }
         })
