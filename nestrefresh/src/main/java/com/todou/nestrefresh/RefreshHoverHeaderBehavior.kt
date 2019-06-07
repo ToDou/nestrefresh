@@ -117,24 +117,14 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
         type: Int
     ) {
         val targetBehavior = getBehavior(target)
-        if (targetBehavior != null
-            && getBehavior(target) is RefreshHoverScrollBehavior
-            && dy != 0
-        ) {
+        if (targetBehavior != null && targetBehavior is RefreshHoverScrollBehavior && dy != 0) {
             if (dy > 0) {
-                val min = maxCollapseUp
-                val max = 0
-                consumed[1] = this.scroll(coordinatorLayout, child, dy, min, max, type)
-                this.stopNestedScrollIfNeeded(dy, child, target, type)
-            } else if (dy < 0 && target != null && !target.canScrollVertically(-1)) {
                 val min = maxCollapseUp
                 val max = 0
                 consumed[1] = this.scroll(coordinatorLayout, child, dy, min, max, type)
                 this.stopNestedScrollIfNeeded(dy, child, target, type)
             }
         } else if (targetBehavior == null || getBehavior(target) !is RefreshHoverScrollBehavior && dy != 0) {
-            if (dy < 0) {//down
-            }
             if (dy > 0 && totalSpringOffset > 0) {//up
                 val min = maxCollapseUp
                 val max = 0
