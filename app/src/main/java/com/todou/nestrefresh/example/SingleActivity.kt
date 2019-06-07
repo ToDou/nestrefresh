@@ -11,7 +11,7 @@ import java.util.Collections
 class SingleActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: RecyclerAdapterTest
+    private lateinit var adapter: RecyclerAdapterInHeader
 
     private lateinit var recyclerViewScroll: RecyclerView
     private lateinit var recyclerAdapterScroll: RecyclerAdapterScroll
@@ -23,7 +23,7 @@ class SingleActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recycler_view_inner)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = RecyclerAdapterTest()
+        adapter = RecyclerAdapterInHeader()
         recyclerView.adapter = adapter
         adapter.updateDatas(Collections.nCopies(10, Any()))
 

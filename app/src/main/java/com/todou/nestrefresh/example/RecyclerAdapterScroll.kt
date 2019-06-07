@@ -1,12 +1,10 @@
 package com.todou.nestrefresh.example
 
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.todou.nestrefresh.example.utils.ColorUtils
 
 import java.util.ArrayList
 
@@ -43,7 +41,6 @@ class RecyclerAdapterScroll : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(position: Int) {
             textPosition.text = "#$position"
-//            itemView.setBackgroundColor(Color.parseColor(ColorUtils.getRandColorString()))
         }
     }
 

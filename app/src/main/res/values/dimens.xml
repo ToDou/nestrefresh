@@ -2,4 +2,5 @@
 <resources>
     <dimen name="common_elevation">0dp</dimen>
     <dimen name="margin_normal">10dp</dimen>
+    <dimen name="divider_height">0.8dp</dimen>
 </resources>

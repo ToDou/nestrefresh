@@ -11,7 +11,7 @@ import com.todou.nestrefresh.example.widget.ItemDecoration
 
 import java.util.Collections
 
-class InnerFragment : Fragment() {
+class RecyclerFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerAdapterScroll
@@ -35,8 +35,8 @@ class InnerFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): InnerFragment {
-            return InnerFragment()
+        fun newInstance(): RecyclerFragment {
+            return RecyclerFragment()
         }
     }
 }

@@ -5,17 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@android:color/white"
+    android:background="@drawable/shape_radius"
     android:layout_marginRight="@dimen/margin_normal"
-    android:layout_marginLeft="@dimen/margin_normal"
-    tools:background="@android:color/holo_blue_bright">
+    android:layout_marginLeft="@dimen/margin_normal">
 
     <TextView
         android:id="@+id/text_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="?android:attr/textColorSecondary"
         tools:text="#1"
         android:textStyle="bold"
         android:textSize="20sp"
