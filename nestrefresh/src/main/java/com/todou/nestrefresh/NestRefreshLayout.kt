@@ -23,7 +23,7 @@ class NestRefreshLayout @JvmOverloads constructor(
         private set
     private lateinit var behaviorHover: RefreshHoverHeaderBehavior
     private var onRefreshListener: OnRefreshListener? = null
-    private var headerView: View? = null
+    private lateinit var headerView: View
 
     val hoverHeight: Int
         get() {
@@ -39,7 +39,7 @@ class NestRefreshLayout @JvmOverloads constructor(
 
     val refreshHeaderHeight: Int
         get() {
-            if (headerView == null) {
+            if (!this::headerView.isInitialized) {
                 for (i in 0 until childCount) {
                     val view = getChildAt(i)
                     val layoutParams = view.layoutParams as LayoutParams
@@ -49,7 +49,8 @@ class NestRefreshLayout @JvmOverloads constructor(
                     }
                 }
             }
-            return headerView?.measuredHeight ?: 0
+            val params = headerView.layoutParams as LayoutParams
+            return headerView.measuredHeight + params.topMargin + params.bottomMargin
         }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
