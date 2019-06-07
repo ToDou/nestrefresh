@@ -23,6 +23,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:src="@drawable/ic_refresh_indicator"
+        android:rotation="180"
         android:tint="@color/nest_refresh_tint_color"
         android:tintMode="src_in"
         android:visibility="visible" />
@@ -35,7 +36,7 @@
         android:gravity="center"
         android:layout_marginLeft="8dp"
         android:textColor="@color/nest_refresh_tint_color"
-        android:text="@string/nest_refresh_pull"
+        android:text="@string/nest_refresh_load_more_pull_label"
         android:textSize="14sp" />
 
 </LinearLayout>

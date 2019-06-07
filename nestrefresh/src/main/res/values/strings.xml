@@ -1,9 +1,15 @@
 <resources>
 
     <string name="nest_refresh_hover_scroll_behavior" translatable="false">com.todou.nestrefresh.RefreshHoverScrollBehavior</string>
+    <string name="nest_refresh_load_more_behavior" translatable="false">com.todou.nestrefresh.LoadMoreFooterBehavior</string>
 
-    <string name="refresh_pull">Pull to refresh</string>
-    <string name="refresh_refreshing">Loading\u2026</string>
-    <string name="refresh_release">Release to Refresh</string>
+    <string name="nest_refresh_pull">Pull to refresh</string>
+    <string name="nest_refresh_refreshing">Loading\u2026</string>
+    <string name="nest_refresh_release">Release to Refresh</string>
+
+    <string name="nest_refresh_load_more_pull_label">Pull up to load more</string>
+    <string name="nest_refresh_load_more_refreshing_label">Loading\u2026</string>
+    <string name="nest_refresh_load_more_release_label">Release to load more</string>
+    <string name="nest_refresh_load_more_no_more">No more</string>
 
 </resources>

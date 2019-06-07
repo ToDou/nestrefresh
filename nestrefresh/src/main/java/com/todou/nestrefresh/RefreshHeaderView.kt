@@ -38,9 +38,9 @@ class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: Attri
         viewProgress = findViewById(R.id.progress_loading)
         textRefresh = findViewById(R.id.text_refresh)
 
-        textAboveThreshold = resources.getString(R.string.refresh_release)
-        textBelowThreshold = resources.getString(R.string.refresh_pull)
-        textRefreshing = resources.getString(R.string.refresh_refreshing)
+        textAboveThreshold = resources.getString(R.string.nest_refresh_release)
+        textBelowThreshold = resources.getString(R.string.nest_refresh_pull)
+        textRefreshing = resources.getString(R.string.nest_refresh_refreshing)
 
         initAnimation()
     }

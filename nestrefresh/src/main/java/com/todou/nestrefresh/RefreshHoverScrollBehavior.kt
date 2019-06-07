@@ -11,6 +11,8 @@ import com.todou.nestrefresh.base.BaseBehavior
 class RefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) : BaseBehavior<View>(context, attrs) {
 
     private val rectOut = Rect()
+    private var refreshHoverHeaderBehavior: RefreshHoverHeaderBehavior? = null
+    private var loadMoreFooterBehavior: LoadMoreFooterBehavior? = null
 
     override fun onMeasureChild(
         parent: CoordinatorLayout,
@@ -45,8 +47,9 @@ class RefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = n
     }
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
-        val behavior = getBehavior(dependency)
-        return behavior != null && behavior is RefreshHoverHeaderBehavior
+        val behavior = getBehavior(dependency) ?: return false
+        return behavior is RefreshHoverHeaderBehavior
+                || behavior is LoadMoreFooterBehavior;
     }
 
     override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
@@ -73,8 +76,24 @@ class RefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = n
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
-        val offset = (getBehavior(dependency) as RefreshHoverHeaderBehavior).getTopAndBottomOffset()
+        val behavior = getBehavior(dependency)
+        var offset = 0
+        if (behavior is RefreshHoverHeaderBehavior) {
+            refreshHoverHeaderBehavior = behavior
+            offset = behavior.getTopAndBottomOffset()
+        } else if (behavior is LoadMoreFooterBehavior) {
+            loadMoreFooterBehavior = behavior
+            offset = behavior.currentRange + getHeaderOffsetByBehavior()
+        }
         return setTopAndBottomOffset(offset)
+    }
+
+    private fun getHeaderOffsetByBehavior(): Int {
+        return refreshHoverHeaderBehavior?.getTopAndBottomOffset() ?: 0
+    }
+
+    fun getFooterTotalUnconsumed(): Float {
+        return loadMoreFooterBehavior?.totalUnconsumed ?: 0f
     }
 
     private fun findFirstDependency(dependencies: List<View>): View? {
