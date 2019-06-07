@@ -128,8 +128,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
+            android:background="@color/windowBackground"
+            android:paddingRight="@dimen/margin_normal"
+            android:paddingLeft="@dimen/margin_normal"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             app:nest_refresh_layout_scrollFlags="flag_hover">
@@ -172,6 +173,7 @@
         android:id="@+id/view_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/nest_refresh_load_more_behavior" />
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_behavior="@string/nest_refresh_load_more_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -70,10 +70,10 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
 
         val childHeight = child.height
 
-        if (mCallback != null) mCallback!!.updateChildHeight(childHeight)
+        mCallback?.updateChildHeight(childHeight)
 
         if (mHoveringRange == UNSET) {
-            setHoveringRange(childHeight)
+            setHoveringRange(childHeight + lp.topMargin + lp.bottomMargin)
         }
 
         if (mMaxRange == UNSET) {
