@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="10dp"
+            android:elevation="@dimen/common_elevation"
             android:background="@android:color/white"
             android:orientation="vertical">
 
@@ -82,6 +83,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
                     android:layout_marginLeft="4dp"
+                    android:elevation="@dimen/common_elevation"
                     android:background="@android:color/holo_blue_bright"/>
 
                 <View
@@ -89,6 +91,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
                     android:layout_marginLeft="4dp"
+                    android:elevation="@dimen/common_elevation"
                     android:background="@android:color/holo_orange_dark"/>
 
                 <View
@@ -96,6 +99,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
                     android:layout_marginLeft="4dp"
+                    android:elevation="@dimen/common_elevation"
                     android:background="@android:color/holo_green_light"/>
 
                 <View
@@ -103,6 +107,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
                     android:layout_marginLeft="4dp"
+                    android:elevation="@dimen/common_elevation"
                     android:background="@android:color/holo_purple"/>
 
             </LinearLayout>
@@ -112,8 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:layout_margin="@dimen/margin_normal"
             app:nest_refresh_layout_scrollFlags="flag_hover">
 
             <TextView
@@ -154,7 +158,6 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         app:layout_behavior="@string/nest_refresh_hover_scroll_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

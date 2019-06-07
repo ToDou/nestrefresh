@@ -1,9 +1,12 @@
 package com.todou.nestrefresh.example
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import com.todou.nestrefresh.example.utils.ColorUtils
 
 import java.util.ArrayList
 
@@ -17,7 +20,7 @@ class RecyclerAdapterScroll : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, i: Int) {
-
+        (viewHolder as TestViewHolder).bind(i)
     }
 
     fun updateDatas(datas: List<Any>?) {
@@ -31,6 +34,17 @@ class RecyclerAdapterScroll : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return mDatas.size
     }
 
-    private class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var textPosition: TextView
+
+        init {
+            textPosition = itemView.findViewById(R.id.text_position)
+        }
+
+        fun bind(position: Int) {
+            textPosition.text = "#$position"
+//            itemView.setBackgroundColor(Color.parseColor(ColorUtils.getRandColorString()))
+        }
+    }
 
 }

@@ -1,14 +1,17 @@
 package com.todou.nestrefresh.example
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.RecyclerView.VERTICAL
 import android.widget.ImageView
 import android.widget.Toast
-import com.squareup.picasso.Picasso
 import com.todou.nestrefresh.NestRefreshLayout
+import com.todou.nestrefresh.example.widget.ItemDecoration
 
 import java.util.Collections
 
@@ -28,10 +31,6 @@ class PagerActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.view_pager)
         imageAvatar = findViewById(R.id.image_avatar)
 
-        Picasso
-            .get()
-            .load("https://avatars1.githubusercontent.com/u/7405589?s=460&v=4")
-            .into(imageAvatar)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerAdapterTest()
         recyclerView.adapter = adapter
