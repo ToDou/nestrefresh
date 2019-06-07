@@ -31,7 +31,7 @@ class RecyclerFragment : Fragment() {
         )
         adapter = RecyclerAdapterScroll()
         recyclerView.adapter = adapter
-        adapter.updateDatas(Collections.nCopies(40, Any()))
+        adapter.updateDatas(Collections.nCopies(20, Any()))
     }
 
     companion object {

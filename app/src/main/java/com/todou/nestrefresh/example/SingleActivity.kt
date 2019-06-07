@@ -33,15 +33,17 @@ class SingleActivity : AppCompatActivity() {
         recyclerAdapterScroll = RecyclerAdapterScroll()
         recyclerViewScroll.adapter = recyclerAdapterScroll
         recyclerViewScroll.addItemDecoration(
-            ItemDecoration(this, RecyclerView.VERTICAL
-                , resources.getDimensionPixelSize(R.dimen.margin_normal))
+            ItemDecoration(
+                this, RecyclerView.VERTICAL
+                , resources.getDimensionPixelSize(R.dimen.margin_normal)
+            )
         )
-        recyclerAdapterScroll.updateDatas(Collections.nCopies(40, Any()))
+        recyclerAdapterScroll.updateDatas(Collections.nCopies(20, Any()))
 
 
         val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
 
-        pullRefreshHoverLayout.setOnRefreshListener(object:NestRefreshLayout.OnRefreshListener{
+        pullRefreshHoverLayout.setOnRefreshListener(object : NestRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
                 pullRefreshHoverLayout.postDelayed({
                     pullRefreshHoverLayout.setRefresh(false)

@@ -170,8 +170,8 @@ class NestRefreshLayout @JvmOverloads constructor(
         constructor(source: ViewGroup.LayoutParams) : super(source)
 
         companion object {
-            val SCROLL_FLAG_HOVER = 0x1
-            val SCROLL_FLAG_REFRESH_HEADER = 0x2
+            const val SCROLL_FLAG_HOVER = 0x1
+            const val SCROLL_FLAG_REFRESH_HEADER = 0x2
         }
     }
 
