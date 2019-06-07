@@ -12,6 +12,7 @@
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/nest_refresh_tint_color"
         android:indeterminate="true"
         android:visibility="gone" />
 
@@ -22,6 +23,8 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:src="@drawable/ic_refresh_indicator"
+        android:tint="@color/nest_refresh_tint_color"
+        android:tintMode="src_in"
         android:visibility="visible" />
 
     <TextView
@@ -31,7 +34,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginLeft="8dp"
-        android:textColor="#FF898989"
+        android:textColor="@color/nest_refresh_tint_color"
         android:text="@string/refresh_pull"
         android:textSize="14sp" />
 
