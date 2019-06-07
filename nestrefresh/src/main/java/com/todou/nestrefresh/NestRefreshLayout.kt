@@ -12,7 +12,11 @@ import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList
 
-class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class NestRefreshLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
     LinearLayout(context, attrs, defStyleAttr), RefreshCallback, CoordinatorLayout.AttachedBehavior {
 
     var childScrollAbleList: List<View> = ArrayList()
@@ -27,7 +31,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
                 val view = getChildAt(i)
                 val layoutParams = view.layoutParams as LayoutParams
                 if (layoutParams.scrollFlags and LayoutParams.SCROLL_FLAG_HOVER != 0) {
-                    return view.measuredHeight
+                    return view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
                 }
             }
             return 0
@@ -45,7 +49,7 @@ class NestRefreshLayout @JvmOverloads constructor(context: Context, attrs: Attri
                     }
                 }
             }
-            return headerView?.measuredHeight?:0
+            return headerView?.measuredHeight ?: 0
         }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
