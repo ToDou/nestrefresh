@@ -69,7 +69,7 @@ class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = n
 
     override fun layoutChild(parent: CoordinatorLayout, child: NestRefreshLayout, layoutDirection: Int) {
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
-        val refreshHeaderHeight = child.refreshHeaderHeight
+        val refreshHeaderHeight = child.refreshHeaderOffset
         rectOut.left = lp.leftMargin + parent.paddingLeft
         rectOut.top = lp.topMargin - refreshHeaderHeight + parent.paddingTop
         rectOut.right = rectOut.left + child.measuredWidth

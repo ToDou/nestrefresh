@@ -37,7 +37,7 @@ class NestRefreshLayout @JvmOverloads constructor(
             return 0
         }
 
-    val refreshHeaderHeight: Int
+    val refreshHeaderOffset: Int
         get() {
             if (!this::headerView.isInitialized) {
                 for (i in 0 until childCount) {
