@@ -31,6 +31,7 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     private lateinit var mAnimator: ValueAnimator
     private var mEndListener: EndListener? = null
     private var mHasMore = true
+    private var isOnTouch = false
 
     //TODo test
     private var mShowFooterEnable = true
@@ -89,6 +90,7 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
         axes: Int,
         type: Int
     ): Boolean {
+        isOnTouch = true
         val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
         if (started && this::mAnimator.isInitialized && mAnimator.isRunning) {
             mAnimator.cancel()
@@ -157,13 +159,14 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
 
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, type: Int) {
         super.onStopNestedScroll(coordinatorLayout, child, target, type)
+        isOnTouch = false
         animateOffsetToState(if (getTopAndBottomOffset() <= mHoveringOffset) stateByHasMoreWhenHover else STATE_COLLAPSED)
     }
 
     private fun animateOffsetToState(endState: Int) {
         val from = getTopAndBottomOffset()
         val to = if (endState == STATE_HOVERING) mHoveringOffset else 0
-        if (from == to) {
+        if (from == to || isOnTouch) {
             setStateInternal(endState)
             return
         } else {
@@ -201,9 +204,7 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
             return
         }
         mState = state
-        if (mCallback != null) {
-            mCallback!!.onStateChanged(state, mHasMore)
-        }
+        mCallback?.onStateChanged(state, mHasMore)
     }
 
     fun setState(state: Int) {

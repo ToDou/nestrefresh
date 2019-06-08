@@ -110,9 +110,13 @@ public class LoadMoreFooter extends LinearLayout implements LoadMoreFooterCallba
     }
 
     private void doNoMoreScroll(int offset, float fraction, int nextState) {
-        mTextDes.setText(mTextNoMore);
-        mViewProgress.setVisibility(GONE);
-        mImageRefreshIndicator.setVisibility(GONE);
+        if (mState != nextState) {
+            mState = nextState;
+            mTextDes.setText(mTextNoMore);
+            mViewProgress.setVisibility(GONE);
+            mImageRefreshIndicator.clearAnimation();
+            mImageRefreshIndicator.setVisibility(GONE);
+        }
     }
 
     private void doHasMoreScroll(int offset, float fraction, int nextState) {
@@ -169,6 +173,7 @@ public class LoadMoreFooter extends LinearLayout implements LoadMoreFooterCallba
         } else {
             mTextDes.setText(mTextNoMore);
             mViewProgress.setVisibility(GONE);
+            mImageRefreshIndicator.clearAnimation();
             mImageRefreshIndicator.setVisibility(GONE);
         }
     }
