@@ -28,7 +28,7 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     private var mMaxRange = UNSET
     private var mHoveringOffset: Int = 0
 
-    private var mAnimator: ValueAnimator? = null
+    private lateinit var mAnimator: ValueAnimator
     private var mEndListener: EndListener? = null
     private var mHasMore = true
 
@@ -90,8 +90,8 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
         type: Int
     ): Boolean {
         val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
-        if (started && mAnimator != null && mAnimator!!.isRunning) {
-            mAnimator!!.cancel()
+        if (started && this::mAnimator.isInitialized && mAnimator.isRunning) {
+            mAnimator.cancel()
         }
         return started && mShowFooterEnable
     }
@@ -170,27 +170,25 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
             setStateInternal(STATE_SETTLING)
         }
 
-        if (mAnimator == null) {
+        if (!this::mAnimator.isInitialized) {
             mAnimator = ValueAnimator()
-            mAnimator!!.duration = 200
-            mAnimator!!.interpolator = DecelerateInterpolator()
-            mAnimator!!.addUpdateListener { animation -> setTopAndBottomOffset(animation.animatedValue as Int) }
+            mAnimator.duration = 200
+            mAnimator.interpolator = DecelerateInterpolator()
+            mAnimator.addUpdateListener { animation -> setTopAndBottomOffset(animation.animatedValue as Int) }
             mEndListener = EndListener(endState)
-            mAnimator!!.addListener(mEndListener)
+            mAnimator.addListener(mEndListener)
         } else {
-            if (mAnimator!!.isRunning) {
-                mAnimator!!.cancel()
+            if (mAnimator.isRunning) {
+                mAnimator.cancel()
             }
-            mEndListener!!.setEndState(endState)
+            mEndListener?.setEndState(endState)
         }
-        mAnimator!!.setIntValues(from, to)
-        mAnimator!!.start()
+        mAnimator.setIntValues(from, to)
+        mAnimator.start()
     }
 
     override fun setTopAndBottomOffset(offset: Int): Boolean {
-        if (mCallback != null) {
-            mCallback!!.onScroll(offset, offset.toFloat() / mHoveringRange, mState, mHasMore)
-        }
+        mCallback?.onScroll(offset, offset.toFloat() / mHoveringRange, mState, mHasMore)
         return super.setTopAndBottomOffset(offset)
     }
 
