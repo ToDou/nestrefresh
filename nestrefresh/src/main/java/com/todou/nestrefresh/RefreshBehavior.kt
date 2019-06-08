@@ -54,6 +54,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
 
     fun setHoveringRange(hoveringRange: Int) {
         this.hoveringRange = hoveringRange
+        hoveringOffset = this.hoveringRange
     }
 
     fun setMaxRange(maxRange: Int) {
@@ -64,7 +65,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
         rectOut.left = lp.leftMargin + parent.paddingLeft
         rectOut.right = rectOut.left + child.measuredWidth
-        rectOut.top = -(lp.topMargin + child.measuredHeight + lp.bottomMargin)
+        rectOut.top = -(child.measuredHeight + lp.bottomMargin)
         rectOut.bottom = 0
         child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
 

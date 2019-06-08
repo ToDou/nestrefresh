@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
@@ -164,9 +165,5 @@ class NestRefreshLayout @JvmOverloads constructor(
             const val SCROLL_FLAG_HOVER = 0x1
             const val SCROLL_FLAG_REFRESH_HEADER = 0x2
         }
-    }
-
-    interface OnRefreshListener {
-        fun onRefresh()
     }
 }

@@ -8,8 +8,13 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
+import android.support.design.widget.CoordinatorLayout
+import android.view.ViewGroup
+
+
 
 class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), RefreshCallback {
@@ -27,6 +32,8 @@ class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: Attri
 
     private var belowThreshold = true
     private var state: Int = 0
+    private var onRefreshListener: OnRefreshListener? = null
+    private var behavior: RefreshBehavior? = null
 
     init {
         init(context, attrs, defStyleAttr)
@@ -89,7 +96,6 @@ class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: Attri
             this.belowThreshold = belowThreshold
             updateTextAndImage()
         }
-
     }
 
     private fun updateTextAndImage() {
@@ -110,5 +116,37 @@ class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: Attri
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.visibility = View.GONE
         }
+
+        if (newState == RefreshHeaderBehavior.STATE_HOVERING) {
+            onRefreshListener?.onRefresh()
+        }
     }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        val lp = layoutParams
+        if (lp is CoordinatorLayout.LayoutParams) {
+            val behavior = lp.behavior
+            if (behavior is RefreshBehavior) {
+                this.behavior = behavior
+                behavior.setRefreshCallback(this)
+                behavior.setRefreshEnable(isEnabled)
+            }
+        }
+    }
+
+    fun setRefresh(refreshing: Boolean) {
+        behavior?.setState(
+            if (refreshing)
+                RefreshHeaderBehavior.STATE_HOVERING
+            else
+                RefreshHeaderBehavior.STATE_COLLAPSED
+        )
+    }
+
+    fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
+        this.onRefreshListener = onRefreshListener
+    }
+
 }

@@ -20,12 +20,12 @@ class RefreshScrollBehavior @JvmOverloads constructor(context: Context? = null, 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
         val behavior = getBehavior(dependency)
         var offset = 0
-        if (behavior is LoadMoreBehavior) {
-            loadMoreBehavior = behavior
-            offset = behavior.currentRange
-        }
         if (behavior is RefreshBehavior) {
             refreshBehavior = behavior
+            offset = behavior.currentRange
+        }
+        if (behavior is LoadMoreBehavior) {
+            loadMoreBehavior = behavior
             offset = behavior.currentRange + getHeaderOffsetByBehavior()
         }
         return setTopAndBottomOffset(offset)

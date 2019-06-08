@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.todou.nestrefresh.NestRefreshLayout
+import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.widget.ItemDecoration
 
 import java.util.Collections
@@ -43,7 +44,7 @@ class SingleActivity : AppCompatActivity() {
 
         val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
 
-        pullRefreshHoverLayout.setOnRefreshListener(object : NestRefreshLayout.OnRefreshListener {
+        pullRefreshHoverLayout.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 pullRefreshHoverLayout.postDelayed({
                     pullRefreshHoverLayout.setRefresh(false)

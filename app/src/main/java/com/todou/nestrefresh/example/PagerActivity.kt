@@ -10,6 +10,7 @@ import com.todou.nestrefresh.NestRefreshLayout
 
 import java.util.Collections
 import com.todou.nestrefresh.LoadMoreFooterView
+import com.todou.nestrefresh.base.OnRefreshListener
 
 
 class PagerActivity : AppCompatActivity() {
@@ -39,7 +40,7 @@ class PagerActivity : AppCompatActivity() {
 
         val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
 
-        pullRefreshHoverLayout.setOnRefreshListener(object : NestRefreshLayout.OnRefreshListener {
+        pullRefreshHoverLayout.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 Toast.makeText(this@PagerActivity, "Refresh Start", Toast.LENGTH_SHORT).show()
                 pullRefreshHoverLayout.postDelayed({
