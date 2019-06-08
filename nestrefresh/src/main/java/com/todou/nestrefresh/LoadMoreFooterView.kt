@@ -11,12 +11,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.todou.nestrefresh.base.LoadMoreFooterCallback
 
-import com.todou.nestrefresh.LoadMoreFooterBehavior.Companion.STATE_COLLAPSED
-import com.todou.nestrefresh.LoadMoreFooterBehavior.Companion.STATE_HOVERING
-import com.todou.nestrefresh.LoadMoreFooterBehavior.Companion.STATE_DRAGGING
-import com.todou.nestrefresh.LoadMoreFooterBehavior.Companion.STATE_SETTLING
+import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_COLLAPSED
+import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_HOVERING
+import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_DRAGGING
+import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_SETTLING
 
-class LoadMoreFooter @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {
 
     private lateinit var flipAnimation: RotateAnimation
@@ -31,7 +31,7 @@ class LoadMoreFooter @JvmOverloads constructor(context: Context, attrs: Attribut
     private lateinit var textRefreshing: CharSequence
     private lateinit var textNoMore: CharSequence
 
-    private var behavior: LoadMoreFooterBehavior? = null
+    private var behavior: LoadMoreBehavior? = null
     private var onLoadMoreListener: OnLoadMoreListener? = null
 
     private var belowThreshold = true
@@ -81,7 +81,7 @@ class LoadMoreFooter @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        val behavior = LoadMoreFooterBehavior()
+        val behavior = LoadMoreBehavior()
         this.behavior = behavior
         behavior.setFooterCallback(this)
         behavior.setShowFooterEnable(isEnabled)

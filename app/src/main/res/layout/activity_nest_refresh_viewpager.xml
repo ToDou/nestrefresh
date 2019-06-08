@@ -169,7 +169,7 @@
 
     </com.todou.nestrefresh.NestRefreshLayout>
 
-    <com.todou.nestrefresh.LoadMoreFooter
+    <com.todou.nestrefresh.LoadMoreFooterView
         android:id="@+id/view_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -12,7 +12,7 @@ import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.lang.ref.WeakReference
 
-class RefreshHoverHeaderBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
+class RefreshHoverBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     RefreshHeaderBehavior<NestRefreshLayout>(context, attrs) {
 
     init {

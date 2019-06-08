@@ -9,8 +9,7 @@ import android.widget.Toast
 import com.todou.nestrefresh.NestRefreshLayout
 
 import java.util.Collections
-import android.support.v4.os.HandlerCompat.postDelayed
-import com.todou.nestrefresh.LoadMoreFooter
+import com.todou.nestrefresh.LoadMoreFooterView
 
 
 class PagerActivity : AppCompatActivity() {
@@ -19,7 +18,7 @@ class PagerActivity : AppCompatActivity() {
     private lateinit var adapter: RecyclerAdapterInHeader
     private lateinit var fragmentAdapter: FragmentAdapter
     private lateinit var viewPager: ViewPager
-    private lateinit var loadMoreFooter: LoadMoreFooter
+    private lateinit var loadMoreFooterView: LoadMoreFooterView
 
     private var currentPage = 1
     private var initPage = 1
@@ -31,7 +30,7 @@ class PagerActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recycler_view_inner)
         viewPager = findViewById(R.id.view_pager)
-        loadMoreFooter = findViewById(R.id.view_footer)
+        loadMoreFooterView = findViewById(R.id.view_footer)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerAdapterInHeader()
@@ -47,7 +46,7 @@ class PagerActivity : AppCompatActivity() {
                     Toast.makeText(this@PagerActivity, "Refresh End", Toast.LENGTH_SHORT).show()
                     pullRefreshHoverLayout.setRefresh(false)
                     currentPage = initPage
-                    loadMoreFooter.setHasMore(currentPage <= maxPage)
+                    loadMoreFooterView.setHasMore(currentPage <= maxPage)
                 }, 2000)
             }
         })
@@ -61,12 +60,12 @@ class PagerActivity : AppCompatActivity() {
         fragmentAdapter = FragmentAdapter(supportFragmentManager, list)
         viewPager.adapter = fragmentAdapter
 
-        loadMoreFooter.setOnLoadMoreListener(object : LoadMoreFooter.OnLoadMoreListener {
+        loadMoreFooterView.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
             override fun onLoadMore() {
-                loadMoreFooter.postDelayed({
-                    loadMoreFooter.setIsLoadMore(false)
+                loadMoreFooterView.postDelayed({
+                    loadMoreFooterView.setIsLoadMore(false)
                     currentPage++
-                    loadMoreFooter.setHasMore(currentPage <= maxPage)
+                    loadMoreFooterView.setHasMore(currentPage <= maxPage)
                 }, 2000)
             }
         })

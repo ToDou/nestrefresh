@@ -10,4 +10,10 @@
         <attr name="refresh_hover_range" format="dimension"></attr>
 
     </declare-styleable>
+
+    <declare-styleable name="RefreshBehavior_Params">
+        <attr name="behavior_originalOffset" format="dimension"/>
+        <attr name="behavior_hoveringRange" format="dimension"/>
+        <attr name="behavior_maxRange" format="dimension"/>
+    </declare-styleable>
 </resources>

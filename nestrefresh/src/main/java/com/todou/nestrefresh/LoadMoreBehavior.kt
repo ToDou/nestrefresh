@@ -13,7 +13,7 @@ import android.view.animation.DecelerateInterpolator
 import com.todou.nestrefresh.base.BaseBehavior
 import com.todou.nestrefresh.base.LoadMoreFooterCallback
 
-class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
+class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     BaseBehavior<View>(context, attrs) {
 
     private var state = STATE_COLLAPSED
@@ -194,10 +194,6 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
         return super.setTopAndBottomOffset(offset)
     }
 
-    protected fun resetTopAndBottomOffset(offset: Int) {
-        super.setTopAndBottomOffset(offset)
-    }
-
     private fun setStateInternal(state: Int) {
         if (state == this.state) {
             return
@@ -209,7 +205,7 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     fun setState(state: Int) {
         var state = state
         if (state != STATE_COLLAPSED && state != STATE_HOVERING) {
-            throw IllegalArgumentException("Illegal state argument: $state")
+            throw Throwable("Illegal state argument: $state")
         } else if (state != this.state) {
             if (state == STATE_HOVERING) {
                 state = stateByHasMoreWhenHover

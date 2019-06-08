@@ -21,7 +21,7 @@ class NestRefreshLayout @JvmOverloads constructor(
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
-    private var behaviorHover: RefreshHoverHeaderBehavior? = null
+    private var behaviorHover: RefreshHoverBehavior? = null
     private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
 
@@ -116,7 +116,7 @@ class NestRefreshLayout @JvmOverloads constructor(
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        val behavior = RefreshHoverHeaderBehavior()
+        val behavior = RefreshHoverBehavior()
         behavior.setSpringHeaderCallback(this)
         behaviorHover = behavior
         return behavior
