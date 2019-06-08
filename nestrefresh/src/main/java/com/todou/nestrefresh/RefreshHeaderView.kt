@@ -8,6 +8,7 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :

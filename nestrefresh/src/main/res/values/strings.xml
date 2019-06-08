@@ -1,7 +1,9 @@
 <resources>
 
     <string name="nest_refresh_hover_scroll_behavior" translatable="false">com.todou.nestrefresh.RefreshHoverScrollBehavior</string>
-    <string name="nest_refresh_load_more_behavior" translatable="false">com.todou.nestrefresh.LoadMoreFooterBehavior</string>
+    <string name="nest_refresh_scroll_behavior" translatable="false">com.todou.nestrefresh.RefreshScrollBehavior</string>
+    <string name="nest_refresh_load_more_behavior" translatable="false">com.todou.nestrefresh.LoadMoreBehavior</string>
+    <string name="nest_refresh_single_behavior" translatable="false">com.todou.nestrefresh.RefreshBehavior</string>
 
     <string name="nest_refresh_pull">Pull to refresh</string>
     <string name="nest_refresh_refreshing">Loading\u2026</string>

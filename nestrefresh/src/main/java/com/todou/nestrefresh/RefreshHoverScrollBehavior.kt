@@ -49,7 +49,8 @@ class RefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = n
     override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
         val behavior = getBehavior(dependency) ?: return false
         return behavior is RefreshHoverBehavior
-                || behavior is LoadMoreBehavior;
+                || behavior is LoadMoreBehavior
+                || behavior is RefreshBehavior
     }
 
     override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
@@ -62,6 +63,8 @@ class RefreshHoverScrollBehavior @JvmOverloads constructor(context: Context? = n
             rectOut.top = lp.topMargin + header.bottom - getHeaderOffset(header)
             rectOut.bottom = rectOut.top + child.measuredHeight
             child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
+        } else {
+            super.layoutChild(parent, child, layoutDirection)
         }
     }
 

@@ -19,4 +19,8 @@ class MainActivity : AppCompatActivity() {
     fun onViewPagerActivityClick(view: View) {
         startActivity(Intent(this, PagerActivity::class.java))
     }
+
+    fun onRefreshSingleActivityClick(view: View) {
+        startActivity(Intent(this, RefreshSingleActivity::class.java))
+    }
 }

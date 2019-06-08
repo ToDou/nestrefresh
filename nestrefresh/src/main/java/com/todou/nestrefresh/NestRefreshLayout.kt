@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList

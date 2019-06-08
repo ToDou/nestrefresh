@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Rect
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
@@ -12,37 +13,32 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 
 import com.todou.nestrefresh.base.BaseBehavior
+import com.todou.nestrefresh.base.RefreshCallback
 
 class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View>(context, attrs) {
 
     private var state = STATE_COLLAPSED
 
+    private val rectOut = Rect()
     private var callback: RefreshCallback? = null
 
     private var totalUnconsumed: Float = 0.toFloat()
 
-    private var originalOffset = UNSET
     private var hoveringRange = UNSET
     private var maxRange = UNSET
     private var hoveringOffset: Int = 0
-
-    private var originalOffsetSet: Boolean = false
 
     private lateinit var animator: ValueAnimator
     private var endListener: EndListener? = null
     private var refreshEnable = true
 
     val currentRange: Int
-        get() = getTopAndBottomOffset() - originalOffset
+        get() = getTopAndBottomOffset()
 
     init {
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.RefreshBehavior_Params)
-        setOriginalOffset(
-            a.getDimensionPixelSize(
-                R.styleable.RefreshBehavior_Params_behavior_originalOffset, UNSET
-            )
-        )
+
         setHoveringRange(
             a.getDimensionPixelSize(
                 R.styleable.RefreshBehavior_Params_behavior_hoveringRange, UNSET
@@ -56,41 +52,31 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         a.recycle()
     }
 
-    fun setOriginalOffset(originalOffset: Int) {
-        this.originalOffset = originalOffset
-    }
-
     fun setHoveringRange(hoveringRange: Int) {
         this.hoveringRange = hoveringRange
-        hoveringOffset = originalOffset + this.hoveringRange
     }
 
     fun setMaxRange(maxRange: Int) {
         this.maxRange = maxRange
     }
 
-    override fun onLayoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int): Boolean {
-        val handled = super.onLayoutChild(parent, child, layoutDirection)
+    override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
+        val lp = child.layoutParams as CoordinatorLayout.LayoutParams
+        rectOut.left = lp.leftMargin + parent.paddingLeft
+        rectOut.right = rectOut.left + child.measuredWidth
+        rectOut.top = -(lp.topMargin + child.measuredHeight + lp.bottomMargin)
+        rectOut.bottom = 0
+        child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
 
         val parentHeight = parent.height
         val childHeight = child.height
 
-        if (originalOffset == UNSET) {
-            setOriginalOffset(-childHeight)
-        }
         if (hoveringRange == UNSET) {
-            setHoveringRange(childHeight)
+            setHoveringRange(childHeight + lp.topMargin + lp.bottomMargin)
         }
         if (maxRange == UNSET) {
             setMaxRange(parentHeight)
         }
-
-        if (!originalOffsetSet) {
-            super.setTopAndBottomOffset(originalOffset)
-            originalOffsetSet = true
-        }
-
-        return handled
     }
 
     override fun onStartNestedScroll(
@@ -101,7 +87,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         axes: Int,
         type: Int
     ): Boolean {
-        val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0 && state != STATE_HOVERING
+        val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
         if (started && this::animator.isInitialized && animator.isRunning) {
             animator.cancel()
         }
@@ -128,7 +114,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         consumed: IntArray,
         type: Int
     ) {
-        if (dy > 0 && totalUnconsumed > 0) {
+        if (type == ViewCompat.TYPE_TOUCH && dy > 0 && totalUnconsumed > 0) {
             if (dy > totalUnconsumed) {
                 consumed[1] = dy - totalUnconsumed.toInt()
                 totalUnconsumed = 0f
@@ -151,7 +137,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         dyUnconsumed: Int,
         type: Int
     ) {
-        if (dyUnconsumed < 0) {
+        if (type == ViewCompat.TYPE_TOUCH && dyUnconsumed < 0) {
             totalUnconsumed -= dyUnconsumed.toFloat()
             setTopAndBottomOffset(calculateScrollOffset())
             setStateInternal(STATE_DRAGGING)
@@ -169,7 +155,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
 
     private fun animateOffsetToState(endState: Int) {
         val from = getTopAndBottomOffset()
-        val to = if (endState == STATE_HOVERING) hoveringOffset else originalOffset
+        val to = if (endState == STATE_HOVERING) hoveringOffset else 0
         if (from == to) {
             setStateInternal(endState)
             return
@@ -195,7 +181,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     }
 
     override fun setTopAndBottomOffset(offset: Int): Boolean {
-        callback?.onScroll(offset, (offset - originalOffset).toFloat() / hoveringRange, state)
+        callback?.onScroll(offset, offset.toFloat() / hoveringRange, state)
         return super.setTopAndBottomOffset(offset)
     }
 
@@ -216,7 +202,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     }
 
     private fun calculateScrollOffset(): Int {
-        return (maxRange * (1 - Math.exp((-(totalUnconsumed / maxRange.toFloat() / 2f)).toDouble()))).toInt() + originalOffset
+        return (maxRange * (1 - Math.exp((-(totalUnconsumed / maxRange.toFloat() / 2f)).toDouble()))).toInt()
     }
 
     private fun calculateScrollUnconsumed(): Int {

@@ -119,10 +119,10 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         type: Int
     ) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-        if (getBehavior(target) !is RefreshHoverScrollBehavior) {
+        if (getBehavior(target) !is RefreshHoverScrollBehavior && getBehavior(target) !is RefreshScrollBehavior) {
             return
         }
-        if (dy < 0 && totalUnconsumed < 0) {
+        if (type == ViewCompat.TYPE_TOUCH && dy < 0 && totalUnconsumed < 0) {
             if (dy < totalUnconsumed) {
                 consumed[1] = dy - totalUnconsumed.toInt()
                 totalUnconsumed = 0f
@@ -146,10 +146,10 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         type: Int
     ) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
-        if (getBehavior(target) !is RefreshHoverScrollBehavior) {
+        if (getBehavior(target) !is RefreshHoverScrollBehavior && getBehavior(target) !is RefreshScrollBehavior) {
             return
         }
-        if (dyUnconsumed > 0) {
+        if (type == ViewCompat.TYPE_TOUCH && dyUnconsumed > 0) {
             totalUnconsumed -= dyUnconsumed.toFloat()
             setTopAndBottomOffset(calculateScrollOffset())
             setStateInternal(STATE_DRAGGING)
