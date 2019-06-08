@@ -13,7 +13,6 @@ import android.support.v4.os.HandlerCompat.postDelayed
 import com.todou.nestrefresh.LoadMoreFooter
 
 
-
 class PagerActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -41,7 +40,7 @@ class PagerActivity : AppCompatActivity() {
 
         val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
 
-        pullRefreshHoverLayout.setOnRefreshListener(object:NestRefreshLayout.OnRefreshListener{
+        pullRefreshHoverLayout.setOnRefreshListener(object : NestRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
                 Toast.makeText(this@PagerActivity, "Refresh Start", Toast.LENGTH_SHORT).show()
                 pullRefreshHoverLayout.postDelayed({
@@ -62,13 +61,15 @@ class PagerActivity : AppCompatActivity() {
         fragmentAdapter = FragmentAdapter(supportFragmentManager, list)
         viewPager.adapter = fragmentAdapter
 
-        loadMoreFooter.setOnLoadMoreListener {
-            loadMoreFooter.postDelayed({
-                loadMoreFooter.setIsLoadMore(false)
-                currentPage++
-                loadMoreFooter.setHasMore(currentPage <= maxPage)
-            }, 2000)
-        }
+        loadMoreFooter.setOnLoadMoreListener(object : LoadMoreFooter.OnLoadMoreListener {
+            override fun onLoadMore() {
+                loadMoreFooter.postDelayed({
+                    loadMoreFooter.setIsLoadMore(false)
+                    currentPage++
+                    loadMoreFooter.setHasMore(currentPage <= maxPage)
+                }, 2000)
+            }
+        })
     }
 
 }

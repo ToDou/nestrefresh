@@ -16,28 +16,27 @@ import com.todou.nestrefresh.base.LoadMoreFooterCallback
 class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     BaseBehavior<View>(context, attrs) {
 
-    private var mState = STATE_COLLAPSED
+    private var state = STATE_COLLAPSED
 
-    private var mCallback: LoadMoreFooterCallback? = null
+    private var callback: LoadMoreFooterCallback? = null
 
     var totalUnconsumed: Float = 0.toFloat()
         private set
-    private val mRectOut = Rect()
+    private val rectOut = Rect()
 
-    private var mHoveringRange = UNSET
-    private var mMaxRange = UNSET
-    private var mHoveringOffset: Int = 0
+    private var hoveringRange = UNSET
+    private var maxRange = UNSET
+    private var hoveringOffset: Int = 0
 
-    private lateinit var mAnimator: ValueAnimator
-    private var mEndListener: EndListener? = null
-    private var mHasMore = true
+    private lateinit var animator: ValueAnimator
+    private var endListener: EndListener? = null
+    private var hasMore = true
     private var isOnTouch = false
 
-    //TODo test
-    private var mShowFooterEnable = true
+    private var showFooterEnable = false
 
     private val stateByHasMoreWhenHover: Int
-        get() = if (mHasMore) {
+        get() = if (hasMore) {
             STATE_HOVERING
         } else {
             STATE_COLLAPSED
@@ -47,37 +46,37 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
         get() = getTopAndBottomOffset()
 
     fun setMaxRange(maxRange: Int) {
-        mMaxRange = maxRange
+        this.maxRange = maxRange
     }
 
     fun setHasMore(hasMore: Boolean) {
-        this.mHasMore = hasMore
+        this.hasMore = hasMore
     }
 
     fun setHoveringRange(hoveringRange: Int) {
-        mHoveringRange = hoveringRange
-        mHoveringOffset = -mHoveringRange
+        this.hoveringRange = hoveringRange
+        hoveringOffset = -this.hoveringRange
     }
 
     override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
         val parentHeight = parent.height
 
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
-        mRectOut.left = lp.leftMargin + parent.paddingLeft
-        mRectOut.right = mRectOut.left + child.measuredWidth
-        mRectOut.top = lp.topMargin + parent.bottom
-        mRectOut.bottom = mRectOut.top + child.measuredHeight
-        child.layout(mRectOut.left, mRectOut.top, mRectOut.right, mRectOut.bottom)
+        rectOut.left = lp.leftMargin + parent.paddingLeft
+        rectOut.right = rectOut.left + child.measuredWidth
+        rectOut.top = lp.topMargin + parent.bottom
+        rectOut.bottom = rectOut.top + child.measuredHeight
+        child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
 
         val childHeight = child.height
 
-        mCallback?.updateChildHeight(childHeight)
+        callback?.updateChildHeight(childHeight)
 
-        if (mHoveringRange == UNSET) {
+        if (hoveringRange == UNSET) {
             setHoveringRange(childHeight + lp.topMargin + lp.bottomMargin)
         }
 
-        if (mMaxRange == UNSET) {
+        if (maxRange == UNSET) {
             setMaxRange(parentHeight)
         }
     }
@@ -92,10 +91,10 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     ): Boolean {
         isOnTouch = true
         val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
-        if (started && this::mAnimator.isInitialized && mAnimator.isRunning) {
-            mAnimator.cancel()
+        if (started && this::animator.isInitialized && animator.isRunning) {
+            animator.cancel()
         }
-        return started && mShowFooterEnable
+        return started && showFooterEnable
     }
 
     override fun onNestedScrollAccepted(
@@ -160,12 +159,12 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, type: Int) {
         super.onStopNestedScroll(coordinatorLayout, child, target, type)
         isOnTouch = false
-        animateOffsetToState(if (getTopAndBottomOffset() <= mHoveringOffset) stateByHasMoreWhenHover else STATE_COLLAPSED)
+        animateOffsetToState(if (getTopAndBottomOffset() <= hoveringOffset) stateByHasMoreWhenHover else STATE_COLLAPSED)
     }
 
     private fun animateOffsetToState(endState: Int) {
         val from = getTopAndBottomOffset()
-        val to = if (endState == STATE_HOVERING) mHoveringOffset else 0
+        val to = if (endState == STATE_HOVERING) hoveringOffset else 0
         if (from == to || isOnTouch) {
             setStateInternal(endState)
             return
@@ -173,25 +172,25 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
             setStateInternal(STATE_SETTLING)
         }
 
-        if (!this::mAnimator.isInitialized) {
-            mAnimator = ValueAnimator()
-            mAnimator.duration = 200
-            mAnimator.interpolator = DecelerateInterpolator()
-            mAnimator.addUpdateListener { animation -> setTopAndBottomOffset(animation.animatedValue as Int) }
-            mEndListener = EndListener(endState)
-            mAnimator.addListener(mEndListener)
+        if (!this::animator.isInitialized) {
+            animator = ValueAnimator()
+            animator.duration = 200
+            animator.interpolator = DecelerateInterpolator()
+            animator.addUpdateListener { animation -> setTopAndBottomOffset(animation.animatedValue as Int) }
+            endListener = EndListener(endState)
+            animator.addListener(endListener)
         } else {
-            if (mAnimator.isRunning) {
-                mAnimator.cancel()
+            if (animator.isRunning) {
+                animator.cancel()
             }
-            mEndListener?.setEndState(endState)
+            endListener?.setEndState(endState)
         }
-        mAnimator.setIntValues(from, to)
-        mAnimator.start()
+        animator.setIntValues(from, to)
+        animator.start()
     }
 
     override fun setTopAndBottomOffset(offset: Int): Boolean {
-        mCallback?.onScroll(offset, offset.toFloat() / mHoveringRange, mState, mHasMore)
+        callback?.onScroll(offset, offset.toFloat() / hoveringRange, state, hasMore)
         return super.setTopAndBottomOffset(offset)
     }
 
@@ -200,18 +199,18 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     }
 
     private fun setStateInternal(state: Int) {
-        if (state == mState) {
+        if (state == this.state) {
             return
         }
-        mState = state
-        mCallback?.onStateChanged(state, mHasMore)
+        this.state = state
+        callback?.onStateChanged(state, hasMore)
     }
 
     fun setState(state: Int) {
         var state = state
         if (state != STATE_COLLAPSED && state != STATE_HOVERING) {
             throw IllegalArgumentException("Illegal state argument: $state")
-        } else if (state != mState) {
+        } else if (state != this.state) {
             if (state == STATE_HOVERING) {
                 state = stateByHasMoreWhenHover
             }
@@ -220,46 +219,46 @@ class LoadMoreFooterBehavior @JvmOverloads constructor(context: Context? = null,
     }
 
     private fun calculateScrollOffset(): Int {
-        return (-mMaxRange * (1 - Math.exp((totalUnconsumed / mMaxRange.toFloat() / 2f).toDouble()))).toInt()
+        return (-maxRange * (1 - Math.exp((totalUnconsumed / maxRange.toFloat() / 2f).toDouble()))).toInt()
     }
 
     private fun calculateScrollUnconsumed(): Int {
-        return (-Math.log((1 - currentRange.toFloat() / mMaxRange).toDouble()) * mMaxRange.toDouble() * 2.0).toInt()
+        return (-Math.log((1 - currentRange.toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
     }
 
     fun setFooterCallback(callback: LoadMoreFooterCallback) {
-        mCallback = callback
+        this.callback = callback
     }
 
-    private inner class EndListener(private var mEndState: Int) : AnimatorListenerAdapter() {
-        private var mCanceling: Boolean = false
+    private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {
+        private var canceling: Boolean = false
 
         fun setEndState(finalState: Int) {
-            mEndState = finalState
+            endState = finalState
         }
 
         override fun onAnimationStart(animation: Animator) {
-            mCanceling = false
+            canceling = false
         }
 
         override fun onAnimationCancel(animation: Animator) {
-            mCanceling = true
+            canceling = true
         }
 
         override fun onAnimationEnd(animation: Animator) {
-            if (!mCanceling) {
-                setStateInternal(mEndState)
+            if (!canceling) {
+                setStateInternal(endState)
             }
         }
     }
 
     fun setShowFooterEnable(showFooterEnable: Boolean) {
-        mShowFooterEnable = showFooterEnable
+        this.showFooterEnable = showFooterEnable
     }
 
     companion object {
 
-        private const val UNSET = Integer.MIN_VALUE
+        const val UNSET = Integer.MIN_VALUE
 
         const val STATE_COLLAPSED = 1
         const val STATE_HOVERING = 2
