@@ -17,7 +17,7 @@ import com.todou.nestrefresh.LoadMoreFooterBehavior.Companion.STATE_DRAGGING
 import com.todou.nestrefresh.LoadMoreFooterBehavior.Companion.STATE_SETTLING
 
 class LoadMoreFooter @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback {
+    LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {
 
     private lateinit var flipAnimation: RotateAnimation
     private lateinit var reverseFlipAnimation: RotateAnimation
@@ -39,19 +39,6 @@ class LoadMoreFooter @JvmOverloads constructor(context: Context, attrs: Attribut
 
     init {
         init(context, attrs, defStyleAttr)
-    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-        val lp = layoutParams
-        if (lp is CoordinatorLayout.LayoutParams) {
-            val behavior = lp.behavior
-            if (behavior is LoadMoreFooterBehavior) {
-                behavior.setFooterCallback(this)
-                behavior.setShowFooterEnable(isEnabled)
-                this.behavior = behavior
-            }
-        }
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -91,6 +78,14 @@ class LoadMoreFooter @JvmOverloads constructor(context: Context, attrs: Attribut
         reverseFlipAnimation.interpolator = LinearInterpolator()
         reverseFlipAnimation.duration = 250
         reverseFlipAnimation.fillAfter = true
+    }
+
+    override fun getBehavior(): CoordinatorLayout.Behavior<*> {
+        val behavior = LoadMoreFooterBehavior()
+        this.behavior = behavior
+        behavior.setFooterCallback(this)
+        behavior.setShowFooterEnable(isEnabled)
+        return behavior
     }
 
     override fun onScroll(offset: Int, fraction: Float, nextState: Int, hasMore: Boolean) {
