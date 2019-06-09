@@ -23,4 +23,8 @@ class MainActivity : AppCompatActivity() {
     fun onRefreshSingleActivityClick(view: View) {
         startActivity(Intent(this, RefreshSingleActivity::class.java))
     }
+
+    fun onInnerFooterPagerActivityClick(view: View) {
+        startActivity(Intent(this, InnerFooterPagerActivity::class.java))
+    }
 }

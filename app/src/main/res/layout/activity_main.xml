@@ -24,4 +24,10 @@
         android:layout_height="wrap_content"
         android:text="Single Refresh Activity"
         android:onClick="onRefreshSingleActivityClick"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Innter Footer Pager Activity"
+        android:onClick="onInnerFooterPagerActivityClick"/>
 </LinearLayout>

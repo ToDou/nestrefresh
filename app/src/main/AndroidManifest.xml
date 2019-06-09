@@ -19,6 +19,7 @@
         <activity android:name=".SingleActivity"/>
         <activity android:name=".PagerActivity"/>
         <activity android:name=".RefreshSingleActivity"/>
+        <activity android:name=".InnerFooterPagerActivity"/>
     </application>
 
 </manifest>
