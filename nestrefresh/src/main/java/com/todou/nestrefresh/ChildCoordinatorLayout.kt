@@ -28,7 +28,6 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
         childHelper.isNestedScrollingEnabled = true
     }
 
-
     override fun setNestedScrollingEnabled(enabled: Boolean) {
         childHelper.isNestedScrollingEnabled = enabled
     }
@@ -77,7 +76,6 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
     override fun onStopNestedScroll(target: View, type: Int) {
         super.onStopNestedScroll(target, type)
         stopNestedScroll(type)
-
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
