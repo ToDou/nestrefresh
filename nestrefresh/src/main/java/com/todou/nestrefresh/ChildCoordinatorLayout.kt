@@ -72,11 +72,15 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
-        val childConsumed = Array(2) { IntArray(2) }
-        super.onNestedPreScroll(target, dx, dy, childConsumed[0], type)
-        dispatchNestedPreScroll(dx, dy, childConsumed[1], null, type)
-        consumed[0] = childConsumed[0][0] + childConsumed[1][0]
-        consumed[1] = childConsumed[0][1] + childConsumed[1][1]
+        val thisConsume = IntArray(2)
+        dispatchNestedPreScroll(dx, dy, thisConsume, null, type)
+        consumed[0] += thisConsume[0]
+        consumed[1] += thisConsume[1]
+        thisConsume[0] = 0
+        thisConsume[1] = 0
+        super.onNestedPreScroll(target, dx - consumed[0], dy - consumed[1], thisConsume, type)
+        consumed[0] += thisConsume[0]
+        consumed[1] += thisConsume[1]
     }
 
     override fun onNestedScroll(
@@ -87,8 +91,8 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
         dyUnconsumed: Int,
         type: Int
     ) {
-        super.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
         dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, null, type)
+        super.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
     }
 
     override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
