@@ -4,7 +4,11 @@ import android.content.Context
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.NestedScrollingChild2
 import android.support.v4.view.NestedScrollingChildHelper
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.ViewCompat.TYPE_NON_TOUCH
+import android.support.v4.view.ViewCompat.TYPE_TOUCH
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 
 class ChildCoordinatorLayout @JvmOverloads constructor(
@@ -13,55 +17,59 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : CoordinatorLayout(context, attrs, defStyleAttr), NestedScrollingChild2 {
 
-    private lateinit var mChildHelper: NestedScrollingChildHelper
+    private lateinit var childHelper: NestedScrollingChildHelper
 
     init {
         init()
     }
 
     private fun init() {
-        mChildHelper = NestedScrollingChildHelper(this)
-        mChildHelper.isNestedScrollingEnabled = true
+        childHelper = NestedScrollingChildHelper(this)
+        childHelper.isNestedScrollingEnabled = true
     }
 
 
     override fun setNestedScrollingEnabled(enabled: Boolean) {
-        mChildHelper.isNestedScrollingEnabled = enabled
+        childHelper.isNestedScrollingEnabled = enabled
     }
 
     override fun isNestedScrollingEnabled(): Boolean {
-        return mChildHelper.isNestedScrollingEnabled
+        return childHelper.isNestedScrollingEnabled
     }
 
     override fun startNestedScroll(i: Int, i1: Int): Boolean {
-        return mChildHelper.startNestedScroll(i, i1)
+        return childHelper.startNestedScroll(i, i1)
     }
 
     override fun stopNestedScroll(i: Int) {
-        mChildHelper.stopNestedScroll(i)
+        childHelper.stopNestedScroll(i)
     }
 
     override fun hasNestedScrollingParent(i: Int): Boolean {
-        return mChildHelper.hasNestedScrollingParent()
+        return childHelper.hasNestedScrollingParent()
     }
 
     override fun dispatchNestedScroll(i: Int, i1: Int, i2: Int, i3: Int, ints: IntArray?, i4: Int): Boolean {
-        return mChildHelper.dispatchNestedScroll(i, i1, i2, i3, ints, i4)
+        return childHelper.dispatchNestedScroll(i, i1, i2, i3, ints, i4)
     }
 
     override fun dispatchNestedPreScroll(i: Int, i1: Int, ints: IntArray?, ints1: IntArray?, i2: Int): Boolean {
-        return mChildHelper.dispatchNestedPreScroll(i, i1, ints, ints1, i2)
+        return childHelper.dispatchNestedPreScroll(i, i1, ints, ints1, i2)
     }
 
     override fun dispatchNestedPreFling(velocityX: Float, velocityY: Float): Boolean {
-        return mChildHelper.dispatchNestedPreFling(velocityX, velocityY)
+        return childHelper.dispatchNestedPreFling(velocityX, velocityY)
     }
 
     override fun dispatchNestedFling(velocityX: Float, velocityY: Float, consumed: Boolean): Boolean {
-        return mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
+        return childHelper.dispatchNestedFling(velocityX, velocityY, consumed)
     }
 
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
+        if (type == TYPE_TOUCH) {
+            stopNestedScroll(TYPE_NON_TOUCH)
+            ViewCompat.stopNestedScroll(child, TYPE_NON_TOUCH)
+        }
         val handle = super.onStartNestedScroll(child, target, axes, type)
         return startNestedScroll(axes, type) || handle
     }
@@ -69,6 +77,7 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
     override fun onStopNestedScroll(target: View, type: Int) {
         super.onStopNestedScroll(target, type)
         stopNestedScroll(type)
+
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
@@ -81,6 +90,7 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
         super.onNestedPreScroll(target, dx - consumed[0], dy - consumed[1], thisConsume, type)
         consumed[0] += thisConsume[0]
         consumed[1] += thisConsume[1]
+
     }
 
     override fun onNestedScroll(

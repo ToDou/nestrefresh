@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.View.MeasureSpec.UNSPECIFIED
 import android.view.ViewGroup
@@ -117,14 +118,16 @@ class RefreshHoverBehavior @JvmOverloads constructor(context: Context? = null, a
         type: Int
     ) {
         val targetBehavior = getBehavior(target)
-        if (targetBehavior != null && targetBehavior is RefreshHoverScrollBehavior && dy != 0) {
+        if (targetBehavior != null && (targetBehavior is RefreshHoverScrollBehavior
+                    || targetBehavior is RefreshScrollBehavior) && dy != 0) {
             if (dy > 0) {
                 val min = maxCollapseUp
                 val max = 0
                 consumed[1] = this.scroll(coordinatorLayout, child, dy, min, max, type)
                 this.stopNestedScrollIfNeeded(dy, child, target, type)
             }
-        } else if (targetBehavior == null || getBehavior(target) !is RefreshHoverScrollBehavior && dy != 0) {
+        } else if (targetBehavior == null || (getBehavior(target) !is RefreshHoverScrollBehavior
+                    && getBehavior(target) !is RefreshScrollBehavior) && dy != 0) {
             if (dy > 0 && totalSpringOffset > 0) {//up
                 val min = maxCollapseUp
                 val max = 0
