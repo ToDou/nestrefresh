@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.todou.nestrefresh.NestRefreshLayout
+import com.todou.nestrefresh.RefreshStickyLayout
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.widget.ItemDecoration
 
@@ -42,7 +42,7 @@ class SingleActivity : AppCompatActivity() {
         recyclerAdapterScroll.updateDatas(Collections.nCopies(20, Any()))
 
 
-        val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
+        val pullRefreshHoverLayout = findViewById<RefreshStickyLayout>(R.id.pull_refresh_hover)
 
         pullRefreshHoverLayout.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {

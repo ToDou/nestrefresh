@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.todou.nestrefresh.LoadMoreFooterView
-import com.todou.nestrefresh.NestRefreshLayout
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.widget.ItemDecoration

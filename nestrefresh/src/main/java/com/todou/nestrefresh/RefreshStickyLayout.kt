@@ -14,7 +14,7 @@ import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList
 
-class NestRefreshLayout @JvmOverloads constructor(
+class RefreshStickyLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -23,16 +23,16 @@ class NestRefreshLayout @JvmOverloads constructor(
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
-    private var behaviorHover: RefreshHoverBehavior? = null
+    private var refreshStickyBehavior: RefreshStickyBehavior? = null
     private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
 
-    val hoverHeight: Int
+    val stickyHeight: Int
         get() {
             for (i in 0 until childCount) {
                 val view = getChildAt(i)
                 val layoutParams = view.layoutParams as LayoutParams
-                if (layoutParams.scrollFlags and LayoutParams.SCROLL_FLAG_HOVER != 0) {
+                if (layoutParams.scrollFlags and LayoutParams.SCROLL_FLAG_STICKY != 0) {
                     return view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
                 }
             }
@@ -105,7 +105,7 @@ class NestRefreshLayout @JvmOverloads constructor(
     }
 
     fun setRefresh(refreshing: Boolean) {
-        behaviorHover?.setState(
+        refreshStickyBehavior?.setState(
             if (refreshing)
                 RefreshHeaderBehavior.STATE_HOVERING
             else
@@ -118,9 +118,9 @@ class NestRefreshLayout @JvmOverloads constructor(
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        val behavior = RefreshHoverBehavior()
+        val behavior = RefreshStickyBehavior()
         behavior.setSpringHeaderCallback(this)
-        behaviorHover = behavior
+        refreshStickyBehavior = behavior
         return behavior
     }
 
@@ -162,7 +162,7 @@ class NestRefreshLayout @JvmOverloads constructor(
         constructor(source: ViewGroup.LayoutParams) : super(source)
 
         companion object {
-            const val SCROLL_FLAG_HOVER = 0x1
+            const val SCROLL_FLAG_STICKY = 0x1
             const val SCROLL_FLAG_REFRESH_HEADER = 0x2
         }
     }

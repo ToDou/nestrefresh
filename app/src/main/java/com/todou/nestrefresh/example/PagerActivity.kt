@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
-import com.todou.nestrefresh.NestRefreshLayout
+import com.todou.nestrefresh.RefreshStickyLayout
 
 import java.util.Collections
 import com.todou.nestrefresh.LoadMoreFooterView
@@ -38,14 +38,14 @@ class PagerActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         adapter.updateDatas(Collections.nCopies(5, Any()))
 
-        val pullRefreshHoverLayout = findViewById<NestRefreshLayout>(R.id.pull_refresh_hover)
+        val refreshStickyLayout = findViewById<RefreshStickyLayout>(R.id.pull_refresh_hover)
 
-        pullRefreshHoverLayout.setOnRefreshListener(object : OnRefreshListener {
+        refreshStickyLayout.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 Toast.makeText(this@PagerActivity, "Refresh Start", Toast.LENGTH_SHORT).show()
-                pullRefreshHoverLayout.postDelayed({
+                refreshStickyLayout.postDelayed({
                     Toast.makeText(this@PagerActivity, "Refresh End", Toast.LENGTH_SHORT).show()
-                    pullRefreshHoverLayout.setRefresh(false)
+                    refreshStickyLayout.setRefresh(false)
                     currentPage = initPage
                     loadMoreFooterView.setHasMore(currentPage <= maxPage)
                 }, 2000)
