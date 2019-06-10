@@ -217,24 +217,24 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         this.callback = callback
     }
 
-    private inner class EndListener(private var mEndState: Int) : AnimatorListenerAdapter() {
-        private var mCanceling: Boolean = false
+    private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {
+        private var canceling: Boolean = false
 
         fun setEndState(finalState: Int) {
-            mEndState = finalState
+            endState = finalState
         }
 
         override fun onAnimationStart(animation: Animator) {
-            mCanceling = false
+            canceling = false
         }
 
         override fun onAnimationCancel(animation: Animator) {
-            mCanceling = true
+            canceling = true
         }
 
         override fun onAnimationEnd(animation: Animator) {
-            if (!mCanceling) {
-                setStateInternal(mEndState)
+            if (!canceling) {
+                setStateInternal(endState)
             }
         }
     }

@@ -499,38 +499,38 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         refreshHeaderCallback = callback
     }
 
-    private inner class EndListener(private var mEndState: Int) : AnimatorListenerAdapter() {
-        private var mCanceling: Boolean = false
+    private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {
+        private var canceling: Boolean = false
 
         fun setEndState(finalState: Int) {
-            mEndState = finalState
+            endState = finalState
         }
 
         override fun onAnimationStart(animation: Animator) {
-            mCanceling = false
+            canceling = false
         }
 
         override fun onAnimationCancel(animation: Animator) {
-            mCanceling = true
+            canceling = true
         }
 
         override fun onAnimationEnd(animation: Animator) {
-            if (!mCanceling) {
-                setStateInternal(mEndState)
+            if (!canceling) {
+                setStateInternal(endState)
             }
         }
     }
 
     companion object {
-        private val SPRING_ANIMATION_TIME = 200
+        private const val SPRING_ANIMATION_TIME = 200
 
-        private val INVALID_POINTER = -1
+        private const val INVALID_POINTER = -1
 
-        val STATE_COLLAPSED = 1
-        val STATE_HOVERING = 2
-        val STATE_DRAGGING = 3
-        val STATE_SETTLING = 4
+        const val STATE_COLLAPSED = 1
+        const val STATE_HOVERING = 2
+        const val STATE_DRAGGING = 3
+        const val STATE_SETTLING = 4
 
-        private val UNSET = Integer.MIN_VALUE
+        private const val UNSET = Integer.MIN_VALUE
     }
 }
