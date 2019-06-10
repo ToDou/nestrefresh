@@ -31,6 +31,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     private lateinit var animator: ValueAnimator
     private var endListener: EndListener? = null
     private var refreshEnable = true
+    private var isOnTouch = false
 
     val currentRange: Int
         get() = getTopAndBottomOffset()
@@ -88,6 +89,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         axes: Int,
         type: Int
     ): Boolean {
+        isOnTouch = true
         val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
         if (started && this::animator.isInitialized && animator.isRunning) {
             animator.cancel()
@@ -146,6 +148,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     }
 
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, type: Int) {
+        isOnTouch = false
         animateOffsetToState(
             if (getTopAndBottomOffset() >= hoveringOffset)
                 STATE_HOVERING
@@ -157,7 +160,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     private fun animateOffsetToState(endState: Int) {
         val from = getTopAndBottomOffset()
         val to = if (endState == STATE_HOVERING) hoveringOffset else 0
-        if (from == to) {
+        if (from == to || isOnTouch) {
             setStateInternal(endState)
             return
         } else {
