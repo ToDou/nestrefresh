@@ -4,6 +4,9 @@ import android.content.Context
 import android.os.Build
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.NestedScrollingChild
+import android.support.v4.widget.NestedScrollView
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -68,12 +71,17 @@ class RefreshStickyLayout @JvmOverloads constructor(
         val result = ArrayList<View>()
         for (i in 0 until viewGroup.childCount) {
             val view = viewGroup.getChildAt(i)
-            if (view is NestedScrollingChild) {
-                val nestedScrollingChild = view as NestedScrollingChild
-                if (nestedScrollingChild.isNestedScrollingEnabled) {
-                    result.add(view)
+            view.takeIf { it is NestedScrollingChild && (it as NestedScrollingChild).isNestedScrollingEnabled }
+                ?.let {
+                    if (it is RecyclerView && it.layoutManager is LinearLayoutManager) {
+                        val manager = it.layoutManager as LinearLayoutManager
+                        if (manager.canScrollVertically()) {
+                            result.add(view)
+                        }
+                    } else if (it is NestedScrollView){
+                        result.add(view)
+                    }
                 }
-            }
             if (view is ViewGroup) {
                 result.addAll(getScrollableChild(view))
             }
