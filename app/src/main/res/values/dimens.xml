@@ -3,4 +3,8 @@
     <dimen name="common_elevation">0dp</dimen>
     <dimen name="margin_normal">10dp</dimen>
     <dimen name="divider_height">0.8dp</dimen>
+
+    <dimen name="app_bar_height">240dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
 </resources>

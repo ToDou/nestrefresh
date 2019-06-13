@@ -26,7 +26,7 @@ class RefreshSingleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nest_refresh_single_refresh)
         loadMoreFooterView = findViewById(R.id.view_footer)
-        refreshHeaderView = findViewById(R.id.view_refres_header)
+        refreshHeaderView = findViewById(R.id.view_refresh_header)
 
         recyclerViewScroll = findViewById(R.id.recycler_view)
         recyclerViewScroll.layoutManager = LinearLayoutManager(this)

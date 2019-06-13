@@ -30,4 +30,10 @@
         android:layout_height="wrap_content"
         android:text="Innter Footer Pager Activity"
         android:onClick="onInnerFooterPagerActivityClick"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AppBarLayout Refresh Activity"
+        android:onClick="onAppBarLayoutRefreshClick"/>
 </LinearLayout>

@@ -27,4 +27,8 @@ class MainActivity : AppCompatActivity() {
     fun onInnerFooterPagerActivityClick(view: View) {
         startActivity(Intent(this, InnerFooterPagerActivity::class.java))
     }
+
+    fun onAppBarLayoutRefreshClick(view: View) {
+        startActivity(Intent(this, AppbarlayoutRefreshActivity::class.java))
+    }
 }
