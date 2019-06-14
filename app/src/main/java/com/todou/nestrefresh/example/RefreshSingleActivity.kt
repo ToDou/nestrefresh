@@ -8,56 +8,50 @@ import com.todou.nestrefresh.LoadMoreFooterView
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.widget.ItemDecoration
+import kotlinx.android.synthetic.main.activity_nest_refresh_single_refresh.*
 
 import java.util.Collections
 
 class RefreshSingleActivity : AppCompatActivity() {
 
-    private lateinit var recyclerViewScroll: RecyclerView
-    private lateinit var recyclerAdapterScroll: RecyclerAdapterScroll
-    private lateinit var loadMoreFooterView: LoadMoreFooterView
-    private lateinit var refreshHeaderView: RefreshHeaderView
 
     private var currentPage = 1
     private var initPage = 1
     private var maxPage = 3
 
+    private lateinit var adapter : RecyclerAdapterScroll
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nest_refresh_single_refresh)
-        loadMoreFooterView = findViewById(R.id.view_footer)
-        refreshHeaderView = findViewById(R.id.view_refresh_header)
 
-        recyclerViewScroll = findViewById(R.id.recycler_view)
-        recyclerViewScroll.layoutManager = LinearLayoutManager(this)
-        recyclerAdapterScroll = RecyclerAdapterScroll()
-        recyclerViewScroll.adapter = recyclerAdapterScroll
-        recyclerViewScroll.addItemDecoration(
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        adapter = RecyclerAdapterScroll()
+        recycler_view.adapter = adapter
+        recycler_view.addItemDecoration(
             ItemDecoration(
                 this, RecyclerView.VERTICAL
                 , resources.getDimensionPixelSize(R.dimen.margin_normal)
             )
         )
-        recyclerAdapterScroll.updateDatas(Collections.nCopies(20, Any()))
+        adapter.updateDatas(Collections.nCopies(20, Any()))
 
-
-
-        refreshHeaderView.setOnRefreshListener(object : OnRefreshListener {
+        view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
-                refreshHeaderView.postDelayed({
-                    refreshHeaderView.setRefresh(false)
+                view_refresh_header.postDelayed({
+                    view_refresh_header.setRefresh(false)
                     currentPage = initPage
-                    loadMoreFooterView.setHasMore(currentPage <= maxPage)
+                    view_footer.setHasMore(currentPage <= maxPage)
                 }, 2000)
             }
         })
 
-        loadMoreFooterView.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
+        view_footer.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
             override fun onLoadMore() {
-                loadMoreFooterView.postDelayed({
-                    loadMoreFooterView.setIsLoadMore(false)
+                view_footer.postDelayed({
+                    view_footer.setIsLoadMore(false)
                     currentPage++
-                    loadMoreFooterView.setHasMore(currentPage <= maxPage)
+                    view_footer.setHasMore(currentPage <= maxPage)
                 }, 2000)
             }
         })

@@ -13,11 +13,16 @@ import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 import android.support.design.widget.CoordinatorLayout
 import android.view.ViewGroup
+import java.lang.reflect.Field
 
 
-
-class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class RefreshHeaderView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
     LinearLayout(context, attrs, defStyleAttr), RefreshCallback {
+    private val SHOW_INSET_HOLDER: Boolean = true
 
     private lateinit var flipAnimation: RotateAnimation
     private lateinit var reverseFlipAnimation: RotateAnimation
@@ -122,6 +127,16 @@ class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+        if (layoutParams is MarginLayoutParams) {
+            val lp = layoutParams as MarginLayoutParams
+            lp.topMargin = getInsetHeight()
+            layoutParams = lp
+        }
+    }
+
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
 
@@ -147,6 +162,30 @@ class RefreshHeaderView @JvmOverloads constructor(context: Context, attrs: Attri
 
     fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
         this.onRefreshListener = onRefreshListener
+    }
+
+    private fun getInsetHeight(): Int {
+        return if (SHOW_INSET_HOLDER) getStatusBarHeight(context) else 0
+    }
+
+    fun getStatusBarHeight(context: Context): Int {
+        val c: Class<*>
+        val obj: Any
+        val field: Field
+
+        val x: Int
+        var statusBarHeight = 0
+        try {
+            c = Class.forName("com.android.internal.R\$dimen")
+            obj = c.newInstance()
+            field = c.getField("status_bar_height")
+            x = Integer.parseInt(field.get(obj).toString())
+            statusBarHeight = context.resources.getDimensionPixelSize(x)
+        } catch (e1: Exception) {
+            e1.printStackTrace()
+        }
+
+        return statusBarHeight
     }
 
 }
