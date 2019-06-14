@@ -29,6 +29,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onAppBarLayoutRefreshClick(view: View) {
-        startActivity(Intent(this, AppbarlayoutRefreshActivity::class.java))
+        startActivity(Intent(this, AppBarRefreshActivity::class.java))
     }
 }
