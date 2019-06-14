@@ -99,8 +99,17 @@ class ChildCoordinatorLayout @JvmOverloads constructor(
         dyUnconsumed: Int,
         type: Int
     ) {
-        dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, null, type)
+
+        val offsetInWindow = IntArray(2)
+        target.getLocationInWindow(offsetInWindow)
+        val startX = offsetInWindow[0]
+        val startY = offsetInWindow[1]
         super.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
+        target.getLocationInWindow(offsetInWindow)
+        offsetInWindow[0] -= startX
+        offsetInWindow[1] -= startY
+        dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed + offsetInWindow[0]
+            , dyUnconsumed + offsetInWindow[1], null, type)
     }
 
     override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
