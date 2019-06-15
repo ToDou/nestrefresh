@@ -119,7 +119,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         type: Int
     ) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-        if (getBehavior(target) !is RefreshStickyScrollBehavior && getBehavior(target) !is RefreshScrollBehavior) {
+        if (getBehavior(target) !is RefreshBarScrollBehavior && getBehavior(target) !is RefreshScrollBehavior) {
             return
         }
         if (type == ViewCompat.TYPE_TOUCH && dy < 0 && totalUnconsumed < 0) {
@@ -146,7 +146,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         type: Int
     ) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
-        if (getBehavior(target) !is RefreshStickyScrollBehavior && getBehavior(target) !is RefreshScrollBehavior) {
+        if (getBehavior(target) !is RefreshBarScrollBehavior && getBehavior(target) !is RefreshScrollBehavior) {
             return
         }
         if (type == ViewCompat.TYPE_TOUCH && dyUnconsumed > 0) {

@@ -12,18 +12,18 @@ import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.lang.ref.WeakReference
 
-class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
-    RefreshHeaderBehavior<RefreshStickyLayout>(context, attrs) {
+class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
+    RefreshHeaderBehavior<RefreshBarLayout>(context, attrs) {
 
     init {
         attrs?.let {
             context?.let {
-                val a = it.obtainStyledAttributes(attrs, R.styleable.NestRefreshLayout_Layout)
+                val a = it.obtainStyledAttributes(attrs, R.styleable.RefreshBarLayout_Layout)
                 maxPullRefreshDown = a.getDimensionPixelSize(
-                    R.styleable.NestRefreshLayout_Layout_refresh_max_pull_offset, 0
+                    R.styleable.RefreshBarLayout_Layout_refresh_max_pull_offset, 0
                 )
                 refreshHoverRange = a.getDimensionPixelSize(
-                    R.styleable.NestRefreshLayout_Layout_refresh_hover_range, 0
+                    R.styleable.RefreshBarLayout_Layout_refresh_hover_range, 0
                 )
                 a.recycle()
             }
@@ -39,7 +39,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
 
     override fun onMeasureChild(
         parent: CoordinatorLayout,
-        child: RefreshStickyLayout,
+        child: RefreshBarLayout,
         parentWidthMeasureSpec: Int,
         widthUsed: Int,
         parentHeightMeasureSpec: Int,
@@ -67,7 +67,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         }
     }
 
-    override fun layoutChild(parent: CoordinatorLayout, child: RefreshStickyLayout, layoutDirection: Int) {
+    override fun layoutChild(parent: CoordinatorLayout, child: RefreshBarLayout, layoutDirection: Int) {
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
         val refreshHeaderHeight = child.refreshHeaderOffset
         rectOut.left = lp.leftMargin + parent.paddingLeft
@@ -95,7 +95,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
 
     override fun onStartNestedScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: RefreshStickyLayout,
+        child: RefreshBarLayout,
         directTargetChild: View,
         target: View,
         axes: Int,
@@ -109,7 +109,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
 
     override fun onNestedPreScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: RefreshStickyLayout,
+        child: RefreshBarLayout,
         target: View,
         dx: Int,
         dy: Int,
@@ -117,7 +117,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         type: Int
     ) {
         val targetBehavior = getBehavior(target)
-        if (targetBehavior != null && (targetBehavior is RefreshStickyScrollBehavior
+        if (targetBehavior != null && (targetBehavior is RefreshBarScrollBehavior
                     || targetBehavior is RefreshScrollBehavior) && dy != 0) {
             if (dy > 0) {
                 val min = maxCollapseUp
@@ -125,7 +125,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
                 consumed[1] = this.scroll(coordinatorLayout, child, dy, min, max, type)
                 this.stopNestedScrollIfNeeded(dy, child, target, type)
             }
-        } else if (targetBehavior == null || (getBehavior(target) !is RefreshStickyScrollBehavior
+        } else if (targetBehavior == null || (getBehavior(target) !is RefreshBarScrollBehavior
                     && getBehavior(target) !is RefreshScrollBehavior) && dy != 0) {
             if (dy > 0 && totalSpringOffset > 0) {//up
                 val min = maxCollapseUp
@@ -138,7 +138,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
 
     override fun onNestedScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: RefreshStickyLayout,
+        child: RefreshBarLayout,
         target: View,
         dxConsumed: Int,
         dyConsumed: Int,
@@ -152,7 +152,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
 
     override fun onStopNestedScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: RefreshStickyLayout,
+        child: RefreshBarLayout,
         target: View,
         type: Int
     ) {
@@ -165,7 +165,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
 
     override fun setHeaderTopBottomOffset(
         parent: CoordinatorLayout,
-        header: RefreshStickyLayout,
+        header: RefreshBarLayout,
         newOffset: Int,
         minOffset: Int,
         maxOffset: Int,
@@ -176,16 +176,16 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         return result
     }
 
-    override fun getMaxDragOffset(view: RefreshStickyLayout): Int {
+    override fun getMaxDragOffset(view: RefreshBarLayout): Int {
         return maxCollapseUp
     }
 
-    override fun getScrollRangeForDragFling(view: RefreshStickyLayout): Int {
+    override fun getScrollRangeForDragFling(view: RefreshBarLayout): Int {
         return -maxCollapseUp
     }
 
 
-    override fun canDragView(view: RefreshStickyLayout): Boolean {
+    override fun canDragView(view: RefreshBarLayout): Boolean {
         lastNestedScrollingChildRef?.let {
             val scrollingView = it.get()
             return scrollingView != null && scrollingView.isShown && !scrollingView.canScrollVertically(-1)
@@ -193,7 +193,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         return true
     }
 
-    override fun childInHeaderCanScroll(view: RefreshStickyLayout, x: Float, y: Float): Boolean {
+    override fun childInHeaderCanScroll(view: RefreshBarLayout, x: Float, y: Float): Boolean {
         val viewList = view.childScrollAbleList
         for (i in viewList.indices) {
             val child = viewList[i]
@@ -207,7 +207,7 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         return super.childInHeaderCanScroll(view, x, y)
     }
 
-    private fun stopNestedScrollIfNeeded(dy: Int, child: RefreshStickyLayout, target: View, type: Int) {
+    private fun stopNestedScrollIfNeeded(dy: Int, child: RefreshBarLayout, target: View, type: Int) {
         if (type == ViewCompat.TYPE_NON_TOUCH) {
             val curOffset = this.topBottomOffsetForScrollingSibling
             if (dy < 0 && curOffset >= 0 || dy > 0 && curOffset == getMaxDragOffset(child)) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    app:layout_behavior="@string/nest_refresh_sticky_scroll_behavior"
+    app:layout_behavior="@string/nest_refresh_bar_scroll_behavior"
     tools:showIn="@layout/activity_appbarlayout_refresh">
 
     <TextView

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
-import com.todou.nestrefresh.RefreshStickyLayout
+import com.todou.nestrefresh.RefreshBarLayout
 
 import java.util.Collections
 import com.todou.nestrefresh.base.OnRefreshListener
@@ -36,7 +36,7 @@ class InnerFooterPagerActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         adapter.updateDatas(Collections.nCopies(5, Any()))
 
-        val refreshStickyLayout = findViewById<RefreshStickyLayout>(R.id.view_refresh_sticky_layout)
+        val refreshStickyLayout = findViewById<RefreshBarLayout>(R.id.view_refresh_sticky_layout)
 
         refreshStickyLayout.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {

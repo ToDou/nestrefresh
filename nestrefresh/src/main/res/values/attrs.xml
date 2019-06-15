@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="NestRefreshLayout_Layout">
-        <attr name="nest_refresh_layout_scrollFlags">
+    <declare-styleable name="RefreshBarLayout_Layout">
+        <attr name="nr_layout_scrollFlags">
             <flag name="flag_sticky" value="0x1"/>
             <flag name="flag_refresh_header" value="0x2"/>
             <flag name="flag_collapse" value="0x4"/>
@@ -13,7 +13,6 @@
     </declare-styleable>
 
     <declare-styleable name="RefreshBehavior_Params">
-        <attr name="behavior_originalOffset" format="dimension"/>
         <attr name="behavior_hoveringRange" format="dimension"/>
         <attr name="behavior_maxRange" format="dimension"/>
     </declare-styleable>

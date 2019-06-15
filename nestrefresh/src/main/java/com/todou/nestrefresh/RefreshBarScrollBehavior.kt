@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.todou.nestrefresh.base.BaseBehavior
 
-class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
+class RefreshBarScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     BaseBehavior<View>(context, attrs) {
 
     private val rectOut = Rect()
-    private var refreshStickyBehavior: RefreshStickyBehavior? = null
+    private var refreshBarBehavior: RefreshBarBehavior? = null
     private var loadMoreBehavior: LoadMoreBehavior? = null
 
     override fun onMeasureChild(
@@ -49,7 +49,7 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
         val behavior = getBehavior(dependency) ?: return false
-        return behavior is RefreshStickyBehavior
+        return behavior is RefreshBarBehavior
                 || behavior is LoadMoreBehavior
                 || behavior is RefreshBehavior
     }
@@ -72,8 +72,8 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
     private fun getHeaderOffset(header: View): Int {
         if (header.layoutParams is CoordinatorLayout.LayoutParams) {
             val params = header.layoutParams as CoordinatorLayout.LayoutParams
-            if (params.behavior is RefreshStickyBehavior) {
-                return (params.behavior as RefreshStickyBehavior).getTopAndBottomOffset()
+            if (params.behavior is RefreshBarBehavior) {
+                return (params.behavior as RefreshBarBehavior).getTopAndBottomOffset()
             }
         }
         return 0
@@ -82,8 +82,8 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
         val behavior = getBehavior(dependency)
         var offset = 0
-        if (behavior is RefreshStickyBehavior) {
-            refreshStickyBehavior = behavior
+        if (behavior is RefreshBarBehavior) {
+            refreshBarBehavior = behavior
             offset = behavior.getTopAndBottomOffset()
         } else if (behavior is LoadMoreBehavior) {
             loadMoreBehavior = behavior
@@ -93,14 +93,14 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
     }
 
     private fun getHeaderOffsetByBehavior(): Int {
-        return refreshStickyBehavior?.getTopAndBottomOffset() ?: 0
+        return refreshBarBehavior?.getTopAndBottomOffset() ?: 0
     }
 
     private fun findFirstDependency(dependencies: List<View>): View? {
         for (view in dependencies) {
             val layoutParams = view.layoutParams
             if (layoutParams is CoordinatorLayout.LayoutParams) {
-                if (layoutParams.behavior is RefreshStickyBehavior) {
+                if (layoutParams.behavior is RefreshBarBehavior) {
                     return view
                 }
             }
@@ -109,7 +109,7 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
     }
 
     private fun getPinHeightWithoutInset(view: View): Int {
-        return if (view is RefreshStickyLayout) {
+        return if (view is RefreshBarLayout) {
             view.getPinHeightWithoutInsetTop()
         } else {
             0

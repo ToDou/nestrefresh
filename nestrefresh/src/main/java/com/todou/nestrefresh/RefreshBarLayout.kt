@@ -16,13 +16,12 @@ import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList
-import android.support.design.widget.AppBarLayout.BaseOnOffsetChangedListener
 import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.WindowInsetsCompat
 
 
-class RefreshStickyLayout @JvmOverloads constructor(
+class RefreshBarLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -31,7 +30,7 @@ class RefreshStickyLayout @JvmOverloads constructor(
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
-    private var refreshStickyBehavior: RefreshStickyBehavior? = null
+    private var refreshBarBehavior: RefreshBarBehavior? = null
     private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
     private var listeners: MutableList<OffsetChangedListener> = mutableListOf()
@@ -155,7 +154,7 @@ class RefreshStickyLayout @JvmOverloads constructor(
     }
 
     fun setRefresh(refreshing: Boolean) {
-        refreshStickyBehavior?.setState(
+        refreshBarBehavior?.setState(
             if (refreshing)
                 RefreshHeaderBehavior.STATE_HOVERING
             else
@@ -168,9 +167,9 @@ class RefreshStickyLayout @JvmOverloads constructor(
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
-        val behavior = RefreshStickyBehavior()
+        val behavior = RefreshBarBehavior()
         behavior.setSpringHeaderCallback(this)
-        refreshStickyBehavior = behavior
+        refreshBarBehavior = behavior
         return behavior
     }
 
@@ -199,8 +198,8 @@ class RefreshStickyLayout @JvmOverloads constructor(
         var scrollFlags: Int = 0
 
         constructor(c: Context, attrs: AttributeSet) : super(c, attrs) {
-            val a = c.obtainStyledAttributes(attrs, R.styleable.NestRefreshLayout_Layout)
-            this.scrollFlags = a.getInt(R.styleable.NestRefreshLayout_Layout_nest_refresh_layout_scrollFlags, 0)
+            val a = c.obtainStyledAttributes(attrs, R.styleable.RefreshBarLayout_Layout)
+            this.scrollFlags = a.getInt(R.styleable.RefreshBarLayout_Layout_nr_layout_scrollFlags, 0)
             a.recycle()
         }
 
@@ -218,7 +217,7 @@ class RefreshStickyLayout @JvmOverloads constructor(
     }
 
     interface OffsetChangedListener {
-        fun onOffsetChanged(refreshStickyLayout: RefreshStickyLayout, verticalOffset: Int)
+        fun onOffsetChanged(refreshBarLayout: RefreshBarLayout, verticalOffset: Int)
     }
 
     fun addOnOffsetChangedListener(listener: OffsetChangedListener) {

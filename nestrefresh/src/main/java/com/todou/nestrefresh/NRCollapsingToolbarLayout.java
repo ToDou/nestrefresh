@@ -15,7 +15,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.math.MathUtils;
 import android.support.v4.util.ObjectsCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.widget.Toolbar;
@@ -64,7 +63,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
     private long scrimAnimationDuration;
     private int scrimVisibleHeightTrigger = -1;
 
-    private RefreshStickyLayout.OffsetChangedListener onOffsetChangedListener;
+    private RefreshBarLayout.OffsetChangedListener onOffsetChangedListener;
 
     int currentOffset;
 
@@ -174,14 +173,14 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
 
         // Add an OffsetChangedListener if possible
         final ViewParent parent = getParent();
-        if (parent instanceof RefreshStickyLayout) {
+        if (parent instanceof RefreshBarLayout) {
             // Copy over from the ABL whether we should fit system windows
             ViewCompat.setFitsSystemWindows(this, ViewCompat.getFitsSystemWindows((View) parent));
 
             if (onOffsetChangedListener == null) {
                 onOffsetChangedListener = new OffsetUpdateListener();
             }
-            ((RefreshStickyLayout) parent).addOnOffsetChangedListener(onOffsetChangedListener);
+            ((RefreshBarLayout) parent).addOnOffsetChangedListener(onOffsetChangedListener);
 
             // We're attached, so lets request an inset dispatch
             ViewCompat.requestApplyInsets(this);
@@ -192,8 +191,8 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
     protected void onDetachedFromWindow() {
         // Remove our OffsetChangedListener if possible and it exists
         final ViewParent parent = getParent();
-        if (onOffsetChangedListener != null && parent instanceof RefreshStickyLayout) {
-            ((RefreshStickyLayout) parent).removeOnOffsetChangedListener(onOffsetChangedListener);
+        if (onOffsetChangedListener != null && parent instanceof RefreshBarLayout) {
+            ((RefreshBarLayout) parent).removeOnOffsetChangedListener(onOffsetChangedListener);
         }
 
         super.onDetachedFromWindow();
@@ -1183,12 +1182,12 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
         setContentDescription(getTitle());
     }
 
-    private class OffsetUpdateListener implements RefreshStickyLayout.OffsetChangedListener {
+    private class OffsetUpdateListener implements RefreshBarLayout.OffsetChangedListener {
         OffsetUpdateListener() {
         }
 
         @Override
-        public void onOffsetChanged(RefreshStickyLayout layout, int verticalOffset) {
+        public void onOffsetChanged(RefreshBarLayout layout, int verticalOffset) {
             currentOffset = verticalOffset;
 
             final int insetTop = lastInsets != null ? lastInsets.getSystemWindowInsetTop() : 0;

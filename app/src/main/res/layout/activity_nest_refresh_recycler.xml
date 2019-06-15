@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#f4f4f5">
 
-    <com.todou.nestrefresh.RefreshStickyLayout
+    <com.todou.nestrefresh.RefreshBarLayout
         android:id="@+id/pull_refresh_hover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            app:nest_refresh_layout_scrollFlags="flag_refresh_header"/>
+            app:nr_layout_scrollFlags="flag_refresh_header"/>
 
         <LinearLayout
             android:id="@+id/container"
@@ -126,7 +126,7 @@
             android:layout_marginLeft="@dimen/margin_normal"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            app:nest_refresh_layout_scrollFlags="flag_sticky">
+            app:nr_layout_scrollFlags="flag_sticky">
 
             <TextView
                 android:id="@+id/text_tab_one"
@@ -160,12 +160,12 @@
                 style="@style/TabStyle"/>
         </LinearLayout>
 
-    </com.todou.nestrefresh.RefreshStickyLayout>
+    </com.todou.nestrefresh.RefreshBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/nest_refresh_sticky_scroll_behavior" />
+        app:layout_behavior="@string/nest_refresh_bar_scroll_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>
