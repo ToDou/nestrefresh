@@ -16,6 +16,11 @@ import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList
+import android.support.design.widget.AppBarLayout.BaseOnOffsetChangedListener
+import android.support.v4.view.ViewCompat
+
+
+
 
 class RefreshStickyLayout @JvmOverloads constructor(
     context: Context,
@@ -29,6 +34,7 @@ class RefreshStickyLayout @JvmOverloads constructor(
     private var refreshStickyBehavior: RefreshStickyBehavior? = null
     private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
+    private var listeners: MutableList<OffsetChangedListener> = mutableListOf()
 
     val stickyHeight: Int
         get() {
@@ -144,7 +150,6 @@ class RefreshStickyLayout @JvmOverloads constructor(
         return LayoutParams(this.context, attrs)
     }
 
-
     override fun generateLayoutParams(lp: ViewGroup.LayoutParams): LinearLayout.LayoutParams {
         return if (Build.VERSION.SDK_INT >= 19 && lp is LinearLayout.LayoutParams) {
             LayoutParams(lp)
@@ -172,6 +177,38 @@ class RefreshStickyLayout @JvmOverloads constructor(
         companion object {
             const val SCROLL_FLAG_STICKY = 0x1
             const val SCROLL_FLAG_REFRESH_HEADER = 0x2
+        }
+    }
+
+    interface OffsetChangedListener {
+        fun onOffsetChanged(refreshStickyLayout: RefreshStickyLayout, verticalOffset: Int)
+    }
+
+    fun addOnOffsetChangedListener(listener: OffsetChangedListener) {
+        if (!listeners.contains(listener)) {
+            listeners.add(listener)
+        }
+    }
+
+    fun removeOnOffsetChangedListener(listener: OffsetChangedListener) {
+        this.listeners.remove(listener)
+    }
+
+    fun onOffsetChanged(offset: Int) {
+        if (!willNotDraw()) {
+            ViewCompat.postInvalidateOnAnimation(this)
+        }
+
+        // Iterate backwards through the list so that most recently added listeners
+        // get the first chance to decide
+        if (listeners != null) {
+            var i = 0
+            val z = listeners.size
+            while (i < z) {
+                val listener = listeners[i]
+                listener?.onOffsetChanged(this, offset)
+                i++
+            }
         }
     }
 }

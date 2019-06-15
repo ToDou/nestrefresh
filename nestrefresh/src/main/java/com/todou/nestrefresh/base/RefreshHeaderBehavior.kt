@@ -260,7 +260,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         return this.setHeaderTopBottomOffset(parent, header, newOffset, Int.MIN_VALUE, Int.MAX_VALUE, type)
     }
 
-    fun setHeaderTopBottomOffset(
+    open fun setHeaderTopBottomOffset(
         parent: CoordinatorLayout,
         header: V,
         newOffset: Int,

@@ -163,6 +163,19 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         }
     }
 
+    override fun setHeaderTopBottomOffset(
+        parent: CoordinatorLayout,
+        header: RefreshStickyLayout,
+        newOffset: Int,
+        minOffset: Int,
+        maxOffset: Int,
+        type: Int
+    ): Int {
+        val result = super.setHeaderTopBottomOffset(parent, header, newOffset, minOffset, maxOffset, type)
+        header.onOffsetChanged(getTopAndBottomOffset())
+        return result
+    }
+
     fun getHoverHeight(layout: RefreshStickyLayout): Int {
         return layout.stickyHeight
     }

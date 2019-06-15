@@ -31,10 +31,10 @@ import android.view.View
  */
 internal class ViewOffsetHelper(private val view: View) {
 
-    private var layoutTop: Int = 0
-    private var layoutLeft: Int = 0
-    private var offsetTop: Int = 0
-    private var offsetLeft: Int = 0
+    var layoutTop: Int = 0
+    var layoutLeft: Int = 0
+    var offsetTop: Int = 0
+    var offsetLeft: Int = 0
 
     fun onViewLayout() {
         layoutTop = view.top
