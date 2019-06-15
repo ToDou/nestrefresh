@@ -86,17 +86,17 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
     TypedArray a =
             context.obtainStyledAttributes(
             attrs,
-            R.styleable.CollapsingToolbarLayout,
+            R.styleable.NRCollapsingToolbarLayout,
             defStyleAttr,
             R.style.Widget_Design_CollapsingToolbar);
 
     collapsingTextHelper.setExpandedTextGravity(
         a.getInt(
-            R.styleable.CollapsingToolbarLayout_expandedTitleGravity,
+            R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleGravity,
             GravityCompat.START | Gravity.BOTTOM));
     collapsingTextHelper.setCollapsedTextGravity(
         a.getInt(
-            R.styleable.CollapsingToolbarLayout_collapsedTitleGravity,
+            R.styleable.NRCollapsingToolbarLayout_nr_collapsedTitleGravity,
             GravityCompat.START | Gravity.CENTER_VERTICAL));
 
     expandedMarginStart =
@@ -104,27 +104,27 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
             expandedMarginEnd =
                 expandedMarginBottom =
                     a.getDimensionPixelSize(
-                        R.styleable.CollapsingToolbarLayout_expandedTitleMargin, 0);
+                        R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMargin, 0);
 
-    if (a.hasValue(R.styleable.CollapsingToolbarLayout_expandedTitleMarginStart)) {
+    if (a.hasValue(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginStart)) {
       expandedMarginStart =
-          a.getDimensionPixelSize(R.styleable.CollapsingToolbarLayout_expandedTitleMarginStart, 0);
+          a.getDimensionPixelSize(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginStart, 0);
     }
-    if (a.hasValue(R.styleable.CollapsingToolbarLayout_expandedTitleMarginEnd)) {
+    if (a.hasValue(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginEnd)) {
       expandedMarginEnd =
-          a.getDimensionPixelSize(R.styleable.CollapsingToolbarLayout_expandedTitleMarginEnd, 0);
+          a.getDimensionPixelSize(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginEnd, 0);
     }
-    if (a.hasValue(R.styleable.CollapsingToolbarLayout_expandedTitleMarginTop)) {
+    if (a.hasValue(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginTop)) {
       expandedMarginTop =
-          a.getDimensionPixelSize(R.styleable.CollapsingToolbarLayout_expandedTitleMarginTop, 0);
+          a.getDimensionPixelSize(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginTop, 0);
     }
-    if (a.hasValue(R.styleable.CollapsingToolbarLayout_expandedTitleMarginBottom)) {
+    if (a.hasValue(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginBottom)) {
       expandedMarginBottom =
-          a.getDimensionPixelSize(R.styleable.CollapsingToolbarLayout_expandedTitleMarginBottom, 0);
+          a.getDimensionPixelSize(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleMarginBottom, 0);
     }
 
-    collapsingTitleEnabled = a.getBoolean(R.styleable.CollapsingToolbarLayout_titleEnabled, true);
-    setTitle(a.getText(R.styleable.CollapsingToolbarLayout_title));
+    collapsingTitleEnabled = a.getBoolean(R.styleable.NRCollapsingToolbarLayout_nr_titleEnabled, true);
+    setTitle(a.getText(R.styleable.NRCollapsingToolbarLayout_nr_title));
 
     // First load the default text appearances
     collapsingTextHelper.setExpandedTextAppearance(
@@ -133,27 +133,27 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
         R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
 
     // Now overlay any custom text appearances
-    if (a.hasValue(R.styleable.CollapsingToolbarLayout_expandedTitleTextAppearance)) {
+    if (a.hasValue(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleTextAppearance)) {
       collapsingTextHelper.setExpandedTextAppearance(
-          a.getResourceId(R.styleable.CollapsingToolbarLayout_expandedTitleTextAppearance, 0));
+          a.getResourceId(R.styleable.NRCollapsingToolbarLayout_nr_expandedTitleTextAppearance, 0));
     }
-    if (a.hasValue(R.styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance)) {
+    if (a.hasValue(R.styleable.NRCollapsingToolbarLayout_nr_collapsedTitleTextAppearance)) {
       collapsingTextHelper.setCollapsedTextAppearance(
-          a.getResourceId(R.styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance, 0));
+          a.getResourceId(R.styleable.NRCollapsingToolbarLayout_nr_collapsedTitleTextAppearance, 0));
     }
 
     scrimVisibleHeightTrigger =
-        a.getDimensionPixelSize(R.styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger, -1);
+        a.getDimensionPixelSize(R.styleable.NRCollapsingToolbarLayout_nr_scrimVisibleHeightTrigger, -1);
 
     scrimAnimationDuration =
         a.getInt(
-            R.styleable.CollapsingToolbarLayout_scrimAnimationDuration,
+            R.styleable.NRCollapsingToolbarLayout_nr_scrimAnimationDuration,
             DEFAULT_SCRIM_ANIMATION_DURATION);
 
-    setContentScrim(a.getDrawable(R.styleable.CollapsingToolbarLayout_contentScrim));
-    setStatusBarScrim(a.getDrawable(R.styleable.CollapsingToolbarLayout_statusBarScrim));
+    setContentScrim(a.getDrawable(R.styleable.NRCollapsingToolbarLayout_nr_contentScrim));
+    setStatusBarScrim(a.getDrawable(R.styleable.NRCollapsingToolbarLayout_nr_statusBarScrim));
 
-    toolbarId = a.getResourceId(R.styleable.CollapsingToolbarLayout_toolbarId, -1);
+    toolbarId = a.getResourceId(R.styleable.NRCollapsingToolbarLayout_nr_toolbarId, -1);
 
     a.recycle();
 
@@ -429,7 +429,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
     // Apply any view offsets, this should be done at the very end of layout
     for (int i = 0, z = getChildCount(); i < z; i++) {
       //TODO test data
-//      getViewOffsetHelper(getChildAt(i)).applyOffsets();
+      getViewOffsetHelper(getChildAt(i)).updateOffsets();
     }
   }
 
@@ -456,7 +456,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    *
    * @see #setTitleEnabled(boolean)
    * @see #getTitle()
-   * @attr ref R.styleable#CollapsingToolbarLayout_title
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_title
    */
   public void setTitle(@Nullable CharSequence title) {
     collapsingTextHelper.setText(title);
@@ -467,7 +467,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Returns the title currently being displayed by this view. If the title is not enabled, then
    * this will return {@code null}.
    *
-   * @attr ref R.styleable#CollapsingToolbarLayout_title
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_title
    */
   @Nullable
   public CharSequence getTitle() {
@@ -480,7 +480,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * <p>The title displayed by this view will shrink and grow based on the scroll offset.
    *
    * @see #isTitleEnabled()
-   * @attr ref R.styleable#CollapsingToolbarLayout_titleEnabled
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_titleEnabled
    */
   public void setTitleEnabled(boolean enabled) {
     if (enabled != collapsingTitleEnabled) {
@@ -495,7 +495,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Returns whether this view is currently displaying its own title.
    *
    * @see #setTitleEnabled(boolean)
-   * @attr ref R.styleable#CollapsingToolbarLayout_titleEnabled
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_titleEnabled
    */
   public boolean isTitleEnabled() {
     return collapsingTitleEnabled;
@@ -578,7 +578,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * scrim functionality.
    *
    * @param drawable the drawable to display
-   * @attr ref R.styleable#CollapsingToolbarLayout_contentScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_contentScrim
    * @see #getContentScrim()
    */
   public void setContentScrim(@Nullable Drawable drawable) {
@@ -600,7 +600,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Set the color to use for the content scrim.
    *
    * @param color the color to display
-   * @attr ref R.styleable#CollapsingToolbarLayout_contentScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_contentScrim
    * @see #getContentScrim()
    */
   public void setContentScrimColor(@ColorInt int color) {
@@ -611,7 +611,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Set the drawable to use for the content scrim from resources.
    *
    * @param resId drawable resource id
-   * @attr ref R.styleable#CollapsingToolbarLayout_contentScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_contentScrim
    * @see #getContentScrim()
    */
   public void setContentScrimResource(@DrawableRes int resId) {
@@ -621,7 +621,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * Returns the drawable which is used for the foreground scrim.
    *
-   * @attr ref R.styleable#CollapsingToolbarLayout_contentScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_contentScrim
    * @see #setContentScrim(Drawable)
    */
   @Nullable
@@ -636,7 +636,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * <p>This scrim is only shown when we have been given a top system inset.
    *
    * @param drawable the drawable to display
-   * @attr ref R.styleable#CollapsingToolbarLayout_statusBarScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_statusBarScrim
    * @see #getStatusBarScrim()
    */
   public void setStatusBarScrim(@Nullable Drawable drawable) {
@@ -706,7 +706,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * <p>This scrim is only shown when we have been given a top system inset.
    *
    * @param color the color to display
-   * @attr ref R.styleable#CollapsingToolbarLayout_statusBarScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_statusBarScrim
    * @see #getStatusBarScrim()
    */
   public void setStatusBarScrimColor(@ColorInt int color) {
@@ -717,7 +717,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Set the drawable to use for the status bar scrim from resources.
    *
    * @param resId drawable resource id
-   * @attr ref R.styleable#CollapsingToolbarLayout_statusBarScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_statusBarScrim
    * @see #getStatusBarScrim()
    */
   public void setStatusBarScrimResource(@DrawableRes int resId) {
@@ -727,7 +727,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * Returns the drawable which is used for the status bar scrim.
    *
-   * @attr ref R.styleable#CollapsingToolbarLayout_statusBarScrim
+   * @attr ref R.styleable#NRCollapsingToolbarLayout_statusBarScrim
    * @see #setStatusBarScrim(Drawable)
    */
   @Nullable
@@ -740,7 +740,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * resource.
    *
    * @attr ref
-   *     com.google.android.material.R.styleable#CollapsingToolbarLayout_collapsedTitleTextAppearance
+   *     com.google.android.material.R.styleable#NRCollapsingToolbarLayout_collapsedTitleTextAppearance
    */
   public void setCollapsedTitleTextAppearance(@StyleRes int resId) {
     collapsingTextHelper.setCollapsedTextAppearance(resId);
@@ -768,7 +768,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Sets the horizontal alignment of the collapsed title and the vertical gravity that will be used
    * when there is extra space in the collapsed bounds beyond what is required for the title itself.
    *
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_collapsedTitleGravity
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_collapsedTitleGravity
    */
   public void setCollapsedTitleGravity(int gravity) {
     collapsingTextHelper.setCollapsedTextGravity(gravity);
@@ -777,7 +777,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * Returns the horizontal and vertical alignment for title when collapsed.
    *
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_collapsedTitleGravity
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_collapsedTitleGravity
    */
   public int getCollapsedTitleGravity() {
     return collapsingTextHelper.getCollapsedTextGravity();
@@ -787,7 +787,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Sets the text color and size for the expanded title from the specified NRTextAppearance resource.
    *
    * @attr ref
-   *     com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleTextAppearance
+   *     com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleTextAppearance
    */
   public void setExpandedTitleTextAppearance(@StyleRes int resId) {
     collapsingTextHelper.setExpandedTextAppearance(resId);
@@ -815,7 +815,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Sets the horizontal alignment of the expanded title and the vertical gravity that will be used
    * when there is extra space in the expanded bounds beyond what is required for the title itself.
    *
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleGravity
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleGravity
    */
   public void setExpandedTitleGravity(int gravity) {
     collapsingTextHelper.setExpandedTextGravity(gravity);
@@ -824,7 +824,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * Returns the horizontal and vertical alignment for title when expanded.
    *
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleGravity
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleGravity
    */
   public int getExpandedTitleGravity() {
     return collapsingTextHelper.getExpandedTextGravity();
@@ -871,7 +871,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * @see #getExpandedTitleMarginTop()
    * @see #getExpandedTitleMarginEnd()
    * @see #getExpandedTitleMarginBottom()
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMargin
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMargin
    */
   public void setExpandedTitleMargin(int start, int top, int end, int bottom) {
     expandedMarginStart = start;
@@ -884,7 +884,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * @return the starting expanded title margin in pixels
    * @see #setExpandedTitleMarginStart(int)
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginStart
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginStart
    */
   public int getExpandedTitleMarginStart() {
     return expandedMarginStart;
@@ -895,7 +895,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    *
    * @param margin the starting title margin in pixels
    * @see #getExpandedTitleMarginStart()
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginStart
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginStart
    */
   public void setExpandedTitleMarginStart(int margin) {
     expandedMarginStart = margin;
@@ -905,7 +905,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * @return the top expanded title margin in pixels
    * @see #setExpandedTitleMarginTop(int)
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginTop
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginTop
    */
   public int getExpandedTitleMarginTop() {
     return expandedMarginTop;
@@ -916,7 +916,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    *
    * @param margin the top title margin in pixels
    * @see #getExpandedTitleMarginTop()
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginTop
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginTop
    */
   public void setExpandedTitleMarginTop(int margin) {
     expandedMarginTop = margin;
@@ -926,7 +926,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * @return the ending expanded title margin in pixels
    * @see #setExpandedTitleMarginEnd(int)
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginEnd
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginEnd
    */
   public int getExpandedTitleMarginEnd() {
     return expandedMarginEnd;
@@ -937,7 +937,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    *
    * @param margin the ending title margin in pixels
    * @see #getExpandedTitleMarginEnd()
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginEnd
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginEnd
    */
   public void setExpandedTitleMarginEnd(int margin) {
     expandedMarginEnd = margin;
@@ -947,7 +947,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
   /**
    * @return the bottom expanded title margin in pixels
    * @see #setExpandedTitleMarginBottom(int)
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginBottom
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginBottom
    */
   public int getExpandedTitleMarginBottom() {
     return expandedMarginBottom;
@@ -958,7 +958,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    *
    * @param margin the bottom title margin in pixels
    * @see #getExpandedTitleMarginBottom()
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_expandedTitleMarginBottom
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_expandedTitleMarginBottom
    */
   public void setExpandedTitleMarginBottom(int margin) {
     expandedMarginBottom = margin;
@@ -973,7 +973,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * visible, otherwise they are hidden.
    *
    * @param height value in pixels used to define when to trigger a scrim visibility change
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_scrimVisibleHeightTrigger
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_scrimVisibleHeightTrigger
    */
   public void setScrimVisibleHeightTrigger(@IntRange(from = 0) final int height) {
     if (scrimVisibleHeightTrigger != height) {
@@ -1013,7 +1013,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
    * Set the duration used for scrim visibility animations.
    *
    * @param duration the duration to use in milliseconds
-   * @attr ref com.google.android.material.R.styleable#CollapsingToolbarLayout_scrimAnimationDuration
+   * @attr ref com.google.android.material.R.styleable#NRCollapsingToolbarLayout_scrimAnimationDuration
    */
   public void setScrimAnimationDuration(@IntRange(from = 0) final long duration) {
     scrimAnimationDuration = duration;
@@ -1075,13 +1075,13 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
     public LayoutParams(Context c, AttributeSet attrs) {
       super(c, attrs);
 
-      TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.CollapsingToolbarLayout_Layout);
+      TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.NRCollapsingToolbarLayout_Layout);
       collapseMode =
           a.getInt(
-              R.styleable.CollapsingToolbarLayout_Layout_layout_collapseMode, COLLAPSE_MODE_OFF);
+              R.styleable.NRCollapsingToolbarLayout_Layout_nr_layout_collapseMode, COLLAPSE_MODE_OFF);
       setParallaxMultiplier(
           a.getFloat(
-              R.styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier,
+              R.styleable.NRCollapsingToolbarLayout_Layout_nr_layout_collapseParallaxMultiplier,
               DEFAULT_PARALLAX_MULTIPLIER));
       a.recycle();
     }

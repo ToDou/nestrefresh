@@ -16,4 +16,114 @@
         <attr name="behavior_hoveringRange" format="dimension"/>
         <attr name="behavior_maxRange" format="dimension"/>
     </declare-styleable>
+
+
+    <declare-styleable name="NRCollapsingToolbarLayout">
+        <!--  Specifies extra space on the start, top, end and bottom
+              sides of the the expanded title text. Margin values should be positive. -->
+        <attr name="nr_expandedTitleMargin" format="dimension"/>
+        <!--  Specifies extra space on the start side of the the expanded title text.
+              Margin values should be positive. -->
+        <attr name="nr_expandedTitleMarginStart" format="dimension"/>
+        <!--  Specifies extra space on the top side of the the expanded title text.
+              Margin values should be positive. -->
+        <attr name="nr_expandedTitleMarginTop" format="dimension"/>
+        <!--  Specifies extra space on the end side of the the expanded title text.
+              Margin values should be positive. -->
+        <attr name="nr_expandedTitleMarginEnd" format="dimension"/>
+        <!--  Specifies extra space on the bottom side of the the expanded title text.
+              Margin values should be positive. -->
+        <attr name="nr_expandedTitleMarginBottom" format="dimension"/>
+        <!-- The text appearance of the CollapsingToolbarLayout's title when it is fully
+             'expanded' -->
+        <attr name="nr_expandedTitleTextAppearance" format="reference"/>
+        <!-- The text appearance of the CollapsingToolbarLayouts title when it is fully
+             'collapsed' -->
+        <attr name="nr_collapsedTitleTextAppearance" format="reference"/>
+        <!-- The drawable to use as a scrim on top of the CollapsingToolbarLayouts content when
+             it has been scrolled sufficiently off screen. -->
+        <attr name="nr_contentScrim" format="color"/>
+        <!-- The drawable to use as a scrim for the status bar content when the
+             CollapsingToolbarLayout has been scrolled sufficiently off screen. Only works on
+             Lollipop when used together with android:fitSystemWindows="true". -->
+        <attr name="nr_statusBarScrim" format="color"/>
+        <!-- The id of the primary Toolbar child that you wish to use for the purpose of collapsing.
+             This Toolbar descendant view does not need to be a direct child of the layout.
+             If you do not set this, the first direct Toolbar child found will be used. -->
+        <attr name="nr_toolbarId" format="reference"/>
+        <!-- Specifies the amount of visible height in pixels used to define when to trigger a
+             scrim visibility change. -->
+        <attr name="nr_scrimVisibleHeightTrigger" format="dimension"/>
+        <!-- Specifies the duration used for scrim visibility animations. -->
+        <attr name="nr_scrimAnimationDuration" format="integer"/>
+
+        <!-- Specifies how the title should be positioned when collapsed. -->
+        <attr name="nr_collapsedTitleGravity">
+            <!-- Push title to the top of its container, not changing its size. -->
+            <flag name="top" value="0x30"/>
+            <!-- Push title to the bottom of its container, not changing its size. -->
+            <flag name="bottom" value="0x50"/>
+            <!-- Push title to the left of its container, not changing its size. -->
+            <flag name="left" value="0x03"/>
+            <!-- Push title to the right of its container, not changing its size. -->
+            <flag name="right" value="0x05"/>
+            <!-- Place title in the vertical center of its container, not changing its size. -->
+            <flag name="center_vertical" value="0x10"/>
+            <!-- Grow the vertical size of the title if needed so it completely fills its container. -->
+            <flag name="fill_vertical" value="0x70"/>
+            <!-- Place title in the horizontal center of its container, not changing its size. -->
+            <flag name="center_horizontal" value="0x01"/>
+            <!-- Place the title in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+            <flag name="center" value="0x11"/>
+            <!-- Push title to the beginning of its container, not changing its size. -->
+            <flag name="start" value="0x00800003"/>
+            <!-- Push title to the end of its container, not changing its size. -->
+            <flag name="end" value="0x00800005"/>
+        </attr>
+
+        <!-- Specifies how the title should be positioned when expanded. -->
+        <attr name="nr_expandedTitleGravity">
+            <!-- Push title to the top of its container, not changing its size. -->
+            <flag name="top" value="0x30"/>
+            <!-- Push title to the bottom of its container, not changing its size. -->
+            <flag name="bottom" value="0x50"/>
+            <!-- Push title to the left of its container, not changing its size. -->
+            <flag name="left" value="0x03"/>
+            <!-- Push title to the right of its container, not changing its size. -->
+            <flag name="right" value="0x05"/>
+            <!-- Place title in the vertical center of its container, not changing its size. -->
+            <flag name="center_vertical" value="0x10"/>
+            <!-- Grow the vertical size of the title if needed so it completely fills its container. -->
+            <flag name="fill_vertical" value="0x70"/>
+            <!-- Place title in the horizontal center of its container, not changing its size. -->
+            <flag name="center_horizontal" value="0x01"/>
+            <!-- Place the title in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+            <flag name="center" value="0x11"/>
+            <!-- Push title to the beginning of its container, not changing its size. -->
+            <flag name="start" value="0x00800003"/>
+            <!-- Push title to the end of its container, not changing its size. -->
+            <flag name="end" value="0x00800005"/>
+        </attr>
+
+        <!-- Whether the CollapsingToolbarLayout should draw its own shrinking/growing title. -->
+        <attr name="nr_titleEnabled" format="boolean"/>
+        <!-- The title to show when titleEnabled is set to true. -->
+        <attr name="nr_title"/>
+    </declare-styleable>
+
+    <declare-styleable name="NRCollapsingToolbarLayout_Layout">
+        <attr name="nr_layout_collapseMode">
+            <!-- The view will act as normal with no collapsing behavior. -->
+            <enum name="none" value="0"/>
+            <!-- The view will pin in place. -->
+            <enum name="pin" value="1"/>
+            <!-- The view will scroll in a parallax fashion. See the
+                 layout_collapseParallaxMultiplier attribute to change the multiplier. -->
+            <enum name="parallax" value="2"/>
+        </attr>
+
+        <!-- The multiplier used when layout_collapseMode is set to 'parallax'. The value should
+             be between 0.0 and 1.0. -->
+        <attr name="nr_layout_collapseParallaxMultiplier" format="float"/>
+    </declare-styleable>
 </resources>

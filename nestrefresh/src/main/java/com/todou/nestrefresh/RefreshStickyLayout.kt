@@ -36,6 +36,10 @@ class RefreshStickyLayout @JvmOverloads constructor(
     private lateinit var headerView: View
     private var listeners: MutableList<OffsetChangedListener> = mutableListOf()
 
+    init {
+        orientation = VERTICAL
+    }
+
     val stickyHeight: Int
         get() {
             for (i in 0 until childCount) {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="@bool/out_fits_system_windows"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <com.todou.nestrefresh.RefreshStickyLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.todou.nestrefresh.RefreshHeaderView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:nest_refresh_layout_scrollFlags="flag_refresh_header"/>
+
+        <com.todou.nestrefresh.NRCollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            app:nr_contentScrim="?attr/colorPrimary">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                app:nr_layout_collapseMode="parallax"
+                android:src="@mipmap/img_test"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:nr_layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </com.todou.nestrefresh.NRCollapsingToolbarLayout>
+
+    </com.todou.nestrefresh.RefreshStickyLayout>
+
+    <include layout="@layout/content_normal_refresh_bar_layout"/>
+
+    <com.todou.nestrefresh.LoadMoreFooterView
+        android:id="@+id/view_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</android.support.design.widget.CoordinatorLayout>

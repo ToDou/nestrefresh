@@ -31,4 +31,8 @@ class MainActivity : AppCompatActivity() {
     fun onAppBarLayoutRefreshClick(view: View) {
         startActivity(Intent(this, AppBarRefreshActivity::class.java))
     }
+
+    fun onRefreshBarLayoutClick(view: View) {
+        startActivity(Intent(this, RefreshBarLayoutActivity::class.java))
+    }
 }

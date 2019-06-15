@@ -23,6 +23,10 @@
         <activity
             android:name=".AppBarRefreshActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".RefreshBarLayoutActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
