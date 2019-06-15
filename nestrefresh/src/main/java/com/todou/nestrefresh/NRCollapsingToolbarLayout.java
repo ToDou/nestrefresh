@@ -1190,7 +1190,14 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
                 MathUtils.clamp(-verticalOffset, 0, getMaxOffsetForPinChild(child)));
             break;
           case LayoutParams.COLLAPSE_MODE_PARALLAX:
-            offsetHelper.setTopAndBottomOffset(Math.round(-verticalOffset * lp.parallaxMult));
+            if (verticalOffset > 0) {
+              View parent = ((View)layout.getParent());
+              float scale = 1f + 1f *verticalOffset / parent.getHeight();
+              child.setScaleX(scale);
+              child.setScaleY(scale);
+            } else {
+              offsetHelper.setTopAndBottomOffset(Math.round(-verticalOffset * lp.parallaxMult));
+            }
             break;
           default:
             break;
