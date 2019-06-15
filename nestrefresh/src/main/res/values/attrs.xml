@@ -5,6 +5,7 @@
         <attr name="nest_refresh_layout_scrollFlags">
             <flag name="flag_sticky" value="0x1"/>
             <flag name="flag_refresh_header" value="0x2"/>
+            <flag name="flag_collapse" value="0x4"/>
         </attr>
         <attr name="refresh_max_pull_offset" format="dimension"></attr>
         <attr name="refresh_hover_range" format="dimension"></attr>

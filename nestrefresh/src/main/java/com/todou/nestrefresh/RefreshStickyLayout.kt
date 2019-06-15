@@ -45,8 +45,12 @@ class RefreshStickyLayout @JvmOverloads constructor(
             for (i in 0 until childCount) {
                 val view = getChildAt(i)
                 val layoutParams = view.layoutParams as LayoutParams
-                if (layoutParams.scrollFlags and LayoutParams.SCROLL_FLAG_STICKY != 0) {
+                if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_STICKY) {
                     return view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
+                }
+
+                if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_COLLAPSE) {
+                    return view.minimumHeight
                 }
             }
             return 0
@@ -181,6 +185,7 @@ class RefreshStickyLayout @JvmOverloads constructor(
         companion object {
             const val SCROLL_FLAG_STICKY = 0x1
             const val SCROLL_FLAG_REFRESH_HEADER = 0x2
+            const val SCROLL_FLAG_COLLAPSE = 0x4
         }
     }
 
@@ -203,15 +208,9 @@ class RefreshStickyLayout @JvmOverloads constructor(
             ViewCompat.postInvalidateOnAnimation(this)
         }
 
-        // Iterate backwards through the list so that most recently added listeners
-        // get the first chance to decide
         if (listeners != null) {
-            var i = 0
-            val z = listeners.size
-            while (i < z) {
-                val listener = listeners[i]
-                listener?.onOffsetChanged(this, offset)
-                i++
+            listeners.forEach {
+                it.onOffsetChanged(this, offset)
             }
         }
     }
