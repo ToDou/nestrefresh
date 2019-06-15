@@ -96,10 +96,6 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
         return refreshStickyBehavior?.getTopAndBottomOffset() ?: 0
     }
 
-    fun getFooterTotalUnconsumed(): Float {
-        return loadMoreBehavior?.totalUnconsumed ?: 0f
-    }
-
     private fun findFirstDependency(dependencies: List<View>): View? {
         for (view in dependencies) {
             val layoutParams = view.layoutParams

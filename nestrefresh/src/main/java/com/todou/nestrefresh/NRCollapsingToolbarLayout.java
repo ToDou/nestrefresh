@@ -429,7 +429,6 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
 
         // Apply any view offsets, this should be done at the very end of layout
         for (int i = 0, z = getChildCount(); i < z; i++) {
-            //TODO test data
             getViewOffsetHelper(getChildAt(i)).updateOffsets();
         }
     }

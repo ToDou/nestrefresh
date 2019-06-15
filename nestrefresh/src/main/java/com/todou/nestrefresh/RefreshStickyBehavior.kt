@@ -176,10 +176,6 @@ class RefreshStickyBehavior @JvmOverloads constructor(context: Context? = null, 
         return result
     }
 
-    fun getHoverHeight(layout: RefreshStickyLayout): Int {
-        return layout.stickyHeight
-    }
-
     override fun getMaxDragOffset(view: RefreshStickyLayout): Int {
         return maxCollapseUp
     }
