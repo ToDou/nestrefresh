@@ -10,6 +10,7 @@
         android:id="@+id/view_refresh_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:status_bar_inset_visible="true"
         app:layout_behavior="@string/nest_refresh_single_behavior"/>
 
     <com.todou.nestrefresh.ChildCoordinatorLayout

@@ -22,7 +22,6 @@ class RefreshHeaderView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) :
     LinearLayout(context, attrs, defStyleAttr), RefreshCallback {
-    private val SHOW_INSET_HOLDER: Boolean = true
 
     private lateinit var flipAnimation: RotateAnimation
     private lateinit var reverseFlipAnimation: RotateAnimation
@@ -39,9 +38,16 @@ class RefreshHeaderView @JvmOverloads constructor(
     private var state: Int = 0
     private var onRefreshListener: OnRefreshListener? = null
     private var behavior: RefreshBehavior? = null
+    private var showStatusInset: Boolean
 
     init {
         init(context, attrs, defStyleAttr)
+
+        val a = context.obtainStyledAttributes(attrs, R.styleable.RefreshHeaderView)
+        showStatusInset = a.getBoolean(
+            R.styleable.RefreshHeaderView_status_bar_inset_visible, false
+        )
+        a.recycle()
     }
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
@@ -131,9 +137,13 @@ class RefreshHeaderView @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         if (layoutParams is MarginLayoutParams) {
-            val lp = layoutParams as MarginLayoutParams
-            lp.topMargin = getInsetHeight()
-            layoutParams = lp
+            val inset = getInsetHeight()
+            inset.takeIf { it > 0 }
+                ?.let {
+                    val lp = layoutParams as MarginLayoutParams
+                    lp.topMargin = it
+                    layoutParams = lp
+                }
         }
     }
 
@@ -165,10 +175,10 @@ class RefreshHeaderView @JvmOverloads constructor(
     }
 
     private fun getInsetHeight(): Int {
-        return if (SHOW_INSET_HOLDER) getStatusBarHeight(context) else 0
+        return if (showStatusInset) getStatusBarHeight(context) else 0
     }
 
-    fun getStatusBarHeight(context: Context): Int {
+    private fun getStatusBarHeight(context: Context): Int {
         val c: Class<*>
         val obj: Any
         val field: Field
