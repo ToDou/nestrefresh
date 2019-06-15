@@ -17,9 +17,9 @@ import com.todou.nestrefresh.base.RefreshHeaderBehavior
 
 import java.util.ArrayList
 import android.support.design.widget.AppBarLayout.BaseOnOffsetChangedListener
+import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
-
-
+import android.support.v4.view.WindowInsetsCompat
 
 
 class RefreshStickyLayout @JvmOverloads constructor(
@@ -35,9 +35,32 @@ class RefreshStickyLayout @JvmOverloads constructor(
     private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
     private var listeners: MutableList<OffsetChangedListener> = mutableListOf()
+    internal var lastInsets: WindowInsetsCompat? = null
 
     init {
         orientation = VERTICAL
+        ViewCompat.setOnApplyWindowInsetsListener(
+            this
+        ) { v, insets -> onWindowInsetChanged(insets) }
+    }
+
+    internal fun onWindowInsetChanged(insets: WindowInsetsCompat): WindowInsetsCompat {
+        var newInsets: WindowInsetsCompat? = null
+
+        if (ViewCompat.getFitsSystemWindows(this)) {
+            // If we're set to fit system windows, keep the insets
+            newInsets = insets
+        }
+
+        // If our insets have changed, keep them and invalidate the scroll ranges...
+        if (!ObjectsCompat.equals(lastInsets, newInsets)) {
+            lastInsets = newInsets
+            requestLayout()
+        }
+
+        // Consume the insets. This is done so that child views with fitSystemWindows=true do not
+        // get the default padding functionality from View
+        return insets.consumeSystemWindowInsets()
     }
 
     val stickyHeight: Int

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NRCollapsingToolbar" parent="android:Widget">
+        <item name="nr_expandedTitleMargin">32dp</item>
+        <item name="nr_statusBarScrim">?attr/colorPrimaryDark</item>
+    </style>
+</resources>

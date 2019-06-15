@@ -88,7 +88,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
             attrs,
             R.styleable.NRCollapsingToolbarLayout,
             defStyleAttr,
-            R.style.Widget_Design_CollapsingToolbar);
+            R.style.NRCollapsingToolbar);
 
     collapsingTextHelper.setExpandedTextGravity(
         a.getInt(
