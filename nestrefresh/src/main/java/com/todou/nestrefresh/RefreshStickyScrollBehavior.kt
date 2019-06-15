@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.todou.nestrefresh.base.BaseBehavior
 
-class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) : BaseBehavior<View>(context, attrs) {
+class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
+    BaseBehavior<View>(context, attrs) {
 
     private val rectOut = Rect()
     private var refreshStickyBehavior: RefreshStickyBehavior? = null
@@ -32,7 +33,7 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
                     availableHeight = parent.height
                 }
 
-                val height = availableHeight - getHoverHeight(header)
+                val height = availableHeight - getPinHeightWithoutInset(header)
                 val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(
                     height, if (childLpHeight == ViewGroup.LayoutParams.MATCH_PARENT)
                         View.MeasureSpec.EXACTLY
@@ -111,8 +112,11 @@ class RefreshStickyScrollBehavior @JvmOverloads constructor(context: Context? = 
         return null
     }
 
-    private fun getHoverHeight(view: View): Int {
-        val behavior = getBehavior(view)
-        return (behavior as? RefreshStickyBehavior)?.getHoverHeight(view as RefreshStickyLayout) ?: 0
+    private fun getPinHeightWithoutInset(view: View): Int {
+        return if (view is RefreshStickyLayout) {
+            view.getPinHeightWithoutInsetTop()
+        } else {
+            0
+        }
     }
 }

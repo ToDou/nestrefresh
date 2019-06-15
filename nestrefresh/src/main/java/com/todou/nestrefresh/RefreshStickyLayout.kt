@@ -76,6 +76,10 @@ class RefreshStickyLayout @JvmOverloads constructor(
             return result
         }
 
+    fun getPinHeightWithoutInsetTop(): Int {
+        return stickyHeight - getTopInset()
+    }
+
     val refreshHeaderOffset: Int
         get() {
             if (!this::headerView.isInitialized) {
