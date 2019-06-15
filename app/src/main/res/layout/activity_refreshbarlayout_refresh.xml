@@ -23,6 +23,7 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
+            android:fitsSystemWindows="true"
             app:nest_refresh_layout_scrollFlags="flag_collapse"
             app:nr_contentScrim="?attr/colorPrimary">
 

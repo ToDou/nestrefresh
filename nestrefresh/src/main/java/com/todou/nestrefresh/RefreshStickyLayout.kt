@@ -44,39 +44,36 @@ class RefreshStickyLayout @JvmOverloads constructor(
         ) { v, insets -> onWindowInsetChanged(insets) }
     }
 
-    internal fun onWindowInsetChanged(insets: WindowInsetsCompat): WindowInsetsCompat {
+    private fun onWindowInsetChanged(insets: WindowInsetsCompat): WindowInsetsCompat {
         var newInsets: WindowInsetsCompat? = null
 
         if (ViewCompat.getFitsSystemWindows(this)) {
-            // If we're set to fit system windows, keep the insets
             newInsets = insets
         }
 
-        // If our insets have changed, keep them and invalidate the scroll ranges...
         if (!ObjectsCompat.equals(lastInsets, newInsets)) {
             lastInsets = newInsets
             requestLayout()
         }
-
-        // Consume the insets. This is done so that child views with fitSystemWindows=true do not
-        // get the default padding functionality from View
-        return insets.consumeSystemWindowInsets()
+        return insets
     }
 
     val stickyHeight: Int
         get() {
+            var result = 0
             for (i in 0 until childCount) {
                 val view = getChildAt(i)
                 val layoutParams = view.layoutParams as LayoutParams
                 if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_STICKY) {
-                    return view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
+                    result += view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
                 }
 
                 if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_COLLAPSE) {
-                    return view.minimumHeight
+                    result += view.minimumHeight
                 }
             }
-            return 0
+            result += getTopInset()
+            return result
         }
 
     val refreshHeaderOffset: Int
@@ -98,6 +95,10 @@ class RefreshStickyLayout @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
         updateAllChildList()
+    }
+
+    private fun getTopInset(): Int {
+        return lastInsets?.systemWindowInsetTop ?: 0
     }
 
     private fun updateAllChildList() {
