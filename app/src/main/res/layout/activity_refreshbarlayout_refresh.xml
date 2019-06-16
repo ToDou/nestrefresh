@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:layout_behavior="@string/nest_refresh_bar_scroll_behavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/large_text"/>
+
+    </android.support.v4.widget.NestedScrollView>
+
     <com.todou.nestrefresh.RefreshBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -46,36 +60,9 @@
 
     </com.todou.nestrefresh.RefreshBarLayout>
 
-    <LinearLayout
+    <com.todou.nestrefresh.LoadMoreFooterView
+        android:id="@+id/view_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/nest_refresh_bar_scroll_behavior">
-
-        <com.todou.nestrefresh.ChildCoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                app:layout_behavior="@string/nest_refresh_scroll_behavior">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:text="@string/large_text"/>
-
-            </android.support.v4.widget.NestedScrollView>
-
-            <com.todou.nestrefresh.LoadMoreFooterView
-                android:id="@+id/view_footer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.todou.nestrefresh.ChildCoordinatorLayout>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
 </android.support.design.widget.CoordinatorLayout>

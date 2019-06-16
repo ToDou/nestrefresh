@@ -43,11 +43,11 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
     val currentRange: Int
         get() = getTopAndBottomOffset()
 
-    fun setMaxRange(maxRange: Int) {
+    private fun setMaxRange(maxRange: Int) {
         this.maxRange = maxRange
     }
 
-    fun setHoveringRange(hoveringRange: Int) {
+    private fun setHoveringRange(hoveringRange: Int) {
         this.hoveringRange = hoveringRange
         hoveringOffset = -this.hoveringRange
     }
@@ -66,11 +66,11 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
 
         callback?.updateChildHeight(childHeight)
 
-        if (hoveringRange == Companion.UNSET) {
+        if (hoveringRange == UNSET) {
             setHoveringRange(childHeight + lp.topMargin + lp.bottomMargin)
         }
 
-        if (maxRange == Companion.UNSET) {
+        if (maxRange == UNSET) {
             setMaxRange(parentHeight)
         }
     }
