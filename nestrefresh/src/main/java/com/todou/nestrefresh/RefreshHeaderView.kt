@@ -105,7 +105,7 @@ class RefreshHeaderView @JvmOverloads constructor(
     }
 
     override fun onScroll(offset: Int, fraction: Float, nextState: Int) {
-        val belowThreshold = fraction < 1
+        val belowThreshold = fraction > 1
         if (!isRefreshing && belowThreshold != this.belowThreshold) {
             this.belowThreshold = belowThreshold
             updateTextAndImage()
@@ -114,14 +114,14 @@ class RefreshHeaderView @JvmOverloads constructor(
 
     private fun updateTextAndImage() {
         viewProgress.visibility = View.GONE
-        if (belowThreshold) {
+        if (!belowThreshold) {
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.startAnimation(reverseFlipAnimation)
         } else {
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.startAnimation(flipAnimation)
         }
-        textRefresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
+        textRefresh.text = if (!belowThreshold) textBelowThreshold else textAboveThreshold
     }
 
     override fun onStateChanged(newState: Int) {
