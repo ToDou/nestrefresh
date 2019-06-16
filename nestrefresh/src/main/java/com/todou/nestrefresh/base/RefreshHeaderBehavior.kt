@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.math.MathUtils
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
@@ -141,7 +142,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                     this.fling(parent, child, -this.getScrollRangeForDragFling(child), 0, yvel)
                 }
                 this.isBeingDragged = false
-                this.isTouching = false
                 this.activePointerId = -1
                 if (this.velocityTracker != null) {
                     this.velocityTracker?.recycle()
@@ -151,7 +151,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
             }
             MotionEvent.ACTION_CANCEL -> {
                 this.isBeingDragged = false
-                this.isTouching = false
                 this.activePointerId = -1
                 if (this.velocityTracker != null) {
                     this.velocityTracker?.recycle()
@@ -225,7 +224,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         axes: Int,
         type: Int
     ): Boolean {
-        isTouching = true
+        if (type == ViewCompat.TYPE_TOUCH) isTouching = true
         if (axes and 2 != 0) {
             cancelAnimatorIfNeeded()
         }
@@ -246,7 +245,9 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, type: Int) {
         super.onStopNestedScroll(coordinatorLayout, child, target, type)
-        isTouching = false
+        if (type == ViewCompat.TYPE_TOUCH) {
+            isTouching = false
+        }
         animateBackIfNeeded()
     }
 
@@ -452,12 +453,9 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
     }
 
     private fun animateOffsetToState(endState: Int) {
-        if (isTouching) {
-            return
-        }
         val from = getTopAndBottomOffset()
         val to = if (endState == STATE_HOVERING) hoveringOffset else originalOffset
-        if (from == to || from < 0) {
+        if (from == to || from < 0 || isTouching) {
             setStateInternal(endState)
             return
         } else {

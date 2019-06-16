@@ -36,16 +36,9 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
     private lateinit var animator: ValueAnimator
     private var endListener: EndListener? = null
     private var hasMore = true
-    private var isOnTouch = false
+    private var isTouching = false
 
     private var showFooterEnable = false
-
-    private val stateByHasMoreWhenHover: Int
-        get() = if (hasMore) {
-            STATE_HOVERING
-        } else {
-            STATE_COLLAPSED
-        }
 
     val currentRange: Int
         get() = getTopAndBottomOffset()
@@ -90,7 +83,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         axes: Int,
         type: Int
     ): Boolean {
-        isOnTouch = true
+        if (type == ViewCompat.TYPE_TOUCH) isTouching = true
         val started = axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0
         if (started && this::animator.isInitialized && animator.isRunning) {
             animator.cancel()
@@ -159,14 +152,20 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
 
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, type: Int) {
         super.onStopNestedScroll(coordinatorLayout, child, target, type)
-        isOnTouch = false
-        animateOffsetToState(if (getTopAndBottomOffset() <= hoveringOffset) stateByHasMoreWhenHover else STATE_COLLAPSED)
+        if (type == ViewCompat.TYPE_TOUCH) isTouching = false
+        animateOffsetToState(if (getTopAndBottomOffset() <= hoveringOffset) stateByHasMoreWhenHover() else STATE_COLLAPSED)
     }
+
+    private fun stateByHasMoreWhenHover() = if (hasMore) {
+            STATE_HOVERING
+        } else {
+            STATE_COLLAPSED
+        }
 
     private fun animateOffsetToState(endState: Int) {
         val from = getTopAndBottomOffset()
         val to = if (endState == STATE_HOVERING) hoveringOffset else 0
-        if (from == to || isOnTouch) {
+        if (from == to || isTouching) {
             setStateInternal(endState)
             return
         } else {
@@ -209,7 +208,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
             throw Throwable("Illegal state argument: $state")
         } else if (state != this.state) {
             if (state == STATE_HOVERING) {
-                state = stateByHasMoreWhenHover
+                state = stateByHasMoreWhenHover()
             }
             animateOffsetToState(state)
         }
