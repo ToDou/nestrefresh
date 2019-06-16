@@ -11,7 +11,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.todou.nestrefresh.base.OnRefreshListener
 import java.util.ArrayList
 import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
@@ -27,7 +26,6 @@ class RefreshBarLayout @JvmOverloads constructor(
     var childScrollAbleList: List<View> = ArrayList()
         private set
     private var refreshBarBehavior: RefreshBarBehavior? = null
-    private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
     private var listeners: MutableList<OffsetChangedListener> = mutableListOf()
     private var lastInsets: WindowInsetsCompat? = null
@@ -124,10 +122,6 @@ class RefreshBarLayout @JvmOverloads constructor(
             }
         }
         return result
-    }
-
-    fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
-        this.onRefreshListener = onRefreshListener
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
