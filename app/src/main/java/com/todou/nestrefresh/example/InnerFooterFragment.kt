@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.todou.nestrefresh.LoadMoreFooterView
+import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.example.widget.ItemDecoration
 
 import java.util.Collections
@@ -38,10 +39,10 @@ class InnerFooterFragment : Fragment() {
         adapter.updateDatas(Collections.nCopies(20, Any()))
 
 
-        loadMoreFooterView.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
+        loadMoreFooterView.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 loadMoreFooterView.postDelayed({
-                    loadMoreFooterView.setIsLoadMore(false)
+                    loadMoreFooterView.stopLoadMore()
                 }, 2000)
             }
         })

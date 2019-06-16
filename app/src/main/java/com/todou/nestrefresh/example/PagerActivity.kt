@@ -6,12 +6,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
-import com.todou.nestrefresh.RefreshBarLayout
-
 import java.util.Collections
 import com.todou.nestrefresh.LoadMoreFooterView
+import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
-import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager.*
+import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager.view_refresh_header
 
 
 class PagerActivity : AppCompatActivity() {
@@ -60,10 +59,10 @@ class PagerActivity : AppCompatActivity() {
         fragmentAdapter = FragmentAdapter(supportFragmentManager, list)
         viewPager.adapter = fragmentAdapter
 
-        loadMoreFooterView.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
+        loadMoreFooterView.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 loadMoreFooterView.postDelayed({
-                    loadMoreFooterView.setIsLoadMore(false)
+                    loadMoreFooterView.stopLoadMore()
                     currentPage++
                     loadMoreFooterView.setHasMore(currentPage <= maxPage)
                 }, 2000)

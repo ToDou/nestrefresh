@@ -3,6 +3,7 @@ package com.todou.nestrefresh.example
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.todou.nestrefresh.LoadMoreFooterView
+import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
 import kotlinx.android.synthetic.main.activity_refreshbarlayout_refresh.*
 
@@ -27,10 +28,10 @@ class RefreshBarLayoutActivity : AppCompatActivity() {
             }
         })
 
-        view_footer.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
+        view_footer.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 view_footer.postDelayed({
-                    view_footer.setIsLoadMore(false)
+                    view_footer.stopLoadMore()
                 }, 2000)
             }
         })

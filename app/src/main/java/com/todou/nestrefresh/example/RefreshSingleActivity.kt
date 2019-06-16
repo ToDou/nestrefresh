@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.todou.nestrefresh.LoadMoreFooterView
-import com.todou.nestrefresh.RefreshHeaderView
+import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.widget.ItemDecoration
 import kotlinx.android.synthetic.main.activity_nest_refresh_single_refresh.*
@@ -46,10 +46,10 @@ class RefreshSingleActivity : AppCompatActivity() {
             }
         })
 
-        view_footer.setOnLoadMoreListener(object : LoadMoreFooterView.OnLoadMoreListener {
+        view_footer.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 view_footer.postDelayed({
-                    view_footer.setIsLoadMore(false)
+                    view_footer.stopLoadMore()
                     currentPage++
                     view_footer.setHasMore(currentPage <= maxPage)
                 }, 2000)

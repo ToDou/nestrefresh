@@ -15,6 +15,8 @@ import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_COLLAPSED
 import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_HOVERING
 import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_DRAGGING
 import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_SETTLING
+import com.todou.nestrefresh.base.LoadMoreFooter
+import com.todou.nestrefresh.base.OnLoadMoreListener
 
 class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {
@@ -31,11 +33,13 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     private lateinit var textRefreshing: CharSequence
     private lateinit var textNoMore: CharSequence
 
-    private var behavior: LoadMoreBehavior? = null
+    private var loadMoreFooter: LoadMoreFooter? = null
     private var onLoadMoreListener: OnLoadMoreListener? = null
 
     private var belowThreshold = true
     private var state: Int = 0
+
+    private var isLoadMoreIng = false
 
     init {
         init(context, attrs, defStyleAttr)
@@ -43,7 +47,7 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
-        behavior?.setShowFooterEnable(enabled)
+        loadMoreFooter?.setShowFooterEnable(enabled)
     }
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
@@ -82,9 +86,9 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
         val behavior = LoadMoreBehavior()
-        this.behavior = behavior
-        behavior.setFooterCallback(this)
-        behavior.setShowFooterEnable(isEnabled)
+        this.loadMoreFooter = behavior
+        loadMoreFooter?.setFooterCallback(this)
+        loadMoreFooter?.setShowFooterEnable(isEnabled)
         return behavior
     }
 
@@ -107,26 +111,8 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun doHasMoreScroll(offset: Int, fraction: Float, nextState: Int) {
-        if (state != nextState) {
-            if (state == STATE_COLLAPSED) {
-                imageRefreshIndicator.clearAnimation()
-                imageRefreshIndicator.rotation = 0f
-            }
-            state = nextState
-            if (nextState == STATE_DRAGGING) {
-                if (viewProgress.visibility == View.VISIBLE) {
-                    viewProgress.visibility = View.GONE
-                }
-
-                if (imageRefreshIndicator.visibility != View.VISIBLE) {
-                    imageRefreshIndicator.visibility = View.VISIBLE
-                }
-                textRefresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
-            }
-        }
-
         val belowThreshold = fraction < -1
-        if (belowThreshold != this.belowThreshold && nextState != STATE_SETTLING) {
+        if (!isLoadMoreIng && belowThreshold != this.belowThreshold) {
             this.belowThreshold = belowThreshold
             updateTextAndImage()
         }
@@ -145,14 +131,15 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun onStateChanged(newState: Int, hasMore: Boolean) {
         if (hasMore) {
-            if (newState == STATE_HOVERING) {
+            if (!isLoadMoreIng && newState == STATE_HOVERING) {
                 textRefresh.text = textRefreshing
                 viewProgress.visibility = View.VISIBLE
                 imageRefreshIndicator.clearAnimation()
                 imageRefreshIndicator.visibility = View.GONE
             }
-            if (newState == STATE_HOVERING) {
+            if (!isLoadMoreIng && newState == STATE_HOVERING) {
                 onLoadMoreListener?.onLoadMore()
+                isLoadMoreIng = true
             }
         } else {
             textRefresh.text = textNoMore
@@ -162,25 +149,17 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
         }
     }
 
-    fun setIsLoadMore(isLoadMore: Boolean) {
-        behavior?.setState(
-            if (isLoadMore)
-                STATE_HOVERING
-            else
-                STATE_COLLAPSED
-        )
+    fun stopLoadMore() {
+        isLoadMoreIng = false
+        loadMoreFooter?.stopLoadMore()
     }
 
     fun setHasMore(hasMore: Boolean) {
-        behavior?.setHasMore(hasMore)
+        loadMoreFooter?.setHasMore(hasMore)
     }
 
     fun setOnLoadMoreListener(listener: OnLoadMoreListener) {
         onLoadMoreListener = listener
-    }
-
-    interface OnLoadMoreListener {
-        fun onLoadMore()
     }
 
     override fun updateChildHeight(height: Int) {

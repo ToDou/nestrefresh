@@ -11,10 +11,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.todou.nestrefresh.base.BaseBehavior
+import com.todou.nestrefresh.base.LoadMoreFooter
 import com.todou.nestrefresh.base.LoadMoreFooterCallback
 
 class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
-    BaseBehavior<View>(context, attrs) {
+    BaseBehavior<View>(context, attrs), LoadMoreFooter {
 
     private var state = STATE_COLLAPSED
 
@@ -47,10 +48,6 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
 
     fun setMaxRange(maxRange: Int) {
         this.maxRange = maxRange
-    }
-
-    fun setHasMore(hasMore: Boolean) {
-        this.hasMore = hasMore
     }
 
     fun setHoveringRange(hoveringRange: Int) {
@@ -222,10 +219,6 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         return (-Math.log((1 - currentRange.toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
     }
 
-    fun setFooterCallback(callback: LoadMoreFooterCallback) {
-        this.callback = callback
-    }
-
     private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {
         private var canceling: Boolean = false
 
@@ -248,8 +241,20 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         }
     }
 
-    fun setShowFooterEnable(showFooterEnable: Boolean) {
+    override fun setShowFooterEnable(showFooterEnable: Boolean) {
         this.showFooterEnable = showFooterEnable
+    }
+
+    override fun setFooterCallback(callback: LoadMoreFooterCallback) {
+        this.callback = callback
+    }
+
+    override fun setHasMore(hasMore: Boolean) {
+        this.hasMore = hasMore
+    }
+
+    override fun stopLoadMore() {
+        setState(STATE_COLLAPSED)
     }
 
     companion object {
