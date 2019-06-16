@@ -175,7 +175,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
         final ViewParent parent = getParent();
         if (parent instanceof RefreshBarLayout) {
             // Copy over from the ABL whether we should fit system windows
-            ViewCompat.setFitsSystemWindows(this, ViewCompat.getFitsSystemWindows((View) parent));
+            this.setFitsSystemWindows(ViewCompat.getFitsSystemWindows((View) parent));
 
             if (onOffsetChangedListener == null) {
                 onOffsetChangedListener = new OffsetUpdateListener();

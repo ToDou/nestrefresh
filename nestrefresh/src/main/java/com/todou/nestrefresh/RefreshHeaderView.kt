@@ -12,9 +12,11 @@ import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeaderBehavior
 import android.support.design.widget.CoordinatorLayout
+import android.support.v4.util.ObjectsCompat
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.WindowInsetsCompat
 import android.view.ViewGroup
 import java.lang.reflect.Field
-
 
 class RefreshHeaderView @JvmOverloads constructor(
     context: Context,
@@ -25,6 +27,8 @@ class RefreshHeaderView @JvmOverloads constructor(
 
     private lateinit var flipAnimation: RotateAnimation
     private lateinit var reverseFlipAnimation: RotateAnimation
+
+    private var lastInsets: WindowInsetsCompat? = null
 
     private lateinit var imageRefreshIndicator: ImageView
     private lateinit var viewProgress: View
@@ -38,16 +42,13 @@ class RefreshHeaderView @JvmOverloads constructor(
     private var state: Int = 0
     private var onRefreshListener: OnRefreshListener? = null
     private var behavior: RefreshBehavior? = null
-    private var showStatusInset: Boolean
 
     init {
         init(context, attrs, defStyleAttr)
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RefreshHeaderView)
-        showStatusInset = a.getBoolean(
-            R.styleable.RefreshHeaderView_status_bar_inset_visible, false
-        )
-        a.recycle()
+        ViewCompat.setOnApplyWindowInsetsListener(
+            this
+        ) { _, windowInsetsCompat -> onWindowInsetChanged(windowInsetsCompat) }
     }
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
@@ -62,6 +63,26 @@ class RefreshHeaderView @JvmOverloads constructor(
         textRefreshing = resources.getString(R.string.nest_refresh_refreshing)
 
         initAnimation()
+    }
+
+    private fun onWindowInsetChanged(insets: WindowInsetsCompat): WindowInsetsCompat {
+        var newInsets: WindowInsetsCompat? = null
+
+        if (ViewCompat.getFitsSystemWindows(this)) {
+            newInsets = insets
+        }
+
+        if (!ObjectsCompat.equals(lastInsets, newInsets)) {
+            lastInsets = newInsets
+            if (layoutParams is MarginLayoutParams) {
+                val marginLayoutParams = layoutParams as MarginLayoutParams
+                if (marginLayoutParams.topMargin == 0) {
+                    marginLayoutParams.topMargin = lastInsets?.systemWindowInsetTop ?: 0
+                }
+            }
+            requestLayout()
+        }
+        return insets
     }
 
     private fun initAnimation() {
@@ -136,15 +157,8 @@ class RefreshHeaderView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        if (layoutParams is MarginLayoutParams) {
-            val inset = getInsetHeight()
-            inset.takeIf { it > 0 }
-                ?.let {
-                    val lp = layoutParams as MarginLayoutParams
-                    lp.topMargin = it
-                    layoutParams = lp
-                }
-        }
+        this.fitsSystemWindows = ViewCompat.getFitsSystemWindows(parent as View)
+        ViewCompat.requestApplyInsets(this)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -172,30 +186,6 @@ class RefreshHeaderView @JvmOverloads constructor(
 
     fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
         this.onRefreshListener = onRefreshListener
-    }
-
-    private fun getInsetHeight(): Int {
-        return if (showStatusInset) getStatusBarHeight(context) else 0
-    }
-
-    private fun getStatusBarHeight(context: Context): Int {
-        val c: Class<*>
-        val obj: Any
-        val field: Field
-
-        val x: Int
-        var statusBarHeight = 0
-        try {
-            c = Class.forName("com.android.internal.R\$dimen")
-            obj = c.newInstance()
-            field = c.getField("status_bar_height")
-            x = Integer.parseInt(field.get(obj).toString())
-            statusBarHeight = context.resources.getDimensionPixelSize(x)
-        } catch (e1: Exception) {
-            e1.printStackTrace()
-        }
-
-        return statusBarHeight
     }
 
 }

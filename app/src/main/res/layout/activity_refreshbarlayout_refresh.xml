@@ -16,7 +16,6 @@
         <com.todou.nestrefresh.RefreshHeaderView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:status_bar_inset_visible="true"
             app:nr_layout_scrollFlags="flag_refresh_header"/>
 
         <com.todou.nestrefresh.NRCollapsingToolbarLayout
