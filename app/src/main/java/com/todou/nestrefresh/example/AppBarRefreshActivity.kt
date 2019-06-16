@@ -24,7 +24,7 @@ class AppBarRefreshActivity : AppCompatActivity() {
         view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 view_refresh_header.postDelayed({
-                    view_refresh_header.setRefresh(false)
+                    view_refresh_header.stopRefresh()
                 }, 2000)
             }
         })

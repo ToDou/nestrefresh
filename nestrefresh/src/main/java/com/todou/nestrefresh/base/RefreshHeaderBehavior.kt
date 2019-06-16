@@ -15,7 +15,7 @@ import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
 
-abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
+abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader {
     private var flingRunnable: Runnable? = null
     private lateinit var scroller: OverScroller
     var totalSpringOffset = 0f
@@ -39,7 +39,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
     val topBottomOffsetForScrollingSibling: Int
         get() = getTopAndBottomOffset()
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
         this.child = child
@@ -487,7 +487,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         }
     }
 
-    fun setState(state: Int) {
+    private fun setState(state: Int) {
         if (state != STATE_COLLAPSED && state != STATE_HOVERING) {
             throw IllegalArgumentException("Illegal state argument: $state")
         } else if (state != this.state) {
@@ -495,8 +495,16 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V> {
         }
     }
 
-    fun setSpringHeaderCallback(callback: RefreshCallback) {
+    override fun setRefreshCallback(callback: RefreshCallback) {
         refreshHeaderCallback = callback
+    }
+
+    override fun setRefreshEnable(enable: Boolean) {
+
+    }
+
+    override fun stopRefresh() {
+        setState(STATE_COLLAPSED)
     }
 
     private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {

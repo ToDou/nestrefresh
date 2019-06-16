@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.todou.nestrefresh.RefreshHeaderView
+            android:id="@+id/view_refresh_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:nr_layout_scrollFlags="flag_refresh_header"/>

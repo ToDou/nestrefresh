@@ -11,14 +11,13 @@ import com.todou.nestrefresh.RefreshBarLayout
 
 import java.util.Collections
 import com.todou.nestrefresh.base.OnRefreshListener
+import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager_inner_footer.*
 
 
 class InnerFooterPagerActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerAdapterInHeader
     private lateinit var fragmentAdapter: FragmentAdapter
-    private lateinit var viewPager: ViewPager
 
     private var currentPage = 1
     private var initPage = 1
@@ -28,22 +27,17 @@ class InnerFooterPagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nest_refresh_viewpager_inner_footer)
 
-        recyclerView = findViewById(R.id.recycler_view_inner)
-        viewPager = findViewById(R.id.view_pager)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recycler_view_inner.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerAdapterInHeader()
-        recyclerView.adapter = adapter
+        recycler_view_inner.adapter = adapter
         adapter.updateDatas(Collections.nCopies(5, Any()))
 
-        val refreshStickyLayout = findViewById<RefreshBarLayout>(R.id.view_refresh_sticky_layout)
-
-        refreshStickyLayout.setOnRefreshListener(object : OnRefreshListener {
+        view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 Toast.makeText(this@InnerFooterPagerActivity, "Refresh Start", Toast.LENGTH_SHORT).show()
-                refreshStickyLayout.postDelayed({
+                view_refresh_header.postDelayed({
                     Toast.makeText(this@InnerFooterPagerActivity, "Refresh End", Toast.LENGTH_SHORT).show()
-                    refreshStickyLayout.setRefresh(false)
+                    view_refresh_header.stopRefresh()
                     currentPage = initPage
                 }, 2000)
             }
@@ -56,7 +50,7 @@ class InnerFooterPagerActivity : AppCompatActivity() {
             list.add(f)
         }
         fragmentAdapter = FragmentAdapter(supportFragmentManager, list)
-        viewPager.adapter = fragmentAdapter
+        view_pager.adapter = fragmentAdapter
 
     }
 

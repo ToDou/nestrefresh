@@ -19,10 +19,10 @@ class RefreshBarLayoutActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        app_bar.setOnRefreshListener(object : OnRefreshListener {
+        view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
-                app_bar.postDelayed({
-                    app_bar .setRefresh(false)
+                view_refresh_header.postDelayed({
+                    view_refresh_header.stopRefresh()
                 }, 2000)
             }
         })

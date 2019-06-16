@@ -14,8 +14,9 @@ import android.view.animation.DecelerateInterpolator
 
 import com.todou.nestrefresh.base.BaseBehavior
 import com.todou.nestrefresh.base.RefreshCallback
+import com.todou.nestrefresh.base.RefreshHeader
 
-class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View>(context, attrs) {
+class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View>(context, attrs), RefreshHeader {
 
     private var state = STATE_COLLAPSED
 
@@ -213,10 +214,6 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         return (-Math.log((1 - currentRange.toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
     }
 
-    fun setRefreshCallback(callback: RefreshCallback) {
-        this.callback = callback
-    }
-
     private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {
         private var canceling: Boolean = false
 
@@ -239,8 +236,16 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         }
     }
 
-    fun setRefreshEnable(refreshEnable: Boolean) {
+    override fun setRefreshEnable(enable: Boolean) {
         this.refreshEnable = refreshEnable
+    }
+
+    override fun setRefreshCallback(callback: RefreshCallback) {
+        this.callback = callback
+    }
+
+    override fun stopRefresh() {
+        setState(STATE_COLLAPSED)
     }
 
     companion object {

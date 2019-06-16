@@ -12,9 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.todou.nestrefresh.base.OnRefreshListener
-import com.todou.nestrefresh.base.RefreshCallback
-import com.todou.nestrefresh.base.RefreshHeaderBehavior
-
 import java.util.ArrayList
 import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
@@ -26,7 +23,7 @@ class RefreshBarLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) :
-    LinearLayout(context, attrs, defStyleAttr), RefreshCallback, CoordinatorLayout.AttachedBehavior {
+    LinearLayout(context, attrs, defStyleAttr), CoordinatorLayout.AttachedBehavior {
 
     var childScrollAbleList: List<View> = ArrayList()
         private set
@@ -34,7 +31,7 @@ class RefreshBarLayout @JvmOverloads constructor(
     private var onRefreshListener: OnRefreshListener? = null
     private lateinit var headerView: View
     private var listeners: MutableList<OffsetChangedListener> = mutableListOf()
-    internal var lastInsets: WindowInsetsCompat? = null
+    private var lastInsets: WindowInsetsCompat? = null
 
     init {
         orientation = VERTICAL
@@ -130,45 +127,12 @@ class RefreshBarLayout @JvmOverloads constructor(
         return result
     }
 
-    override fun onScroll(offset: Int, fraction: Float, nextState: Int) {
-        onScrollToRefreshHeader(offset, fraction, nextState)
-    }
-
-    override fun onStateChanged(newState: Int) {
-        onStateChangedToRefreshHeader(newState)
-        if (newState == RefreshHeaderBehavior.STATE_HOVERING) {
-            onRefreshListener?.onRefresh()
-        }
-    }
-
-    private fun onScrollToRefreshHeader(offset: Int, fraction: Float, nextState: Int) {
-        if (headerView is RefreshCallback) {
-            (headerView as RefreshCallback).onScroll(offset, fraction, nextState)
-        }
-    }
-
-    private fun onStateChangedToRefreshHeader(newState: Int) {
-        if (headerView is RefreshCallback) {
-            (headerView as RefreshCallback).onStateChanged(newState)
-        }
-    }
-
-    fun setRefresh(refreshing: Boolean) {
-        refreshBarBehavior?.setState(
-            if (refreshing)
-                RefreshHeaderBehavior.STATE_HOVERING
-            else
-                RefreshHeaderBehavior.STATE_COLLAPSED
-        )
-    }
-
     fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
         this.onRefreshListener = onRefreshListener
     }
 
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
         val behavior = RefreshBarBehavior()
-        behavior.setSpringHeaderCallback(this)
         refreshBarBehavior = behavior
         return behavior
     }

@@ -11,6 +11,7 @@ import com.todou.nestrefresh.RefreshBarLayout
 import java.util.Collections
 import com.todou.nestrefresh.LoadMoreFooterView
 import com.todou.nestrefresh.base.OnRefreshListener
+import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager.*
 
 
 class PagerActivity : AppCompatActivity() {
@@ -38,14 +39,12 @@ class PagerActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         adapter.updateDatas(Collections.nCopies(5, Any()))
 
-        val refreshStickyLayout = findViewById<RefreshBarLayout>(R.id.pull_refresh_hover)
-
-        refreshStickyLayout.setOnRefreshListener(object : OnRefreshListener {
+        view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 Toast.makeText(this@PagerActivity, "Refresh Start", Toast.LENGTH_SHORT).show()
-                refreshStickyLayout.postDelayed({
+                view_refresh_header.postDelayed({
                     Toast.makeText(this@PagerActivity, "Refresh End", Toast.LENGTH_SHORT).show()
-                    refreshStickyLayout.setRefresh(false)
+                    view_refresh_header.stopRefresh()
                     currentPage = initPage
                     loadMoreFooterView.setHasMore(currentPage <= maxPage)
                 }, 2000)

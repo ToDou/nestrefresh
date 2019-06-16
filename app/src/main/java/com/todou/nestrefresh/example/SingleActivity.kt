@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import com.todou.nestrefresh.RefreshBarLayout
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.widget.ItemDecoration
+import kotlinx.android.synthetic.main.activity_nest_refresh_single_refresh.*
 
 import java.util.Collections
 
@@ -41,13 +42,10 @@ class SingleActivity : AppCompatActivity() {
         )
         recyclerAdapterScroll.updateDatas(Collections.nCopies(20, Any()))
 
-
-        val pullRefreshHoverLayout = findViewById<RefreshBarLayout>(R.id.pull_refresh_hover)
-
-        pullRefreshHoverLayout.setOnRefreshListener(object : OnRefreshListener {
+        view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
-                pullRefreshHoverLayout.postDelayed({
-                    pullRefreshHoverLayout.setRefresh(false)
+                view_refresh_header.postDelayed({
+                    view_refresh_header.stopRefresh()
                 }, 2000)
             }
         })

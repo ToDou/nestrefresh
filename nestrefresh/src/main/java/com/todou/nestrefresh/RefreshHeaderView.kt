@@ -15,7 +15,9 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.WindowInsetsCompat
+import android.util.Log
 import android.view.ViewGroup
+import com.todou.nestrefresh.base.RefreshHeader
 import java.lang.reflect.Field
 
 class RefreshHeaderView @JvmOverloads constructor(
@@ -39,9 +41,10 @@ class RefreshHeaderView @JvmOverloads constructor(
     private lateinit var textRefreshing: CharSequence
 
     private var belowThreshold = true
-    private var state: Int = 0
     private var onRefreshListener: OnRefreshListener? = null
-    private var behavior: RefreshBehavior? = null
+    private var refreshHeader: RefreshHeader? = null
+
+    private var isRefreshing = false
 
     init {
         init(context, attrs, defStyleAttr)
@@ -105,32 +108,15 @@ class RefreshHeaderView @JvmOverloads constructor(
     }
 
     override fun onScroll(offset: Int, fraction: Float, nextState: Int) {
-        if (state != nextState) {
-            if (state == RefreshHeaderBehavior.STATE_COLLAPSED) {
-                imageRefreshIndicator.clearAnimation()
-                imageRefreshIndicator.rotation = 0f
-            }
-            state = nextState
-            if (nextState == RefreshHeaderBehavior.STATE_DRAGGING) {
-                if (viewProgress.visibility == View.VISIBLE) {
-                    viewProgress.visibility = View.GONE
-                }
-
-                if (imageRefreshIndicator.visibility != View.VISIBLE) {
-                    imageRefreshIndicator.visibility = View.VISIBLE
-                }
-                textRefresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
-            }
-        }
-
         val belowThreshold = fraction < 1
-        if (belowThreshold != this.belowThreshold && nextState != RefreshHeaderBehavior.STATE_SETTLING) {
+        if (!isRefreshing && belowThreshold != this.belowThreshold) {
             this.belowThreshold = belowThreshold
             updateTextAndImage()
         }
     }
 
     private fun updateTextAndImage() {
+        viewProgress.visibility = View.GONE
         if (belowThreshold) {
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.startAnimation(reverseFlipAnimation)
@@ -142,15 +128,16 @@ class RefreshHeaderView @JvmOverloads constructor(
     }
 
     override fun onStateChanged(newState: Int) {
-        if (newState == RefreshHeaderBehavior.STATE_HOVERING) {
+        if (!isRefreshing && newState == RefreshHeaderBehavior.STATE_HOVERING) {
             textRefresh.text = textRefreshing
             viewProgress.visibility = View.VISIBLE
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.visibility = View.GONE
         }
 
-        if (newState == RefreshHeaderBehavior.STATE_HOVERING) {
+        if (!isRefreshing && newState == RefreshHeaderBehavior.STATE_HOVERING) {
             onRefreshListener?.onRefresh()
+            isRefreshing = true
         }
     }
 
@@ -167,21 +154,22 @@ class RefreshHeaderView @JvmOverloads constructor(
         val lp = layoutParams
         if (lp is CoordinatorLayout.LayoutParams) {
             val behavior = lp.behavior
-            if (behavior is RefreshBehavior) {
-                this.behavior = behavior
-                behavior.setRefreshCallback(this)
-                behavior.setRefreshEnable(isEnabled)
+            if (behavior is RefreshHeader) {
+                this.refreshHeader = behavior
+            }
+        } else if (parent is RefreshBarLayout && (parent as View).layoutParams is CoordinatorLayout.LayoutParams) {
+            val behavior = ((parent as View).layoutParams as CoordinatorLayout.LayoutParams).behavior
+            if (behavior is RefreshHeader) {
+                this.refreshHeader = behavior
             }
         }
+        refreshHeader?.setRefreshCallback(this)
+        refreshHeader?.setRefreshEnable(isEnabled)
     }
 
-    fun setRefresh(refreshing: Boolean) {
-        behavior?.setState(
-            if (refreshing)
-                RefreshHeaderBehavior.STATE_HOVERING
-            else
-                RefreshHeaderBehavior.STATE_COLLAPSED
-        )
+    fun stopRefresh() {
+        isRefreshing = false
+        refreshHeader?.stopRefresh()
     }
 
     fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
