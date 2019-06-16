@@ -119,6 +119,7 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun updateTextAndImage() {
+        viewProgress.visibility = View.GONE
         if (belowThreshold) {
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.startAnimation(reverseFlipAnimation)

@@ -199,7 +199,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
         callback?.onStateChanged(state, hasMore)
     }
 
-    fun setState(state: Int) {
+    private fun setState(state: Int) {
         var state = state
         if (state != STATE_COLLAPSED && state != STATE_HOVERING) {
             throw Throwable("Illegal state argument: $state")
