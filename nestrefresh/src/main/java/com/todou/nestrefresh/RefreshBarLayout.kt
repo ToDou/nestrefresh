@@ -17,7 +17,6 @@ import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.WindowInsetsCompat
 
-
 class RefreshBarLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

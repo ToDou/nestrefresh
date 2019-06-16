@@ -10,15 +10,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.base.RefreshCallback
-import com.todou.nestrefresh.base.RefreshHeaderBehavior
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.WindowInsetsCompat
-import android.util.Log
-import android.view.ViewGroup
 import com.todou.nestrefresh.base.RefreshHeader
-import java.lang.reflect.Field
+import com.todou.nestrefresh.base.State.STATE_HOVERING
 
 class RefreshHeaderView @JvmOverloads constructor(
     context: Context,
@@ -128,14 +125,14 @@ class RefreshHeaderView @JvmOverloads constructor(
     }
 
     override fun onStateChanged(newState: Int) {
-        if (!isRefreshing && newState == RefreshHeaderBehavior.STATE_HOVERING) {
+        if (!isRefreshing && newState == STATE_HOVERING) {
             textRefresh.text = textRefreshing
             viewProgress.visibility = View.VISIBLE
             imageRefreshIndicator.clearAnimation()
             imageRefreshIndicator.visibility = View.GONE
         }
 
-        if (!isRefreshing && newState == RefreshHeaderBehavior.STATE_HOVERING) {
+        if (!isRefreshing && newState == STATE_HOVERING) {
             onRefreshListener?.onRefresh()
             isRefreshing = true
         }

@@ -13,6 +13,10 @@ import android.view.animation.DecelerateInterpolator
 import com.todou.nestrefresh.base.BaseBehavior
 import com.todou.nestrefresh.base.LoadMoreFooter
 import com.todou.nestrefresh.base.LoadMoreFooterCallback
+import com.todou.nestrefresh.base.State.STATE_COLLAPSED
+import com.todou.nestrefresh.base.State.STATE_DRAGGING
+import com.todou.nestrefresh.base.State.STATE_HOVERING
+import com.todou.nestrefresh.base.State.STATE_SETTLING
 
 class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) :
     BaseBehavior<View>(context, attrs), LoadMoreFooter {
@@ -69,11 +73,11 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
 
         callback?.updateChildHeight(childHeight)
 
-        if (hoveringRange == UNSET) {
+        if (hoveringRange == Companion.UNSET) {
             setHoveringRange(childHeight + lp.topMargin + lp.bottomMargin)
         }
 
-        if (maxRange == UNSET) {
+        if (maxRange == Companion.UNSET) {
             setMaxRange(parentHeight)
         }
     }
@@ -258,12 +262,6 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
     }
 
     companion object {
-
         const val UNSET = Integer.MIN_VALUE
-
-        const val STATE_COLLAPSED = 1
-        const val STATE_HOVERING = 2
-        const val STATE_DRAGGING = 3
-        const val STATE_SETTLING = 4
     }
 }

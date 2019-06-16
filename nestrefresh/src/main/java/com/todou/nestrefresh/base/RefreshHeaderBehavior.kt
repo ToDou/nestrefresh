@@ -14,6 +14,10 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
+import com.todou.nestrefresh.base.State.STATE_COLLAPSED
+import com.todou.nestrefresh.base.State.STATE_DRAGGING
+import com.todou.nestrefresh.base.State.STATE_HOVERING
+import com.todou.nestrefresh.base.State.STATE_SETTLING
 
 abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader {
     private var flingRunnable: Runnable? = null
@@ -531,13 +535,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     companion object {
         private const val SPRING_ANIMATION_TIME = 200
-
-        private const val INVALID_POINTER = -1
-
-        const val STATE_COLLAPSED = 1
-        const val STATE_HOVERING = 2
-        const val STATE_DRAGGING = 3
-        const val STATE_SETTLING = 4
 
         private const val UNSET = Integer.MIN_VALUE
     }

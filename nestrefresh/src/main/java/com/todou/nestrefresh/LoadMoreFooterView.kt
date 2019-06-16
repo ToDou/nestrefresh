@@ -11,12 +11,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.todou.nestrefresh.base.LoadMoreFooterCallback
 
-import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_COLLAPSED
-import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_HOVERING
-import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_DRAGGING
-import com.todou.nestrefresh.LoadMoreBehavior.Companion.STATE_SETTLING
 import com.todou.nestrefresh.base.LoadMoreFooter
 import com.todou.nestrefresh.base.OnLoadMoreListener
+import com.todou.nestrefresh.base.State.STATE_HOVERING
 
 class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {

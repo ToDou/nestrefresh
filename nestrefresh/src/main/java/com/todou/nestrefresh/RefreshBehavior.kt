@@ -15,6 +15,10 @@ import android.view.animation.DecelerateInterpolator
 import com.todou.nestrefresh.base.BaseBehavior
 import com.todou.nestrefresh.base.RefreshCallback
 import com.todou.nestrefresh.base.RefreshHeader
+import com.todou.nestrefresh.base.State.STATE_COLLAPSED
+import com.todou.nestrefresh.base.State.STATE_DRAGGING
+import com.todou.nestrefresh.base.State.STATE_HOVERING
+import com.todou.nestrefresh.base.State.STATE_SETTLING
 
 class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View>(context, attrs), RefreshHeader {
 
@@ -249,12 +253,6 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     }
 
     companion object {
-
         private const val UNSET = Integer.MIN_VALUE
-
-        const val STATE_COLLAPSED = 1
-        const val STATE_HOVERING = 2
-        const val STATE_DRAGGING = 3
-        const val STATE_SETTLING = 4
     }
 }
