@@ -1,4 +1,4 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

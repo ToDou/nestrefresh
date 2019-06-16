@@ -1,4 +1,4 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.todou.nestrefresh.example.widget.ItemDecoration
+import com.todou.nestrefresh.example.R
+import com.todou.nestrefresh.example.ui.adapter.RecyclerAdapterScroll
+import com.todou.nestrefresh.example.ui.widget.ItemDecoration
 
 import java.util.Collections
 

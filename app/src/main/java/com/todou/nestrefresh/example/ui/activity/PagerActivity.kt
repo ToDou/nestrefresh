@@ -1,4 +1,4 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
 import android.support.v4.view.ViewPager
@@ -10,32 +10,29 @@ import java.util.Collections
 import com.todou.nestrefresh.LoadMoreFooterView
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
-import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager.view_refresh_header
+import com.todou.nestrefresh.example.ui.adapter.FragmentAdapter
+import com.todou.nestrefresh.example.R
+import com.todou.nestrefresh.example.ui.adapter.RecyclerAdapterInHeader
+import com.todou.nestrefresh.example.ui.fragment.RecyclerFragment
+import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager.*
 
 
 class PagerActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerAdapterInHeader
     private lateinit var fragmentAdapter: FragmentAdapter
-    private lateinit var viewPager: ViewPager
-    private lateinit var loadMoreFooterView: LoadMoreFooterView
 
     private var currentPage = 1
     private var initPage = 1
-    private var maxPage = 3
+    private var maxPage = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nest_refresh_viewpager)
 
-        recyclerView = findViewById(R.id.recycler_view_inner)
-        viewPager = findViewById(R.id.view_pager)
-        loadMoreFooterView = findViewById(R.id.view_footer)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recycler_view_inner.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerAdapterInHeader()
-        recyclerView.adapter = adapter
+        recycler_view_inner.adapter = adapter
         adapter.updateDatas(Collections.nCopies(5, Any()))
 
         view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
@@ -45,7 +42,7 @@ class PagerActivity : AppCompatActivity() {
                     Toast.makeText(this@PagerActivity, "Refresh End", Toast.LENGTH_SHORT).show()
                     view_refresh_header.stopRefresh()
                     currentPage = initPage
-                    loadMoreFooterView.setHasMore(currentPage <= maxPage)
+                    view_footer.setHasMore(currentPage <= maxPage)
                 }, 2000)
             }
         })
@@ -57,14 +54,14 @@ class PagerActivity : AppCompatActivity() {
             list.add(f)
         }
         fragmentAdapter = FragmentAdapter(supportFragmentManager, list)
-        viewPager.adapter = fragmentAdapter
+        view_pager.adapter = fragmentAdapter
 
-        loadMoreFooterView.setOnLoadMoreListener(object : OnLoadMoreListener {
+        view_footer.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
-                loadMoreFooterView.postDelayed({
-                    loadMoreFooterView.stopLoadMore()
+                view_footer.postDelayed({
+                    view_footer.stopLoadMore()
                     currentPage++
-                    loadMoreFooterView.setHasMore(currentPage <= maxPage)
+                    view_footer.setHasMore(currentPage <= maxPage)
                 }, 2000)
             }
         })

@@ -1,9 +1,10 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.todou.nestrefresh.example.R
 
 class MainActivity : AppCompatActivity() {
 

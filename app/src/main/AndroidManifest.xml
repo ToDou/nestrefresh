@@ -9,24 +9,64 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SingleActivity"/>
-        <activity android:name=".PagerActivity"/>
-        <activity android:name=".RefreshSingleActivity"/>
-        <activity android:name=".InnerFooterPagerActivity"/>
-        <activity
-            android:name=".AppBarRefreshActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".RefreshBarLayoutActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".ui.activity.SingleActivity"
+            android:label="SingleActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.PagerActivity"
+            android:label="PagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.RefreshSingleActivity"
+            android:label="RefreshSingleActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.InnerFooterPagerActivity"
+            android:label="InnerFooterPagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.AppBarRefreshActivity"
+            android:label="AppBarRefreshActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.RefreshBarLayoutActivity"
+            android:label="RefreshBarLayoutActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

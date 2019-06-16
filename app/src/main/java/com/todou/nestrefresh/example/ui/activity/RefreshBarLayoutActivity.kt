@@ -1,18 +1,17 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
-import kotlinx.android.synthetic.main.activity_appbarlayout_refresh.*
-import kotlinx.android.synthetic.main.activity_appbarlayout_refresh.view_footer
-import kotlinx.android.synthetic.main.activity_appbarlayout_refresh.view_refresh_header
+import com.todou.nestrefresh.example.R
+import kotlinx.android.synthetic.main.activity_refreshbarlayout_refresh.*
 
-class AppBarRefreshActivity : AppCompatActivity() {
+class RefreshBarLayoutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_appbarlayout_refresh)
+        setContentView(R.layout.activity_refreshbarlayout_refresh)
 
         initView()
     }

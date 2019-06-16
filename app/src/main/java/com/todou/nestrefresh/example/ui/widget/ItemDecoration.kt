@@ -1,4 +1,4 @@
-package com.todou.nestrefresh.example.widget
+package com.todou.nestrefresh.example.ui.widget
 
 import android.content.Context
 import android.graphics.Canvas

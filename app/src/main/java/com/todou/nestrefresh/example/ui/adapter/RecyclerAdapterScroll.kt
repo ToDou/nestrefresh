@@ -1,10 +1,11 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.todou.nestrefresh.example.R
 
 import java.util.ArrayList
 

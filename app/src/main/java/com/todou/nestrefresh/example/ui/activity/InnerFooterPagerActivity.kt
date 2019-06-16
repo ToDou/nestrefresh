@@ -1,16 +1,17 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.Toast
-import com.todou.nestrefresh.RefreshBarLayout
 
 import java.util.Collections
 import com.todou.nestrefresh.base.OnRefreshListener
+import com.todou.nestrefresh.example.ui.adapter.FragmentAdapter
+import com.todou.nestrefresh.example.ui.fragment.InnerFooterFragment
+import com.todou.nestrefresh.example.R
+import com.todou.nestrefresh.example.ui.adapter.RecyclerAdapterInHeader
 import kotlinx.android.synthetic.main.activity_nest_refresh_viewpager_inner_footer.*
 
 

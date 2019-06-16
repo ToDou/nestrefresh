@@ -1,19 +1,19 @@
-package com.todou.nestrefresh.example
+package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.todou.nestrefresh.LoadMoreFooterView
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
-import com.todou.nestrefresh.example.widget.ItemDecoration
+import com.todou.nestrefresh.example.R
+import com.todou.nestrefresh.example.ui.adapter.RecyclerAdapterScroll
+import com.todou.nestrefresh.example.ui.widget.ItemDecoration
 import kotlinx.android.synthetic.main.activity_nest_refresh_single_refresh.*
 
 import java.util.Collections
 
 class RefreshSingleActivity : AppCompatActivity() {
-
 
     private var currentPage = 1
     private var initPage = 1
