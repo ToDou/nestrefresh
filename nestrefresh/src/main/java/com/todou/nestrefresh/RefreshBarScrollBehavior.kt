@@ -27,13 +27,13 @@ class RefreshBarScrollBehavior @JvmOverloads constructor(context: Context? = nul
         if (childLpHeight == ViewGroup.LayoutParams.WRAP_CONTENT || childLpHeight == ViewGroup.LayoutParams.MATCH_PARENT) {
             val dependencies = parent.getDependencies(child)
             val header = findFirstDependency(dependencies)
-            if (header != null) {
+            header?.let {
                 var availableHeight = View.MeasureSpec.getSize(parentHeightMeasureSpec)
                 if (availableHeight == 0) {
                     availableHeight = parent.height
                 }
 
-                val height = availableHeight - getPinHeightWithoutInset(header)
+                val height = availableHeight - getPinHeightWithoutInset(it)
                 val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(
                     height, if (childLpHeight == ViewGroup.LayoutParams.MATCH_PARENT)
                         View.MeasureSpec.EXACTLY
@@ -57,14 +57,14 @@ class RefreshBarScrollBehavior @JvmOverloads constructor(context: Context? = nul
     override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
         val dependencies = parent.getDependencies(child)
         val header = this.findFirstDependency(dependencies)
-        if (header != null) {
+        header?.let {
             val lp = child.layoutParams as CoordinatorLayout.LayoutParams
             rectOut.left = lp.leftMargin + parent.paddingLeft
             rectOut.right = rectOut.left + child.measuredWidth
-            rectOut.top = lp.topMargin + header.bottom - getHeaderOffset(header)
+            rectOut.top = lp.topMargin + it.bottom - getHeaderOffset(it)
             rectOut.bottom = rectOut.top + child.measuredHeight
             child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
-        } else {
+        } ?: run {
             super.layoutChild(parent, child, layoutDirection)
         }
     }

@@ -37,6 +37,8 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
     private var maxPullRefreshDown = 0
     private var refreshHoverRange = 0
 
+    private lateinit var child: RefreshBarLayout
+
     override fun onMeasureChild(
         parent: CoordinatorLayout,
         child: RefreshBarLayout,
@@ -45,6 +47,10 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
         parentHeightMeasureSpec: Int,
         heightUsed: Int
     ): Boolean {
+        if (!this::child.isInitialized) {
+            this.child = child
+        }
+
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
         if (lp.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
             parent.onMeasureChild(
@@ -173,6 +179,12 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
     ): Int {
         val result = super.setHeaderTopBottomOffset(parent, header, newOffset, minOffset, maxOffset, type)
         header.onOffsetChanged(getTopAndBottomOffset())
+        return result
+    }
+
+    override fun setTopAndBottomOffset(offset: Int): Boolean {
+        var result = super.setTopAndBottomOffset(offset)
+        child.onOffsetChanged(offset)
         return result
     }
 
