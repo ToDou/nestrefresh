@@ -191,11 +191,8 @@ class RefreshBarLayout @JvmOverloads constructor(
         if (!willNotDraw()) {
             ViewCompat.postInvalidateOnAnimation(this)
         }
-
-        if (listeners != null) {
-            listeners.forEach {
-                it.onOffsetChanged(this, offset)
-            }
+        listeners.forEach {
+            it.onOffsetChanged(this, offset)
         }
     }
 }

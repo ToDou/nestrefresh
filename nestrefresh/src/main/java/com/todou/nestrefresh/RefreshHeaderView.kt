@@ -148,20 +148,23 @@ class RefreshHeaderView @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
 
-        val lp = layoutParams
+        if (!checkLayoutParamsToSetRefresh(this)) {
+            checkLayoutParamsToSetRefresh(parent as View)
+        }
+        refreshHeader?.setRefreshCallback(this)
+        refreshHeader?.setRefreshEnable(isEnabled)
+    }
+
+    private fun checkLayoutParamsToSetRefresh(view: View): Boolean{
+        val lp = view.layoutParams
         if (lp is CoordinatorLayout.LayoutParams) {
             val behavior = lp.behavior
             if (behavior is RefreshHeader) {
                 this.refreshHeader = behavior
             }
-        } else if (parent is RefreshBarLayout && (parent as View).layoutParams is CoordinatorLayout.LayoutParams) {
-            val behavior = ((parent as View).layoutParams as CoordinatorLayout.LayoutParams).behavior
-            if (behavior is RefreshHeader) {
-                this.refreshHeader = behavior
-            }
+            return true
         }
-        refreshHeader?.setRefreshCallback(this)
-        refreshHeader?.setRefreshEnable(isEnabled)
+        return false
     }
 
     fun stopRefresh() {

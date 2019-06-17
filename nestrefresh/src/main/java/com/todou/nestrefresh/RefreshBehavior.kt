@@ -202,7 +202,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         callback?.onStateChanged(state)
     }
 
-    fun setState(state: Int) {
+    private fun setState(state: Int) {
         if (state != STATE_COLLAPSED && state != STATE_HOVERING) {
             throw IllegalArgumentException("Illegal state argument: $state")
         } else if (state != this.state) {
