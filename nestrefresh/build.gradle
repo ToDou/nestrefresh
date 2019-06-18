@@ -34,3 +34,5 @@ dependencies {
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core
 }
+
+apply from: 'bintray.gradle'
