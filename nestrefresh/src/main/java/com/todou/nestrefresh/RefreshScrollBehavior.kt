@@ -22,11 +22,11 @@ class RefreshScrollBehavior @JvmOverloads constructor(context: Context? = null, 
         var offset = 0
         if (behavior is RefreshBehavior) {
             refreshBehavior = behavior
-            offset = behavior.currentRange
+            offset = behavior.currentRange()
         }
         if (behavior is LoadMoreBehavior) {
             loadMoreBehavior = behavior
-            offset = behavior.currentRange + getHeaderOffsetByBehavior()
+            offset = behavior.currentRange() + getHeaderOffsetByBehavior()
         }
         return setTopAndBottomOffset(offset)
     }

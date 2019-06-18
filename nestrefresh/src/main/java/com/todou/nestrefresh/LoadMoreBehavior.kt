@@ -40,8 +40,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
 
     private var showFooterEnable = false
 
-    val currentRange: Int
-        get() = getTopAndBottomOffset()
+    fun currentRange(): Int = getTopAndBottomOffset()
 
     private fun setMaxRange(maxRange: Int) {
         this.maxRange = maxRange
@@ -219,7 +218,7 @@ class LoadMoreBehavior @JvmOverloads constructor(context: Context? = null, attrs
     }
 
     private fun calculateScrollUnconsumed(): Int {
-        return (-Math.log((1 - currentRange.toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
+        return (-Math.log((1 - currentRange().toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
     }
 
     private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {

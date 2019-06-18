@@ -64,7 +64,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
         this.maxRange = maxRange
     }
 
-    private fun getCurrentRange(): Int = getTopAndBottomOffset()
+    fun currentRange(): Int = getTopAndBottomOffset()
 
     override fun layoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int) {
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
@@ -214,7 +214,7 @@ class RefreshBehavior(context: Context, attrs: AttributeSet) : BaseBehavior<View
     }
 
     private fun calculateScrollUnconsumed(): Int {
-        return (-Math.log((1 - getCurrentRange().toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
+        return (-Math.log((1 - currentRange().toFloat() / maxRange).toDouble()) * maxRange.toDouble() * 2.0).toInt()
     }
 
     private inner class EndListener(private var endState: Int) : AnimatorListenerAdapter() {
