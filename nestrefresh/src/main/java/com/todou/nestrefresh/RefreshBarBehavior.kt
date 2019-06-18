@@ -75,13 +75,13 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
 
     override fun layoutChild(parent: CoordinatorLayout, child: RefreshBarLayout, layoutDirection: Int) {
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
-        val refreshHeaderHeight = child.refreshHeaderOffset
+        val refreshHeaderHeight = child.getRefreshHeaderOffset()
         rectOut.left = lp.leftMargin + parent.paddingLeft
         rectOut.top = lp.topMargin - refreshHeaderHeight + parent.paddingTop
         rectOut.right = rectOut.left + child.measuredWidth
         rectOut.bottom = child.measuredHeight + rectOut.top
         child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
-        maxCollapseUp = child.stickyHeight + refreshHeaderHeight - child.height
+        maxCollapseUp = child.getStickyHeight() + refreshHeaderHeight - child.height
 
         setHoveringRange(
             if (refreshHoverRange == 0) {

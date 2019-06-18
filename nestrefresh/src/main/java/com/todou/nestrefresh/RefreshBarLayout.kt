@@ -51,47 +51,45 @@ class RefreshBarLayout @JvmOverloads constructor(
         return insets
     }
 
-    val stickyHeight: Int
-        get() {
-            var result = 0
-            for (i in 0 until childCount) {
-                val view = getChildAt(i)
-                val layoutParams = view.layoutParams as LayoutParams
-                if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_STICKY) {
-                    result += view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
-                }
-
-                if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_COLLAPSE) {
-                    result += view.minimumHeight
-                }
-            }
-            result += getTopInset()
-            return result
-        }
-
-    fun getPinHeightWithoutInsetTop(): Int {
-        return stickyHeight - getTopInset()
-    }
-
-    val refreshHeaderOffset: Int
-        get() {
-            if (!this::headerView.isInitialized) {
-                for (i in 0 until childCount) {
-                    val view = getChildAt(i)
-                    val layoutParams = view.layoutParams as LayoutParams
-                    if (layoutParams.scrollFlags and LayoutParams.SCROLL_FLAG_REFRESH_HEADER != 0) {
-                        headerView = view
-                        break
-                    }
-                }
-            }
-            val params = headerView.layoutParams as LayoutParams
-            return headerView.measuredHeight + params.topMargin + params.bottomMargin
-        }
-
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
         updateAllChildList()
+    }
+
+    fun getStickyHeight(): Int {
+        var result = 0
+        for (i in 0 until childCount) {
+            val view = getChildAt(i)
+            val layoutParams = view.layoutParams as LayoutParams
+            if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_STICKY) {
+                result += view.measuredHeight + layoutParams.topMargin + layoutParams.bottomMargin
+            }
+
+            if (layoutParams.scrollFlags == LayoutParams.SCROLL_FLAG_COLLAPSE) {
+                result += view.minimumHeight
+            }
+        }
+        result += getTopInset()
+        return result
+    }
+
+    fun getPinHeightWithoutInsetTop(): Int {
+        return getStickyHeight() - getTopInset()
+    }
+
+    fun getRefreshHeaderOffset(): Int {
+        if (!this::headerView.isInitialized) {
+            for (i in 0 until childCount) {
+                val view = getChildAt(i)
+                val layoutParams = view.layoutParams as LayoutParams
+                if (layoutParams.scrollFlags and LayoutParams.SCROLL_FLAG_REFRESH_HEADER != 0) {
+                    headerView = view
+                    break
+                }
+            }
+        }
+        val params = headerView.layoutParams as LayoutParams
+        return headerView.measuredHeight + params.topMargin + params.bottomMargin
     }
 
     private fun getTopInset(): Int {
@@ -113,7 +111,7 @@ class RefreshBarLayout @JvmOverloads constructor(
                         if (manager.canScrollVertically()) {
                             result.add(view)
                         }
-                    } else if (it is NestedScrollView){
+                    } else if (it is NestedScrollView) {
                         result.add(view)
                     }
                 }
