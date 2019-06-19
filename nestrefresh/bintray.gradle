@@ -27,18 +27,25 @@ publishing {
             artifactId archivesBaseName
             version this.version
 
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.implementation.allDependencies.each {
-                    // Ensure dependencies such as fileTree are not included in the pom.
-                    if (it.name != 'unspecified') {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
+            pom {
+                name = archivesBaseName
+                description = this.description
+                url = siteUrl
+                licenses {
+                    name = 'GNU LESSER GENERAL PUBLIC LICENSE 3.0'
+                    url = 'http://www.gnu.org/copyleft/lesser.html'
+                }
+                developers {
+                    developer {
+                        id = 'ToDou'
+                        name = 'ToDou'
+                        email = 'yytodou123@gmail.com'
                     }
+                }
+                scm {
+                    connection = "scm:git:$siteUrl"
+                    developerConnection = "scm:git:$siteUrl"
+                    url = siteUrl
                 }
             }
         }
@@ -58,6 +65,8 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
+    publications = ['Production']
+    override = true
     configurations = ['archives']
     pkg {
         repo = "maven"
