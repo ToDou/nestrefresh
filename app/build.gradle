@@ -33,6 +33,7 @@ dependencies {
     implementation deps.support.recyclerview
     implementation deps.kotlin.stdlib
     implementation deps.picasso
+//    implementation 'com.github.todou:nestrefresh:0.0.1-beta1'
     implementation project(':nestrefresh')
 
     testImplementation deps.junit
