@@ -434,6 +434,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     private fun animateBackIfNeeded() {
         if (totalSpringOffset > 0 && !isTouching) {
+            Log.e("11111", "getTopAndBottomOffset() >= hoveringOffset: " + (getTopAndBottomOffset() >= hoveringOffset))
             animateOffsetToState(
                 if (getTopAndBottomOffset() >= hoveringOffset)
                     STATE_HOVERING

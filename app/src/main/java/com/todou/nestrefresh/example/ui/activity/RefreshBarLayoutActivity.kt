@@ -23,7 +23,7 @@ class RefreshBarLayoutActivity : AppCompatActivity() {
         view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
                 view_refresh_header.postDelayed({
-                    view_refresh_header.stopRefresh()
+//                    view_refresh_header.stopRefresh()
                 }, 2000)
             }
         })
@@ -31,7 +31,7 @@ class RefreshBarLayoutActivity : AppCompatActivity() {
         view_footer.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 view_footer.postDelayed({
-                    view_footer.stopLoadMore()
+//                    view_footer.stopLoadMore()
                 }, 2000)
             }
         })
