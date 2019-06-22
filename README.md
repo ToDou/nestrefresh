@@ -33,7 +33,8 @@ All behavoir as follows:
     @string/nest_refresh_single_behavior
     ```
 * LoadMoreBehavior
-    ```xml
+    ```
+    # default to LoadMoreFooterView
     @string/nest_refresh_load_more_behavior
     ```
 * RefreshScrollBehavior
