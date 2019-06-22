@@ -145,7 +145,32 @@ Like this in fragment layout of viewpager:
 
 </com.todou.nestrefresh.ChildCoordinatorLayout>
 ```
+### Add refresh callback
+```java
+view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
+    override fun onRefresh() {
+        //Todo test code when network finish, you muast stop refresh by view_refresh_header.stopRefresh()
+        view_refresh_header.postDelayed({
+            view_refresh_header.stopRefresh()
+        }, 2000)
+    }
+})
+        
+```
+### Add load more callback
+```java
+view_footer.setOnLoadMoreListener(object : OnLoadMoreListener {
+    override fun onLoadMore() {
+        //Todo test code when network finish stop load more
+        view_footer.postDelayed({
+            view_footer.stopLoadMore()
+        }, 2000)
+    }
+})
 
+//Set has more 
+view_footer.setHasMore(hasMore)
+```
 License
 ====
 <pre>
