@@ -139,15 +139,13 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                     it.addMovement(ev)
                     it.computeCurrentVelocity(1000)
                     val yvel = it.getYVelocity(this.activePointerId)
-                    this.fling(parent, child, -this.getScrollRangeForDragFling(child), 0, yvel)
+                    this.fling(parent, child, Int.MIN_VALUE, Int.MAX_VALUE, yvel)
                 }
-                this.isBeingDragged = false
                 this.activePointerId = -1
                 if (this.velocityTracker != null) {
                     this.velocityTracker?.recycle()
                     this.velocityTracker = null
                 }
-                doOnCancel()
             }
             MotionEvent.ACTION_CANCEL -> {
                 this.isBeingDragged = false
@@ -156,7 +154,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                     this.velocityTracker?.recycle()
                     this.velocityTracker = null
                 }
-                doOnCancel()
             }
             MotionEvent.ACTION_MOVE -> {
                 activePointerIndex = ev.findPointerIndex(this.activePointerId)
@@ -261,10 +258,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         return 0
     }
 
-    fun setHeaderTopBottomOffset(parent: CoordinatorLayout, header: V, newOffset: Int, type: Int): Int {
-        return this.setHeaderTopBottomOffset(parent, header, newOffset, Int.MIN_VALUE, Int.MAX_VALUE, type)
-    }
-
     open fun setHeaderTopBottomOffset(
         parent: CoordinatorLayout,
         header: V,
@@ -292,7 +285,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         }
         var unConsumed = dyPre - consumed
 
-        if (unConsumed != 0 && type == ViewCompat.TYPE_TOUCH) {
+        if (unConsumed != 0) {
             if (unConsumed > 0 && totalSpringOffset > 0) {
                 if (unConsumed > totalSpringOffset) {
                     consumed += unConsumed - totalSpringOffset.toInt()
@@ -305,7 +298,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                 setStateInternal(STATE_DRAGGING)
             }
 
-            if (unConsumed < 0) {
+            if (unConsumed < 0 && type == ViewCompat.TYPE_TOUCH) {
                 totalSpringOffset -= unConsumed.toFloat()
                 setTopAndBottomOffset(calculateScrollOffset())
                 setStateInternal(STATE_DRAGGING)
@@ -315,7 +308,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
         unConsumed = dyPre - consumed
         if (unConsumed != 0) {
-            totalSpringOffset = 0f
             curOffset = getTopAndBottomOffset()
             newOffset = topBottomOffsetForScrollingSibling - unConsumed
             if (minOffset != 0 && curOffset >= minOffset && curOffset <= maxOffset) {
@@ -387,7 +379,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
     }
 
     fun onFlingFinished(parent: CoordinatorLayout, layout: V) {
-        animateBackIfNeeded()
+        doOnCancel()
     }
 
     protected open fun canDragView(view: V): Boolean {
@@ -409,6 +401,20 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     }
 
+    fun stopHeaderFlingScrollIfNeeded(dy: Int, type: Int): Boolean {
+        var stopResult = false
+        if (type == ViewCompat.TYPE_NON_TOUCH) {
+            if (dy < 0 && totalSpringOffset > 0) {
+                if (this.flingRunnable != null) {
+                    child?.removeCallbacks(this.flingRunnable)
+                    this.flingRunnable = null
+                    stopResult = true
+                }
+            }
+        }
+        return stopResult
+    }
+
     private inner class FlingRunnable internal constructor(
         private val parent: CoordinatorLayout,
         private val layout: V?
@@ -420,10 +426,16 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                     this@RefreshHeaderBehavior.setHeaderTopBottomOffset(
                         this.parent,
                         this.layout,
-                        this@RefreshHeaderBehavior.scroller.currY,
+                        this@RefreshHeaderBehavior.scroller.currY, this@RefreshHeaderBehavior.getMaxDragOffset(), 0,
                         ViewCompat.TYPE_NON_TOUCH
                     )
-                    ViewCompat.postOnAnimation(this.layout, this)
+                    val stop  = this@RefreshHeaderBehavior.stopHeaderFlingScrollIfNeeded(
+                        this@RefreshHeaderBehavior.topBottomOffsetForScrollingSibling - this@RefreshHeaderBehavior.scroller.currY, ViewCompat.TYPE_NON_TOUCH)
+                    if (!stop) {
+                        ViewCompat.postOnAnimation(this.layout, this)
+                    } else {
+                        this@RefreshHeaderBehavior.onFlingFinished(this.parent, this.layout)
+                    }
                 } else {
                     this@RefreshHeaderBehavior.onFlingFinished(this.parent, this.layout)
                 }
