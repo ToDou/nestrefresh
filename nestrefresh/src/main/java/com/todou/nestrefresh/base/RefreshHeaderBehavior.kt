@@ -177,7 +177,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
                 if (this.isBeingDragged) {
                     this.lastMotionY = y
-                    this.scroll(parent, child, dy, this.getMaxDragOffset(child), 0, ViewCompat.TYPE_TOUCH)
+                    this.scroll(parent, child, dy, this.getMaxDragOffset(), 0, ViewCompat.TYPE_TOUCH)
                 }
             }
         }
@@ -394,8 +394,8 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         return false
     }
 
-    protected open fun getMaxDragOffset(view: V): Int {
-        return -view.height
+    protected open fun getMaxDragOffset(): Int {
+        return 0
     }
 
     protected open fun getScrollRangeForDragFling(view: V): Int {
@@ -434,7 +434,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     private fun animateBackIfNeeded() {
         if (totalSpringOffset > 0 && !isTouching) {
-            Log.e("11111", "getTopAndBottomOffset() >= hoveringOffset: " + (getTopAndBottomOffset() >= hoveringOffset))
             animateOffsetToState(
                 if (getTopAndBottomOffset() >= hoveringOffset)
                     STATE_HOVERING

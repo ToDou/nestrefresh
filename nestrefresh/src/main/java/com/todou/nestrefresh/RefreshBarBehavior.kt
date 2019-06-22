@@ -188,7 +188,7 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
         return result
     }
 
-    override fun getMaxDragOffset(view: RefreshBarLayout): Int {
+    override fun getMaxDragOffset(): Int {
         return maxCollapseUp
     }
 
@@ -222,7 +222,7 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
     private fun stopNestedScrollIfNeeded(dy: Int, child: RefreshBarLayout, target: View, type: Int) {
         if (type == ViewCompat.TYPE_NON_TOUCH) {
             val curOffset = this.topBottomOffsetForScrollingSibling
-            if (dy < 0 && curOffset >= 0 || dy > 0 && curOffset == getMaxDragOffset(child)) {
+            if (dy < 0 && curOffset >= 0 || dy > 0 && curOffset == getMaxDragOffset()) {
                 ViewCompat.stopNestedScroll(target, 1)
             }
         }
