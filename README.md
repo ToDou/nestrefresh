@@ -12,7 +12,7 @@ Installation
 ====
 ```groovy
 dependencies {
-    compile 'com.loopeer.lib:shadow:0.0.2'
+    implementation 'com.github.todou:nestrefresh:0.0.3'
 }
 ```
 Usages
