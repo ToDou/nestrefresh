@@ -151,6 +151,7 @@ Like this in fragment layout of viewpager:
 
 </com.todou.nestrefresh.ChildCoordinatorLayout>
 ```
+Because of onNestedScroll can't return consumes, I calculate that by target offsetInWindow. So if CoordinatorLayout's child consume some 'y' and has move with offset. The ChildCoordinatorLayout can get the consume from that and then send unconsume 'y' to child of ChildCoordinatorLayout to consume value.
 ### Add refresh callback
 ```java
 view_refresh_header.setOnRefreshListener(object : OnRefreshListener {
