@@ -6,7 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.todou.nestrefresh.base.BaseBehavior
 
-class RefreshScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null) : BaseBehavior<View>(context, attrs) {
+class RefreshScrollBehavior @JvmOverloads constructor(context: Context? = null, attrs: AttributeSet? = null)
+    : BaseBehavior<View>(context, attrs) {
 
     private var loadMoreBehavior: LoadMoreBehavior? = null
     private var refreshBehavior: RefreshBehavior? = null

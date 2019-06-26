@@ -15,6 +15,8 @@ import java.util.ArrayList
 import android.support.v4.util.ObjectsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.WindowInsetsCompat
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 
 class RefreshBarLayout @JvmOverloads constructor(
     context: Context,
@@ -133,7 +135,7 @@ class RefreshBarLayout @JvmOverloads constructor(
     }
 
     override fun generateDefaultLayoutParams(): LinearLayout.LayoutParams {
-        return LayoutParams(-1, -2)
+        return LayoutParams(MATCH_PARENT, WRAP_CONTENT)
     }
 
     override fun generateLayoutParams(attrs: AttributeSet): LinearLayout.LayoutParams {
