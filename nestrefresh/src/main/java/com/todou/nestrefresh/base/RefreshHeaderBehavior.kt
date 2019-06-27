@@ -8,7 +8,6 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.math.MathUtils
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
@@ -40,9 +39,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
     private var originalOffset = 0
     private var hoveringRange = UNSET
     private var hoveringOffset: Int = 0
-
-    val topBottomOffsetForScrollingSibling: Int
-        get() = getTopAndBottomOffset()
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
@@ -258,6 +254,8 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         return 0
     }
 
+    private fun topBottomOffsetForScrollingSibling(): Int = getTopAndBottomOffset()
+
     open fun setHeaderTopBottomOffset(
         parent: CoordinatorLayout,
         header: V,
@@ -269,7 +267,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         var newOffset = newOffset
         var curOffset = getTopAndBottomOffset()
         var consumed = 0
-        val dyPre = topBottomOffsetForScrollingSibling - newOffset
+        val dyPre = topBottomOffsetForScrollingSibling() - newOffset
         if (minOffset != 0 && curOffset >= minOffset && curOffset <= maxOffset
             && totalSpringOffset == 0f
         ) {
@@ -309,7 +307,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         unConsumed = dyPre - consumed
         if (unConsumed != 0) {
             curOffset = getTopAndBottomOffset()
-            newOffset = topBottomOffsetForScrollingSibling - unConsumed
+            newOffset = topBottomOffsetForScrollingSibling() - unConsumed
             if (minOffset != 0 && curOffset >= minOffset && curOffset <= maxOffset) {
                 newOffset = MathUtils.clamp(newOffset, minOffset, maxOffset)
                 if (curOffset != newOffset) {
@@ -344,7 +342,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         return this.setHeaderTopBottomOffset(
             coordinatorLayout,
             header,
-            this.topBottomOffsetForScrollingSibling - dy,
+            this.topBottomOffsetForScrollingSibling() - dy,
             minOffset,
             maxOffset,
             type
@@ -430,7 +428,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                         ViewCompat.TYPE_NON_TOUCH
                     )
                     val stop  = this@RefreshHeaderBehavior.stopHeaderFlingScrollIfNeeded(
-                        this@RefreshHeaderBehavior.topBottomOffsetForScrollingSibling - this@RefreshHeaderBehavior.scroller.currY, ViewCompat.TYPE_NON_TOUCH)
+                        this@RefreshHeaderBehavior.topBottomOffsetForScrollingSibling() - this@RefreshHeaderBehavior.scroller.currY, ViewCompat.TYPE_NON_TOUCH)
                     if (!stop) {
                         ViewCompat.postOnAnimation(this.layout, this)
                     } else {
