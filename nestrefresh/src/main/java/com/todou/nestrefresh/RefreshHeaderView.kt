@@ -16,6 +16,7 @@ import android.support.v4.view.ViewCompat
 import android.support.v4.view.WindowInsetsCompat
 import com.todou.nestrefresh.base.RefreshHeader
 import com.todou.nestrefresh.base.State.STATE_HOVERING
+import kotlinx.android.synthetic.main.view_nest_refresh_header.view.*
 
 class RefreshHeaderView @JvmOverloads constructor(
     context: Context,
@@ -170,6 +171,8 @@ class RefreshHeaderView @JvmOverloads constructor(
     fun stopRefresh() {
         isRefreshing = false
         refreshHeader?.stopRefresh()
+        progress_loading.visibility = View.GONE
+        image_refresh.visibility = View.VISIBLE
     }
 
     fun setOnRefreshListener(onRefreshListener: OnRefreshListener) {
