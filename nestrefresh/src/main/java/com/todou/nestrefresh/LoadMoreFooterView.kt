@@ -15,6 +15,10 @@ import com.todou.nestrefresh.base.LoadMoreFooter
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.State.STATE_HOVERING
 import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.*
+import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.image_refresh
+import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.progress_loading
+import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.text_refresh
+import kotlinx.android.synthetic.main.view_nest_refresh_header.view.*
 
 class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {
@@ -143,6 +147,8 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     fun stopLoadMore() {
         isLoadMoreIng = false
         loadMoreFooter?.stopLoadMore()
+        progress_loading.visibility = View.GONE
+        image_refresh.visibility = View.VISIBLE
     }
 
     fun setHasMore(hasMore: Boolean) {

@@ -254,7 +254,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         return 0
     }
 
-    private fun topBottomOffsetForScrollingSibling(): Int = getTopAndBottomOffset()
+    fun topBottomOffsetForScrollingSibling(): Int = getTopAndBottomOffset()
 
     open fun setHeaderTopBottomOffset(
         parent: CoordinatorLayout,

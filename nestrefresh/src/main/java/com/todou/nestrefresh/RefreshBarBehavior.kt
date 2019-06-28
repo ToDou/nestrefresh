@@ -81,6 +81,11 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
         rectOut.right = rectOut.left + child.measuredWidth
         rectOut.bottom = child.measuredHeight + rectOut.top
         child.layout(rectOut.left, rectOut.top, rectOut.right, rectOut.bottom)
+
+        val scrollChild = findScrollView(parent)
+        if (isScrollChildVisible(scrollChild)) {
+
+        }
         maxCollapseUp = child.getStickyHeight() + refreshHeaderHeight - child.height
 
         setHoveringRange(
@@ -93,6 +98,27 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
         if (maxPullRefreshDown == 0) {
             maxPullRefreshDown = parent.measuredHeight
         }
+    }
+
+    private fun findScrollView(parent: CoordinatorLayout): View? {
+        for (i in 0 until parent.childCount) {
+            val child = parent.getChildAt(i)
+            val lp = child.layoutParams as CoordinatorLayout.LayoutParams
+            if (lp.behavior is RefreshBarBehavior) {
+                return child
+            }
+        }
+        return null
+    }
+
+    private fun isScrollChildVisible(view: View?): Boolean {
+        if (view == null) {
+            return false
+        }
+        if (view.visibility == View.INVISIBLE || view.visibility == View.GONE) {
+            return false
+        }
+        return true
     }
 
     override fun getMaxPullRefreshDown(): Int {
@@ -124,7 +150,8 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
     ) {
         val targetBehavior = getBehavior(target)
         if (targetBehavior != null && (targetBehavior is RefreshBarScrollBehavior
-                    || targetBehavior is RefreshScrollBehavior) && dy != 0) {
+                    || targetBehavior is RefreshScrollBehavior) && dy != 0
+        ) {
             if (dy > 0) {
                 val min = maxCollapseUp
                 val max = 0
@@ -132,7 +159,8 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
                 this.stopNestedScrollIfNeeded(dy, child, target, type)
             }
         } else if (targetBehavior == null || (getBehavior(target) !is RefreshBarScrollBehavior
-                    && getBehavior(target) !is RefreshScrollBehavior) && dy != 0) {
+                    && getBehavior(target) !is RefreshScrollBehavior) && dy != 0
+        ) {
             if (dy > 0 && totalSpringOffset > 0) {//up
                 val min = maxCollapseUp
                 val max = 0
@@ -221,7 +249,7 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
 
     private fun stopNestedScrollIfNeeded(dy: Int, child: RefreshBarLayout, target: View, type: Int) {
         if (type == ViewCompat.TYPE_NON_TOUCH) {
-            val curOffset = this.topBottomOffsetForScrollingSibling
+            val curOffset = this.topBottomOffsetForScrollingSibling()
             if (dy < 0 && curOffset >= 0 || dy > 0 && curOffset == getMaxDragOffset()) {
                 ViewCompat.stopNestedScroll(target, 1)
             }
