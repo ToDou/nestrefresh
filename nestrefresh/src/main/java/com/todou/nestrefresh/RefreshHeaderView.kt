@@ -5,9 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.base.RefreshCallback
 import android.support.design.widget.CoordinatorLayout
@@ -30,10 +28,6 @@ class RefreshHeaderView @JvmOverloads constructor(
 
     private var lastInsets: WindowInsetsCompat? = null
 
-    private lateinit var imageRefreshIndicator: ImageView
-    private lateinit var viewProgress: View
-    private lateinit var textRefresh: TextView
-
     private lateinit var textBelowThreshold: CharSequence
     private lateinit var textAboveThreshold: CharSequence
     private lateinit var textRefreshing: CharSequence
@@ -54,10 +48,6 @@ class RefreshHeaderView @JvmOverloads constructor(
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         View.inflate(context, R.layout.view_nest_refresh_header, this)
-
-        imageRefreshIndicator = findViewById(R.id.image_refresh)
-        viewProgress = findViewById(R.id.progress_loading)
-        textRefresh = findViewById(R.id.text_refresh)
 
         textAboveThreshold = resources.getString(R.string.nest_refresh_release)
         textBelowThreshold = resources.getString(R.string.nest_refresh_pull)
@@ -114,23 +104,23 @@ class RefreshHeaderView @JvmOverloads constructor(
     }
 
     private fun updateTextAndImage() {
-        viewProgress.visibility = View.GONE
+        progress_loading.visibility = View.GONE
         if (!belowThreshold) {
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.startAnimation(reverseFlipAnimation)
+            image_refresh.clearAnimation()
+            image_refresh.startAnimation(reverseFlipAnimation)
         } else {
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.startAnimation(flipAnimation)
+            image_refresh.clearAnimation()
+            image_refresh.startAnimation(flipAnimation)
         }
-        textRefresh.text = if (!belowThreshold) textBelowThreshold else textAboveThreshold
+        text_refresh.text = if (!belowThreshold) textBelowThreshold else textAboveThreshold
     }
 
     override fun onStateChanged(newState: Int) {
         if (!isRefreshing && newState == STATE_HOVERING) {
-            textRefresh.text = textRefreshing
-            viewProgress.visibility = View.VISIBLE
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.visibility = View.GONE
+            text_refresh.text = textRefreshing
+            progress_loading.visibility = View.VISIBLE
+            image_refresh.clearAnimation()
+            image_refresh.visibility = View.GONE
         }
 
         if (!isRefreshing && newState == STATE_HOVERING) {

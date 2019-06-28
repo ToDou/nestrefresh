@@ -14,6 +14,7 @@ import com.todou.nestrefresh.base.LoadMoreFooterCallback
 import com.todou.nestrefresh.base.LoadMoreFooter
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.State.STATE_HOVERING
+import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.*
 
 class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {
@@ -21,13 +22,9 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     private lateinit var flipAnimation: RotateAnimation
     private lateinit var reverseFlipAnimation: RotateAnimation
 
-    private lateinit var imageRefreshIndicator: ImageView
-    private lateinit var viewProgress: View
-    private lateinit var textRefresh: TextView
-
     private lateinit var textBelowThreshold: CharSequence
     private lateinit var textAboveThreshold: CharSequence
-    private lateinit var textRefreshing: CharSequence
+    private lateinit var text_refreshing: CharSequence
     private lateinit var textNoMore: CharSequence
 
     private var loadMoreFooter: LoadMoreFooter? = null
@@ -50,13 +47,9 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         View.inflate(context, R.layout.view_nest_load_more_footer, this)
 
-        imageRefreshIndicator = findViewById(R.id.image_refresh)
-        viewProgress = findViewById(R.id.progress_loading)
-        textRefresh = findViewById(R.id.text_refresh)
-
         textAboveThreshold = resources.getString(R.string.nest_refresh_load_more_pull_label)
         textBelowThreshold = resources.getString(R.string.nest_refresh_load_more_release_label)
-        textRefreshing = resources.getString(R.string.nest_refresh_load_more_refreshing_label)
+        text_refreshing = resources.getString(R.string.nest_refresh_load_more_refreshing_label)
         textNoMore = resources.getString(R.string.nest_refresh_load_more_no_more)
 
         initAnimation()
@@ -100,10 +93,10 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     private fun doNoMoreScroll(offset: Int, fraction: Float, nextState: Int) {
         if (state != nextState) {
             state = nextState
-            textRefresh.text = textNoMore
-            viewProgress.visibility = View.GONE
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.visibility = View.GONE
+            text_refresh.text = textNoMore
+            progress_loading.visibility = View.GONE
+            image_refresh.clearAnimation()
+            image_refresh.visibility = View.GONE
         }
     }
 
@@ -116,34 +109,34 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun updateTextAndImage() {
-        viewProgress.visibility = View.GONE
+        progress_loading.visibility = View.GONE
         if (belowThreshold) {
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.startAnimation(reverseFlipAnimation)
+            image_refresh.clearAnimation()
+            image_refresh.startAnimation(reverseFlipAnimation)
         } else {
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.startAnimation(flipAnimation)
+            image_refresh.clearAnimation()
+            image_refresh.startAnimation(flipAnimation)
         }
-        textRefresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
+        text_refresh.text = if (belowThreshold) textBelowThreshold else textAboveThreshold
     }
 
     override fun onStateChanged(newState: Int, hasMore: Boolean) {
         if (hasMore) {
             if (!isLoadMoreIng && newState == STATE_HOVERING) {
-                textRefresh.text = textRefreshing
-                viewProgress.visibility = View.VISIBLE
-                imageRefreshIndicator.clearAnimation()
-                imageRefreshIndicator.visibility = View.GONE
+                text_refresh.text = text_refreshing
+                progress_loading.visibility = View.VISIBLE
+                image_refresh.clearAnimation()
+                image_refresh.visibility = View.GONE
             }
             if (!isLoadMoreIng && newState == STATE_HOVERING) {
                 onLoadMoreListener?.onLoadMore()
                 isLoadMoreIng = true
             }
         } else {
-            textRefresh.text = textNoMore
-            viewProgress.visibility = View.GONE
-            imageRefreshIndicator.clearAnimation()
-            imageRefreshIndicator.visibility = View.GONE
+            text_refresh.text = textNoMore
+            progress_loading.visibility = View.GONE
+            image_refresh.clearAnimation()
+            image_refresh.visibility = View.GONE
         }
     }
 
