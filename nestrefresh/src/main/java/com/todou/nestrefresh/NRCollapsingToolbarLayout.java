@@ -81,7 +81,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
         collapsingTextHelper = new NRCollapsingTextHelper(this);
-        collapsingTextHelper.setTextSizeInterpolator(NRAnimationUtils.DECELERATE_INTERPOLATOR);
+        collapsingTextHelper.setTextSizeInterpolator(NRAnimationUtils.Companion.getDECELERATE_INTERPOLATOR());
 
         TypedArray a =
                 context.obtainStyledAttributes(
@@ -540,8 +540,8 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
             scrimAnimator.setDuration(scrimAnimationDuration);
             scrimAnimator.setInterpolator(
                     targetAlpha > scrimAlpha
-                            ? NRAnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR
-                            : NRAnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR);
+                            ? NRAnimationUtils.Companion.getFAST_OUT_LINEAR_IN_INTERPOLATOR()
+                            : NRAnimationUtils.Companion.getLINEAR_OUT_SLOW_IN_INTERPOLATOR());
             scrimAnimator.addUpdateListener(
                     new ValueAnimator.AnimatorUpdateListener() {
                         @Override

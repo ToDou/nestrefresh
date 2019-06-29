@@ -781,7 +781,7 @@ public class NRCollapsingTextHelper {
     if (interpolator != null) {
       fraction = interpolator.getInterpolation(fraction);
     }
-    return NRAnimationUtils.lerp(startValue, endValue, fraction);
+    return NRAnimationUtils.Companion.lerp(startValue, endValue, fraction);
   }
 
   private static boolean rectEquals(Rect r, int left, int top, int right, int bottom) {
