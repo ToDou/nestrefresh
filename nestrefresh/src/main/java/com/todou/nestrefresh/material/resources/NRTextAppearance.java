@@ -50,18 +50,18 @@ public class NRTextAppearance {
 
     textSize = a.getDimension(R.styleable.TextAppearance_android_textSize, 0f);
     textColor =
-        NRMaterialResources.getColorStateList(
+        NRMaterialResources.INSTANCE.getColorStateList(
             context, a, R.styleable.TextAppearance_android_textColor);
     textColorHint =
-        NRMaterialResources.getColorStateList(
+        NRMaterialResources.INSTANCE.getColorStateList(
             context, a, R.styleable.TextAppearance_android_textColorHint);
     textColorLink =
-        NRMaterialResources.getColorStateList(
+        NRMaterialResources.INSTANCE.getColorStateList(
             context, a, R.styleable.TextAppearance_android_textColorLink);
     textStyle = a.getInt(R.styleable.TextAppearance_android_textStyle, Typeface.NORMAL);
     typeface = a.getInt(R.styleable.TextAppearance_android_typeface, TYPEFACE_SANS);
     int fontFamilyIndex =
-        NRMaterialResources.getIndexWithValue(
+        NRMaterialResources.INSTANCE.getIndexWithValue(
             a,
             R.styleable.TextAppearance_fontFamily,
             R.styleable.TextAppearance_android_fontFamily);
@@ -69,7 +69,7 @@ public class NRTextAppearance {
     fontFamily = a.getString(fontFamilyIndex);
     textAllCaps = a.getBoolean(R.styleable.TextAppearance_textAllCaps, false);
     shadowColor =
-        NRMaterialResources.getColorStateList(
+        NRMaterialResources.INSTANCE.getColorStateList(
             context, a, R.styleable.TextAppearance_android_shadowColor);
     shadowDx = a.getFloat(R.styleable.TextAppearance_android_shadowDx, 0);
     shadowDy = a.getFloat(R.styleable.TextAppearance_android_shadowDy, 0);
