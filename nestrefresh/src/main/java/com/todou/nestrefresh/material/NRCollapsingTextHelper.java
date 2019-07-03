@@ -241,18 +241,18 @@ public class NRCollapsingTextHelper {
   public void setCollapsedTextAppearance(int resId) {
     NRTextAppearance textAppearance = new NRTextAppearance(view.getContext(), resId);
 
-    if (textAppearance.textColor != null) {
-      collapsedTextColor = textAppearance.textColor;
+    if (textAppearance.getTextColor() != null) {
+      collapsedTextColor = textAppearance.getTextColor();
     }
-    if (textAppearance.textSize != 0) {
-      collapsedTextSize = textAppearance.textSize;
+    if (textAppearance.getTextSize() != 0) {
+      collapsedTextSize = textAppearance.getTextSize();
     }
-    if (textAppearance.shadowColor != null) {
-      collapsedShadowColor = textAppearance.shadowColor;
+    if (textAppearance.getShadowColor() != null) {
+      collapsedShadowColor = textAppearance.getShadowColor();
     }
-    collapsedShadowDx = textAppearance.shadowDx;
-    collapsedShadowDy = textAppearance.shadowDy;
-    collapsedShadowRadius = textAppearance.shadowRadius;
+    collapsedShadowDx = textAppearance.getShadowDx();
+    collapsedShadowDy = textAppearance.getShadowDy();
+    collapsedShadowRadius = textAppearance.getShadowRadius();
 
     // Cancel pending async fetch, if any, and replace with a new one.
     if (collapsedFontCallback != null) {
@@ -274,18 +274,18 @@ public class NRCollapsingTextHelper {
 
   public void setExpandedTextAppearance(int resId) {
     NRTextAppearance textAppearance = new NRTextAppearance(view.getContext(), resId);
-    if (textAppearance.textColor != null) {
-      expandedTextColor = textAppearance.textColor;
+    if (textAppearance.getTextColor() != null) {
+      expandedTextColor = textAppearance.getTextColor();
     }
-    if (textAppearance.textSize != 0) {
-      expandedTextSize = textAppearance.textSize;
+    if (textAppearance.getTextSize() != 0) {
+      expandedTextSize = textAppearance.getTextSize();
     }
-    if (textAppearance.shadowColor != null) {
-      expandedShadowColor = textAppearance.shadowColor;
+    if (textAppearance.getShadowColor() != null) {
+      expandedShadowColor = textAppearance.getShadowColor();
     }
-    expandedShadowDx = textAppearance.shadowDx;
-    expandedShadowDy = textAppearance.shadowDy;
-    expandedShadowRadius = textAppearance.shadowRadius;
+    expandedShadowDx = textAppearance.getShadowDx();
+    expandedShadowDy = textAppearance.getShadowDy();
+    expandedShadowRadius = textAppearance.getShadowRadius();
 
     // Cancel pending async fetch, if any, and replace with a new one.
     if (expandedFontCallback != null) {
