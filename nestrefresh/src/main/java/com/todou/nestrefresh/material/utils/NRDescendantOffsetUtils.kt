@@ -9,8 +9,8 @@ import android.view.ViewParent
 
 class NRDescendantOffsetUtils {
     companion object {
-        private val matrixM = ThreadLocal()
-        private val rectFM = ThreadLocal()
+        private val matrixM = ThreadLocal<Matrix>()
+        private val rectFM = ThreadLocal<RectF>()
 
         fun offsetDescendantRect(parent: ViewGroup, descendant: View, rect: Rect) {
             var m = matrixM.get()
@@ -18,23 +18,23 @@ class NRDescendantOffsetUtils {
                 m = Matrix()
                 matrixM.set(m)
             } else {
-                m!!.reset()
+                m.reset()
             }
 
             offsetDescendantMatrix(parent, descendant, m)
             var rectF = rectFM.get()
             if (rectF == null) {
                 rectF = RectF()
-                rectF!!.set(rectF)
+                rectF.set(rectF)
             }
 
-            rectF!!.set(rect)
-            m!!.mapRect(rectF)
+            rectF.set(rect)
+            m.mapRect(rectF)
             rect.set(
-                (rectF!!.left + 0.5f).toInt(),
-                (rectF!!.top + 0.5f).toInt(),
-                (rectF!!.right + 0.5f).toInt(),
-                (rectF!!.bottom + 0.5f).toInt()
+                (rectF.left + 0.5f).toInt(),
+                (rectF.top + 0.5f).toInt(),
+                (rectF.right + 0.5f).toInt(),
+                (rectF.bottom + 0.5f).toInt()
             )
         }
 
