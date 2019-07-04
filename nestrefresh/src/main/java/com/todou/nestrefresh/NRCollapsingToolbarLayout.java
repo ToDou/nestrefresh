@@ -393,7 +393,7 @@ public class NRCollapsingToolbarLayout extends FrameLayout {
                 // Update the collapsed bounds
                 final int maxOffset =
                         getMaxOffsetForPinChild(toolbarDirectChild != null ? toolbarDirectChild : toolbar);
-                NRDescendantOffsetUtils.getDescendantRect(this, dummyView, tmpRect);
+                NRDescendantOffsetUtils.Companion.getDescendantRect(this, dummyView, tmpRect);
                 collapsingTextHelper.setCollapsedBounds(
                         tmpRect.left + (isRtl ? toolbar.getTitleMarginEnd() : toolbar.getTitleMarginStart()),
                         tmpRect.top + maxOffset + toolbar.getTitleMarginTop(),
