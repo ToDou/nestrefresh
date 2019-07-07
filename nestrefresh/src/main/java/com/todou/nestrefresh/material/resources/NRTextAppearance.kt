@@ -36,7 +36,7 @@ class NRTextAppearance
     private val fontFamilyResourceId: Int
 
     private var fontResolved = false
-    private var font: Typeface? = null
+    private lateinit var font: Typeface
 
     /**
      * Returns a fallback [Typeface] that is retrieved synchronously, in case the actual font is
@@ -92,7 +92,7 @@ class NRTextAppearance
      * @see com.todou.nestrefresh.material.NRCollapsingTextHelper
      */
     @VisibleForTesting
-    fun getFont(context: Context): Typeface {
+    fun getFont(context: Context): Typeface? {
         if (fontResolved) {
             return font
         }
