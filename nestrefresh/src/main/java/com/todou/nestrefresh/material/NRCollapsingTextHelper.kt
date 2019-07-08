@@ -219,9 +219,9 @@ class NRCollapsingTextHelper(private val view: View) {
     fun getCollapsedTextActualBounds(bounds: RectF) {
         val isRtl = calculateIsRtl(this.text)
 
-        bounds.left = if (!isRtl) collapsedBounds.left else collapsedBounds.right - calculateCollapsedTextWidth()
+        bounds.left = if (!isRtl) collapsedBounds.left.toFloat() else collapsedBounds.right - calculateCollapsedTextWidth()
         bounds.top = collapsedBounds.top.toFloat()
-        bounds.right = if (!isRtl) bounds.left + calculateCollapsedTextWidth() else collapsedBounds.right
+        bounds.right = if (!isRtl) bounds.left + calculateCollapsedTextWidth() else collapsedBounds.right.toFloat()
         bounds.bottom = collapsedBounds.top + collapsedTextHeight
     }
 
@@ -364,11 +364,11 @@ class NRCollapsingTextHelper(private val view: View) {
     }
 
     fun getCollapsedTypeface(): Typeface {
-        return if (collapsedTypeface != null) collapsedTypeface else Typeface.DEFAULT
+        return collapsedTypeface ?: Typeface.DEFAULT
     }
 
     fun getExpandedTypeface(): Typeface {
-        return if (expandedTypeface != null) expandedTypeface else Typeface.DEFAULT
+        return expandedTypeface ?: Typeface.DEFAULT
     }
 
     fun setState(state: IntArray): Boolean {
@@ -438,7 +438,7 @@ class NRCollapsingTextHelper(private val view: View) {
 
         // We then calculate the collapsed text size, using the same logic
         calculateUsingTextSize(collapsedTextSize)
-        var width = if (textToDraw != null) textPaint.measureText(textToDraw, 0, textToDraw!!.length) else 0
+        var width = if (textToDraw != null) textPaint.measureText(textToDraw, 0, textToDraw!!.length) else 0f
         val collapsedAbsGravity = GravityCompat.getAbsoluteGravity(
             this.collapsedTextGravity,
             if (isRtl) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR
@@ -459,13 +459,13 @@ class NRCollapsingTextHelper(private val view: View) {
         }
         when (collapsedAbsGravity and GravityCompat.RELATIVE_HORIZONTAL_GRAVITY_MASK) {
             Gravity.CENTER_HORIZONTAL -> collapsedDrawX = collapsedBounds.centerX() - width / 2
-            Gravity.RIGHT -> collapsedDrawX = collapsedBounds.right - width
+            Gravity.RIGHT -> collapsedDrawX = collapsedBounds.right.minus(width)
             Gravity.LEFT -> collapsedDrawX = collapsedBounds.left.toFloat()
             else -> collapsedDrawX = collapsedBounds.left.toFloat()
         }
 
         calculateUsingTextSize(expandedTextSize)
-        width = if (textToDraw != null) textPaint.measureText(textToDraw, 0, textToDraw!!.length) else 0
+        width = if (textToDraw != null) textPaint.measureText(textToDraw, 0, textToDraw!!.length) else 0f
         val expandedAbsGravity = GravityCompat.getAbsoluteGravity(
             this.expandedTextGravity,
             if (isRtl) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR
@@ -745,7 +745,7 @@ class NRCollapsingTextHelper(private val view: View) {
             if (interpolator != null) {
                 fraction = interpolator.getInterpolation(fraction)
             }
-            return NRAnimationUtils.Companion.lerp(startValue, endValue, fraction)
+            return NRAnimationUtils.lerp(startValue, endValue, fraction)
         }
 
         private fun rectEquals(r: Rect, left: Int, top: Int, right: Int, bottom: Int): Boolean {

@@ -92,7 +92,7 @@ class NRTextAppearance
      * @see com.todou.nestrefresh.material.NRCollapsingTextHelper
      */
     @VisibleForTesting
-    fun getFont(context: Context): Typeface? {
+    fun getFont(context: Context): Typeface {
         if (fontResolved) {
             return font
         }
@@ -100,8 +100,8 @@ class NRTextAppearance
         // Try resolving fontFamily as a font resource.
         if (!context.isRestricted) {
             try {
-                font = ResourcesCompat.getFont(context, fontFamilyResourceId)
-                if (font != null) {
+                val typeface = ResourcesCompat.getFont(context, fontFamilyResourceId)
+                if (typeface != null) {
                     font = Typeface.create(font, textStyle)
                 }
             } catch (e: UnsupportedOperationException) {
