@@ -34,6 +34,7 @@ import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
 import android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 
 class NRCollapsingToolbarLayout @JvmOverloads constructor(
     context: Context,
@@ -301,7 +302,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
     init {
 
         collapsingTextHelper = NRCollapsingTextHelper(this)
-        collapsingTextHelper.setTextSizeInterpolator(NRAnimationUtils.Companion.getDECELERATE_INTERPOLATOR())
+        collapsingTextHelper.setTextSizeInterpolator(NRAnimationUtils.getDECELERATE_INTERPOLATOR())
 
         val a = context.obtainStyledAttributes(
             attrs,
@@ -558,7 +559,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
                 dummyView = View(context)
             }
             if (dummyView!!.parent == null) {
-                toolbar!!.addView(dummyView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+                toolbar!!.addView(dummyView, MATCH_PARENT, MATCH_PARENT)
             }
         }
     }
