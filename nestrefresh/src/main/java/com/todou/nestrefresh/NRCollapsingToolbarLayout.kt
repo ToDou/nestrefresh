@@ -10,6 +10,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.*
+import android.support.annotation.IntRange
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.math.MathUtils
@@ -569,12 +570,12 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         ensureToolbar()
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        val mode = View.MeasureSpec.getMode(heightMeasureSpec)
+        val mode = MeasureSpec.getMode(heightMeasureSpec)
         val topInset = if (lastInsets != null) lastInsets!!.systemWindowInsetTop else 0
-        if (mode == View.MeasureSpec.UNSPECIFIED && topInset > 0) {
+        if (mode == MeasureSpec.UNSPECIFIED && topInset > 0) {
             // If we have a top inset and we're set to wrap_content height we need to make sure
             // we add the top inset to our height, therefore we re-measure
-            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(measuredHeight + topInset, View.MeasureSpec.EXACTLY)
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(measuredHeight + topInset, View.MeasureSpec.EXACTLY)
             super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         }
     }
@@ -957,7 +958,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {
-        return LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        return LayoutParams(MATCH_PARENT, MATCH_PARENT)
     }
 
     override fun generateLayoutParams(attrs: AttributeSet): FrameLayout.LayoutParams {
@@ -1005,6 +1006,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         @IntDef(COLLAPSE_MODE_OFF, COLLAPSE_MODE_PIN, COLLAPSE_MODE_PARALLAX)
         @Retention(RetentionPolicy.SOURCE)
         internal annotation class CollapseMode
+
         constructor(c: Context, attrs: AttributeSet) : super(c, attrs) {
 
             val a = c.obtainStyledAttributes(attrs, R.styleable.NRCollapsingToolbarLayout_Layout)
