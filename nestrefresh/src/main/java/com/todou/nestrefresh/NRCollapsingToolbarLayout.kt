@@ -303,7 +303,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
     init {
 
         collapsingTextHelper = NRCollapsingTextHelper(this)
-        collapsingTextHelper.setTextSizeInterpolator(NRAnimationUtils.getDECELERATE_INTERPOLATOR())
+        collapsingTextHelper.setTextSizeInterpolator(NRAnimationUtils.DECELERATE_INTERPOLATOR)
 
         val a = context.obtainStyledAttributes(
             attrs,
@@ -693,9 +693,9 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
             scrimAnimator = ValueAnimator()
             scrimAnimator!!.duration = scrimAnimationDuration
             scrimAnimator!!.interpolator = if (targetAlpha > this.scrimAlpha)
-                NRAnimationUtils.Companion.getFAST_OUT_LINEAR_IN_INTERPOLATOR()
+                NRAnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR
             else
-                NRAnimationUtils.Companion.getLINEAR_OUT_SLOW_IN_INTERPOLATOR()
+                NRAnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR
             scrimAnimator!!.addUpdateListener { animator -> scrimAlpha = animator.animatedValue as Int }
         } else if (scrimAnimator!!.isRunning) {
             scrimAnimator!!.cancel()
@@ -999,14 +999,6 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
          */
         var parallaxMultiplier = DEFAULT_PARALLAX_MULTIPLIER
 
-        /**
-         * @hide
-         */
-        @RestrictTo(LIBRARY_GROUP)
-        @IntDef(COLLAPSE_MODE_OFF, COLLAPSE_MODE_PIN, COLLAPSE_MODE_PARALLAX)
-        @Retention(RetentionPolicy.SOURCE)
-        internal annotation class CollapseMode
-
         constructor(c: Context, attrs: AttributeSet) : super(c, attrs) {
 
             val a = c.obtainStyledAttributes(attrs, R.styleable.NRCollapsingToolbarLayout_Layout)
@@ -1037,18 +1029,22 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
             /**
              * The view will act as normal with no collapsing behavior.
              */
-            val COLLAPSE_MODE_OFF = 0
+            const val COLLAPSE_MODE_OFF = 0
 
             /**
              * The view will pin in place until it reaches the bottom of the [ ].
              */
-            val COLLAPSE_MODE_PIN = 1
+            const val COLLAPSE_MODE_PIN = 1
 
             /**
              * The view will scroll in a parallax fashion. See [.setParallaxMultiplier] to
              * change the multiplier used.
              */
-            val COLLAPSE_MODE_PARALLAX = 2
+            const val COLLAPSE_MODE_PARALLAX = 2
+
+            @IntDef(COLLAPSE_MODE_OFF, COLLAPSE_MODE_PIN, COLLAPSE_MODE_PARALLAX)
+            @Retention(RetentionPolicy.SOURCE)
+            annotation class CollapseMode
         }
     }
 
