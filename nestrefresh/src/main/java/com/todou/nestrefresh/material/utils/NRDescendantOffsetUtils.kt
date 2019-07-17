@@ -12,7 +12,7 @@ class NRDescendantOffsetUtils {
         private val matrixM = ThreadLocal<Matrix>()
         private val rectFM = ThreadLocal<RectF>()
 
-        fun offsetDescendantRect(parent: ViewGroup, descendant: View, rect: Rect) {
+        private fun offsetDescendantRect(parent: ViewGroup, descendant: View, rect: Rect) {
             var m = matrixM.get()
             if (m == null) {
                 m = Matrix()

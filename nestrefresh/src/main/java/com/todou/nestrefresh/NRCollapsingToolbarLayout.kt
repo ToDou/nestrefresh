@@ -33,7 +33,6 @@ import com.todou.nestrefresh.material.utils.NRDescendantOffsetUtils
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
-import android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 
 class NRCollapsingToolbarLayout @JvmOverloads constructor(
