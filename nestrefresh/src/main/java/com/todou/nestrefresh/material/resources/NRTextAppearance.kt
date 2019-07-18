@@ -215,17 +215,17 @@ class NRTextAppearance
 
     private fun createFallbackFont() {
         // Try resolving fontFamily as a string name if specified.
-        if (font == null && fontFamily != null) {
+        if (!this::font.isInitialized && fontFamily != null) {
             font = Typeface.create(fontFamily, textStyle)
         }
 
         // Try resolving typeface if specified otherwise fallback to Typeface.DEFAULT.
-        if (font == null) {
-            when (typeface) {
-                TYPEFACE_SANS -> font = Typeface.SANS_SERIF
-                TYPEFACE_SERIF -> font = Typeface.SERIF
-                TYPEFACE_MONOSPACE -> font = Typeface.MONOSPACE
-                else -> font = Typeface.DEFAULT
+        if (!this::font.isInitialized) {
+            font = when (typeface) {
+                TYPEFACE_SANS -> Typeface.SANS_SERIF
+                TYPEFACE_SERIF -> Typeface.SERIF
+                TYPEFACE_MONOSPACE -> Typeface.MONOSPACE
+                else -> Typeface.DEFAULT
             }
             font = Typeface.create(font, textStyle)
         }

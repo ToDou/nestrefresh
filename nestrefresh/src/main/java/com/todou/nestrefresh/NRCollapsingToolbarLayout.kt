@@ -1001,10 +1001,12 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
 
             val a = c.obtainStyledAttributes(attrs, R.styleable.NRCollapsingToolbarLayout_Layout)
             collapseMode = a.getInt(
-            R.styleable.NRCollapsingToolbarLayout_Layout_nr_layout_collapseMode, COLLAPSE_MODE_OFF)
+                R.styleable.NRCollapsingToolbarLayout_Layout_nr_layout_collapseMode, COLLAPSE_MODE_OFF
+            )
             parallaxMultiplier = a.getFloat(
-            R.styleable.NRCollapsingToolbarLayout_Layout_nr_layout_collapseParallaxMultiplier,
-            DEFAULT_PARALLAX_MULTIPLIER)
+                R.styleable.NRCollapsingToolbarLayout_Layout_nr_layout_collapseParallaxMultiplier,
+                DEFAULT_PARALLAX_MULTIPLIER
+            )
             a.recycle()
         }
 
@@ -1014,7 +1016,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
 
         constructor(p: ViewGroup.LayoutParams) : super(p) {}
 
-        constructor(source: ViewGroup.MarginLayoutParams) : super(source) {}
+        constructor(source: MarginLayoutParams) : super(source) {}
 
         @RequiresApi(19)
         constructor(source: FrameLayout.LayoutParams) : super(source) {
@@ -1116,18 +1118,19 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
 
         private fun getHeightWithMargins(view: View): Int {
             val lp = view.layoutParams
-            return if (lp is ViewGroup.MarginLayoutParams) {
+            return if (lp is MarginLayoutParams) {
                 view.height + lp.topMargin + lp.bottomMargin
             } else view.height
         }
 
         internal fun getViewOffsetHelper(view: View): ViewOffsetHelper {
-            var offsetHelper: ViewOffsetHelper? = view.getTag(R.id.view_offset_helper) as ViewOffsetHelper
-            if (offsetHelper == null) {
-                offsetHelper = ViewOffsetHelper(view)
+            return view.getTag(R.id.view_offset_helper)?.let {
+                return it as ViewOffsetHelper
+            } ?: run {
+                val offsetHelper = ViewOffsetHelper(view)
                 view.setTag(R.id.view_offset_helper, offsetHelper)
+                return offsetHelper
             }
-            return offsetHelper
         }
     }
 }
