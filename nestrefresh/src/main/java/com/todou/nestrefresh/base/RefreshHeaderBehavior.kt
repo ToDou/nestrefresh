@@ -256,9 +256,16 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     fun topBottomOffsetForScrollingSibling(): Int = getTopAndBottomOffset()
 
+    fun scrollToPosition(position: Int, layout: V) {
+        setHeaderTopBottomOffset(null, null, position, getMaxDragOffset(), 0, ViewCompat.TYPE_NON_TOUCH)
+        if (layout.parent is CoordinatorLayout) {
+            (layout.parent as CoordinatorLayout).dispatchDependentViewsChanged(layout)
+        }
+    }
+
     open fun setHeaderTopBottomOffset(
-        parent: CoordinatorLayout,
-        header: V,
+        parent: CoordinatorLayout?,
+        header: V?,
         newOffset: Int,
         minOffset: Int,
         maxOffset: Int,

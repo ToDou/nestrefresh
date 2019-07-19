@@ -124,6 +124,16 @@ class RefreshBarLayout @JvmOverloads constructor(
         return result
     }
 
+    fun scrollContentTo(position: Int) {
+        val params = layoutParams
+        if (params is CoordinatorLayout.LayoutParams) {
+            if (params.behavior is RefreshBarBehavior) {
+                val behavior = params.behavior as RefreshBarBehavior?
+                behavior?.scrollToPosition(position, this)
+            }
+        }
+    }
+
     override fun getBehavior(): CoordinatorLayout.Behavior<*> {
         val behavior = RefreshBarBehavior()
         refreshBarBehavior = behavior
