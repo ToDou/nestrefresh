@@ -10,7 +10,7 @@ uploadArchives {
     }
 }
 
-version = "0.0.4"
+version = "0.0.5"
 group = "com.github.todou"
 archivesBaseName = "nestrefresh"
 description = "Android Refresh kit by nest"
