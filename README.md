@@ -23,7 +23,7 @@ Installation
 ====
 ```groovy
 dependencies {
-    implementation 'com.github.todou:nestrefresh:0.0.4'
+    implementation 'com.github.todou:nestrefresh:0.0.5'
 }
 ```
 Usages

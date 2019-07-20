@@ -198,15 +198,15 @@ class RefreshBarBehavior @JvmOverloads constructor(context: Context? = null, att
     }
 
     override fun setHeaderTopBottomOffset(
-        parent: CoordinatorLayout,
-        header: RefreshBarLayout,
+        parent: CoordinatorLayout?,
+        header: RefreshBarLayout?,
         newOffset: Int,
         minOffset: Int,
         maxOffset: Int,
         type: Int
     ): Int {
         val result = super.setHeaderTopBottomOffset(parent, header, newOffset, minOffset, maxOffset, type)
-        header.onOffsetChanged(getTopAndBottomOffset())
+        header?.onOffsetChanged(getTopAndBottomOffset())
         return result
     }
 
