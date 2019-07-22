@@ -11,6 +11,8 @@ One pull refresh kit by nest scroll
 By this library, you can add Pull Refresh by behaviors for one groupview or view with nest child. You can add pull refresh for one top header and scroll top with sticky area. You can add CollapseToolbarLayout in the RefreshBarLayout to collapse when scroll up, pin tab layout on the top and pull refresh when pull down. 
 You can add load more footer behavoir for your recyclerview. When you pull up at last of the recyclerview, the footer will be pull up with spring effect. You can set no more result when data have no more.
 
+> Androidx coming...
+
 [Download Sample](https://github.com/ToDou/nestrefresh/releases)
 
 Screenshot
