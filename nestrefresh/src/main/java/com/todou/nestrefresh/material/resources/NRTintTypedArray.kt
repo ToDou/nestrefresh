@@ -6,8 +6,8 @@ import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v7.content.res.AppCompatResources
+import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import android.util.AttributeSet
 import android.util.TypedValue
 

@@ -2,7 +2,7 @@ package com.todou.nestrefresh
 
 import android.content.Context
 import android.graphics.Rect
-import android.support.design.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup

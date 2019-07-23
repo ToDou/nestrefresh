@@ -1,14 +1,13 @@
 package com.todou.nestrefresh
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.NestedScrollingChild2
-import android.support.v4.view.NestedScrollingChildHelper
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewCompat.TYPE_NON_TOUCH
-import android.support.v4.view.ViewCompat.TYPE_TOUCH
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.NestedScrollingChild2
+import androidx.core.view.NestedScrollingChildHelper
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewCompat.TYPE_NON_TOUCH
+import androidx.core.view.ViewCompat.TYPE_TOUCH
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 
 class ChildCoordinatorLayout @JvmOverloads constructor(

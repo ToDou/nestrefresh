@@ -1,24 +1,18 @@
 package com.todou.nestrefresh
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.todou.nestrefresh.base.LoadMoreFooterCallback
 
 import com.todou.nestrefresh.base.LoadMoreFooter
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.State.STATE_HOVERING
 import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.*
-import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.image_refresh
-import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.progress_loading
-import kotlinx.android.synthetic.main.view_nest_load_more_footer.view.text_refresh
-import kotlinx.android.synthetic.main.view_nest_refresh_header.view.*
 
 class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr), LoadMoreFooterCallback, CoordinatorLayout.AttachedBehavior {

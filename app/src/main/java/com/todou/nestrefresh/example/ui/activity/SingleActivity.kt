@@ -1,9 +1,9 @@
 package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.R
 import com.todou.nestrefresh.example.ui.adapter.RecyclerAdapterInHeader

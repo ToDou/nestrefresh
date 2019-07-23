@@ -4,11 +4,11 @@ import android.animation.TimeInterpolator
 import android.content.res.ColorStateList
 import android.graphics.*
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.v4.math.MathUtils
-import android.support.v4.text.TextDirectionHeuristicsCompat
-import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewCompat
+import androidx.annotation.ColorInt
+import androidx.core.math.MathUtils
+import androidx.core.text.TextDirectionHeuristicsCompat
+import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
 import android.text.TextPaint
 import android.text.TextUtils
 import android.view.Gravity

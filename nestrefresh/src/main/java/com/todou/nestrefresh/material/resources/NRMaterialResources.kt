@@ -16,7 +16,7 @@
 
 package com.todou.nestrefresh.material.resources
 
-import android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP
+import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -24,9 +24,9 @@ import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
-import android.support.annotation.RestrictTo
-import android.support.annotation.StyleableRes
-import android.support.v7.content.res.AppCompatResources
+import androidx.annotation.RestrictTo
+import androidx.annotation.StyleableRes
+import androidx.appcompat.content.res.AppCompatResources
 
 /**
  * Utility methods to resolve resources for components.

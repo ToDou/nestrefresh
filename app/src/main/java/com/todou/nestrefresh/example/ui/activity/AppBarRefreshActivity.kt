@@ -1,7 +1,7 @@
 package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.R

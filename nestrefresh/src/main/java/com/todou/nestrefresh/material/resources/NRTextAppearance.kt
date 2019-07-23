@@ -3,15 +3,15 @@ package com.todou.nestrefresh.material.resources
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.content.res.TypedArray
+
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.annotation.*
-import android.support.design.resources.TextAppearanceConfig
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.provider.FontsContractCompat
+import androidx.annotation.*
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.provider.FontsContractCompat
 import android.text.TextPaint
 import android.util.Log
+import com.google.android.material.resources.TextAppearanceConfig
 import com.todou.nestrefresh.R
 import com.todou.nestrefresh.material.TextAppearanceFontCallback
 

@@ -2,19 +2,19 @@ package com.todou.nestrefresh
 
 import android.content.Context
 import android.os.Build
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.NestedScrollingChild
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.NestedScrollingChild
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import java.util.ArrayList
-import android.support.v4.util.ObjectsCompat
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.WindowInsetsCompat
+import androidx.core.util.ObjectsCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 
@@ -108,8 +108,8 @@ class RefreshBarLayout @JvmOverloads constructor(
             val view = viewGroup.getChildAt(i)
             view.takeIf { it is NestedScrollingChild && (it as NestedScrollingChild).isNestedScrollingEnabled }
                 ?.let {
-                    if (it is RecyclerView && it.layoutManager is LinearLayoutManager) {
-                        val manager = it.layoutManager as LinearLayoutManager
+                    if (it is androidx.recyclerview.widget.RecyclerView && it.layoutManager is androidx.recyclerview.widget.LinearLayoutManager) {
+                        val manager = it.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
                         if (manager.canScrollVertically()) {
                             result.add(view)
                         }

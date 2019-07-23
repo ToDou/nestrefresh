@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="@bool/out_fits_system_windows"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -18,7 +18,7 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/large_text"/>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.todou.nestrefresh.RefreshBarLayout
         android:id="@+id/app_bar"
@@ -49,7 +49,7 @@
                 app:nr_layout_collapseMode="parallax"
                 android:src="@mipmap/img_test"/>
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -65,4 +65,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

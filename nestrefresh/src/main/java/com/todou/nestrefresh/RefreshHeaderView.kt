@@ -8,10 +8,10 @@ import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.base.RefreshCallback
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.util.ObjectsCompat
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.WindowInsetsCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.util.ObjectsCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.todou.nestrefresh.base.RefreshHeader
 import com.todou.nestrefresh.base.State.STATE_HOVERING
 import kotlinx.android.synthetic.main.view_nest_refresh_header.view.*

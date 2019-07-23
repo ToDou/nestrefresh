@@ -1,13 +1,10 @@
 package com.todou.nestrefresh.example.ui.activity
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import java.util.Collections
-import com.todou.nestrefresh.LoadMoreFooterView
 import com.todou.nestrefresh.base.OnLoadMoreListener
 import com.todou.nestrefresh.base.OnRefreshListener
 import com.todou.nestrefresh.example.ui.adapter.FragmentAdapter
