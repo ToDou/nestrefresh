@@ -12,7 +12,7 @@ uploadArchives {
 
 version = "0.0.5"
 group = "com.github.todou"
-archivesBaseName = "nestrefresh"
+archivesBaseName = "nestrefresh-androidx"
 description = "Android Refresh kit by nest"
 
 def siteUrl = 'https://github.com/ToDou/nestrefresh'
