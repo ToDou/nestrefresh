@@ -27,6 +27,11 @@ Installation
 dependencies {
     implementation 'com.github.todou:nestrefresh:0.0.5'
 }
+> AndroidX
+```groovy
+dependencies {
+    implementation 'com.github.todou:nestrefresh-androidx:0.0.5'
+}
 ```
 Usages
 ====
