@@ -56,6 +56,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
     internal val collapsingTextHelper: NRCollapsingTextHelper?
     private var collapsingTitleEnabled: Boolean = false
     private var drawCollapsingTitle: Boolean = false
+    private var mRefreshBarParent: RefreshBarLayout? = null
 
     /**
      * Returns the drawable which is used for the foreground scrim.
@@ -396,16 +397,22 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         // Add an OffsetChangedListener if possible
         val parent = parent
         if (parent is RefreshBarLayout) {
+            mRefreshBarParent = parent
             // Copy over from the ABL whether we should fit system windows
             this.fitsSystemWindows = ViewCompat.getFitsSystemWindows(parent as View)
 
-            if (onOffsetChangedListener == null) {
-                onOffsetChangedListener = OffsetUpdateListener()
-            }
-            parent.addOnOffsetChangedListener(onOffsetChangedListener!!)
+            updateOffsetChangedListener(OffsetUpdateListener())
 
             // We're attached, so lets request an inset dispatch
             ViewCompat.requestApplyInsets(this)
+        }
+    }
+
+    fun updateOffsetChangedListener(offsetUpdateListener: OffsetUpdateListener) {
+        onOffsetChangedListener = offsetUpdateListener
+        onOffsetChangedListener?.let {
+            mRefreshBarParent?.addOnOffsetChangedListener(it)
+
         }
     }
 
@@ -444,9 +451,11 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         // If we don't have a toolbar, the scrim will be not be drawn in drawChild() below.
         // Instead, we draw it here, before our collapsing text.
         ensureToolbar()
-        if (toolbar == null && this.contentScrim != null && this.scrimAlpha > 0) {
-            this.contentScrim!!.mutate().alpha = this.scrimAlpha
-            this.contentScrim!!.draw(canvas)
+        if (toolbar == null && this.scrimAlpha > 0) {
+            this.contentScrim?.let {
+                it.mutate().alpha = this.scrimAlpha
+                it.draw(canvas)
+            }
         }
 
         // Let the collapsing text helper draw its text
@@ -458,9 +467,11 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         if (statusBarScrim != null && this.scrimAlpha > 0) {
             val topInset = if (lastInsets != null) lastInsets!!.systemWindowInsetTop else 0
             if (topInset > 0) {
-                statusBarScrim!!.setBounds(0, -currentOffset, width, topInset - currentOffset)
-                statusBarScrim!!.mutate().alpha = this.scrimAlpha
-                statusBarScrim!!.draw(canvas)
+                statusBarScrim?.let {
+                    it.setBounds(0, -currentOffset, width, topInset - currentOffset)
+                    it.mutate().alpha = this.scrimAlpha
+                    it.draw(canvas)
+                }
             }
         }
     }
@@ -470,9 +481,11 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         // but in front of any other children which are behind it. To do this we intercept the
         // drawChild() call, and draw our scrim just before the Toolbar is drawn
         var invalidated = false
-        if (this.contentScrim != null && this.scrimAlpha > 0 && isToolbarChild(child)) {
-            this.contentScrim!!.mutate().alpha = this.scrimAlpha
-            this.contentScrim!!.draw(canvas)
+        if (this.scrimAlpha > 0 && isToolbarChild(child)) {
+            this.contentScrim?.let {
+                it.mutate().alpha = this.scrimAlpha
+                it.draw(canvas)
+            }
             invalidated = true
         }
         return super.drawChild(canvas, child, drawingTime) || invalidated
@@ -480,8 +493,8 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if (this.contentScrim != null) {
-            this.contentScrim!!.setBounds(0, 0, w, h)
+        this.contentScrim?.let {
+            it.setBounds(0, 0, w, h)
         }
     }
 
@@ -644,7 +657,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         if (toolbar != null) {
             if (collapsingTitleEnabled && TextUtils.isEmpty(collapsingTextHelper!!.text)) {
                 // If we do not currently have a title, try and grab it from the Toolbar
-                title = toolbar!!.title
+                title = toolbar?.title ?: ""
             }
             if (toolbarDirectChild == null || toolbarDirectChild === this) {
                 minimumHeight = getHeightWithMargins(toolbar!!)
@@ -1068,7 +1081,7 @@ class NRCollapsingToolbarLayout @JvmOverloads constructor(
         contentDescription = title
     }
 
-    private inner class OffsetUpdateListener internal constructor() : RefreshBarLayout.OffsetChangedListener {
+    inner class OffsetUpdateListener internal constructor() : RefreshBarLayout.OffsetChangedListener {
 
         override fun onOffsetChanged(layout: RefreshBarLayout, verticalOffset: Int) {
             currentOffset = verticalOffset
