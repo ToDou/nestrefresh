@@ -29,7 +29,8 @@ class RefreshScrollBehavior @JvmOverloads constructor(context: Context? = null, 
             loadMoreBehavior = behavior
             offset = behavior.currentRange() + getHeaderOffsetByBehavior()
         }
-        return setTopAndBottomOffset(offset)
+        setTopAndBottomOffset(offset)
+        return false
     }
 
     private fun getHeaderOffsetByBehavior(): Int {

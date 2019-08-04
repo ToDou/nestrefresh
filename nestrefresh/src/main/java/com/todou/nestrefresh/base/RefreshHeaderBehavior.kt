@@ -258,9 +258,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
 
     fun scrollToPosition(position: Int, layout: V) {
         setHeaderTopBottomOffset(null, null, position, getMaxDragOffset(), 0, ViewCompat.TYPE_NON_TOUCH)
-        if (layout.parent is CoordinatorLayout) {
-            (layout.parent as CoordinatorLayout).dispatchDependentViewsChanged(layout)
-        }
     }
 
     open fun setHeaderTopBottomOffset(
