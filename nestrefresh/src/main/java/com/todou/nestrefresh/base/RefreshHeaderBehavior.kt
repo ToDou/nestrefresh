@@ -71,7 +71,6 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                         this.activePointerId = ev.getPointerId(0)
                         this.ensureVelocityTracker()
                     }
-                    onTouchStart()
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     this.isBeingDragged = false
@@ -128,6 +127,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                 this.lastMotionY = y
                 this.activePointerId = ev.getPointerId(0)
                 this.ensureVelocityTracker()
+                onTouchStart()
             }
             MotionEvent.ACTION_UP -> {
                 this.isTouching = false
