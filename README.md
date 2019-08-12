@@ -23,13 +23,13 @@ Installation
 ====
 ```groovy
 dependencies {
-    implementation 'com.github.todou:nestrefresh:0.0.6'
+    implementation 'com.github.todou:nestrefresh:0.0.7'
 }
 ```
 > AndroidX
 ```groovy
 dependencies {
-    implementation 'com.github.todou:nestrefresh-androidx:0.0.6'
+    implementation 'com.github.todou:nestrefresh-androidx:0.0.7'
 }
 ```
 Usages
