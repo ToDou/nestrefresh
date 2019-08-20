@@ -17,6 +17,10 @@
         <attr name="behavior_maxRange" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="RefreshBgView">
+        <attr name="refresh_bg_color" format="color"/>
+    </declare-styleable>
+
     <declare-styleable name="NRCollapsingToolbarLayout">
         <!--  Specifies extra space on the start, top, end and bottom
               sides of the the expanded title text. Margin values should be positive. -->

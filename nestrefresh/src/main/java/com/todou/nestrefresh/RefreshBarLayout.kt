@@ -98,6 +98,10 @@ class RefreshBarLayout @JvmOverloads constructor(
         return lastInsets?.systemWindowInsetTop ?: 0
     }
 
+    fun getTopBottomOffset(): Int {
+        return refreshBarBehavior?.getTopAndBottomOffset() ?: 0
+    }
+
     private fun updateAllChildList() {
         childScrollAbleList = getScrollableChild(this)
     }
