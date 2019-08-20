@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
+import androidx.customview.widget.ViewDragHelper.INVALID_POINTER
 import com.todou.nestrefresh.base.State.STATE_COLLAPSED
 import com.todou.nestrefresh.base.State.STATE_DRAGGING
 import com.todou.nestrefresh.base.State.STATE_HOVERING
@@ -52,7 +53,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
             this.touchSlop = ViewConfiguration.get(parent.context).scaledTouchSlop
         }
         val action = ev.action
-        if (action == 2 && this.isBeingDragged) {
+        if (action == MotionEvent.ACTION_MOVE && this.isBeingDragged) {
             return true
         } else {
             val activePointerId: Int
@@ -62,7 +63,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                     if (childInHeaderCanScroll(child, ev.rawX, ev.rawY)) {
                         return super.onInterceptTouchEvent(parent, child, ev)
                     }
-                    resetTotalSpringOffset()
+                    isTouching = false
                     this.isBeingDragged = false
                     activePointerId = ev.x.toInt()
                     pointerIndex = ev.y.toInt()
@@ -70,11 +71,14 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                         this.lastMotionY = pointerIndex
                         this.activePointerId = ev.getPointerId(0)
                         this.ensureVelocityTracker()
+                        onTouchStart()
+                        resetTotalSpringOffset()
                     }
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     this.isBeingDragged = false
                     isTouching = false
+                    doOnCancel()
                     this.activePointerId = -1
                     if (this.velocityTracker != null) {
                         this.velocityTracker?.recycle()
@@ -83,7 +87,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                 }
                 MotionEvent.ACTION_MOVE -> {
                     activePointerId = this.activePointerId
-                    if (activePointerId != -1) {
+                    if (activePointerId != INVALID_POINTER) {
                         pointerIndex = ev.findPointerIndex(activePointerId)
                         if (pointerIndex != -1) {
                             val y = ev.getY(pointerIndex).toInt()
@@ -105,6 +109,16 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         }
     }
 
+    private fun onPointerUp(e: MotionEvent) {
+        val actionIndex = e.actionIndex
+        if (e.getPointerId(actionIndex) == activePointerId) {
+            // Pick a new pointer to pick up the slack.
+            val newIndex = if (actionIndex == 0) 1 else 0
+            activePointerId = e.getPointerId(newIndex)
+            lastMotionY = (e.getY(newIndex) + 0.5f).toInt()
+        }
+    }
+
     protected open fun childInHeaderCanScroll(view: V, x: Float, y: Float): Boolean {
         return false
     }
@@ -115,6 +129,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
         }
 
         val activePointerIndex: Int
+        var actionIndex = ev.actionIndex
         val y: Int
         when (ev.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
@@ -128,6 +143,14 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
                 this.activePointerId = ev.getPointerId(0)
                 this.ensureVelocityTracker()
                 onTouchStart()
+                resetTotalSpringOffset()
+            }
+            MotionEvent.ACTION_POINTER_DOWN -> {
+                this.activePointerId = ev.getPointerId(actionIndex)
+                lastMotionY = (ev.getY(actionIndex) + 0.5f).toInt()
+            }
+            MotionEvent.ACTION_POINTER_UP -> {
+                onPointerUp(ev)
             }
             MotionEvent.ACTION_UP -> {
                 this.isTouching = false
@@ -145,6 +168,7 @@ abstract class RefreshHeaderBehavior<V : View> : BaseBehavior<V>, RefreshHeader 
             }
             MotionEvent.ACTION_CANCEL -> {
                 this.isBeingDragged = false
+                isTouching = false
                 this.activePointerId = -1
                 if (this.velocityTracker != null) {
                     this.velocityTracker?.recycle()
