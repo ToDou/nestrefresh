@@ -124,8 +124,8 @@ class RefreshHeaderView @JvmOverloads constructor(
         }
 
         if (!isRefreshing && newState == STATE_HOVERING) {
-            onRefreshListener?.onRefresh()
             isRefreshing = true
+            onRefreshListener?.onRefresh()
         }
     }
 
