@@ -127,8 +127,8 @@ class LoadMoreFooterView @JvmOverloads constructor(context: Context, attrs: Attr
                 image_refresh.visibility = View.GONE
             }
             if (!isLoadMoreIng && newState == STATE_HOVERING) {
-                onLoadMoreListener?.onLoadMore()
                 isLoadMoreIng = true
+                onLoadMoreListener?.onLoadMore()
             }
         } else {
             text_refresh.text = textNoMore
